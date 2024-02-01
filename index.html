@@ -33,10 +33,10 @@
       <!--Header-->
       <div class="right-background">
         <header class="header-container">
+          <div class="sidebar-handle-icon" onclick="toggleSideBar()">
+            <img src="./assets/handle.png" alt="Sidebar Handle Icon" />
+          </div>
           <div class="header">
-            <div class="sidebar-handle-icon" onclick="toggleSideBar()">
-              <img src="./assets/handle.png" alt="Sidebar Handle Icon" />
-            </div>
             <div class="header-left">
               <img
                 src="./assets/bx-search.png"
@@ -48,7 +48,9 @@
                 placeholder="Search (Ctrl+/)" />
             </div>
             <div class="header-right">
-              <div class="burger-container dropdown">
+              <div
+                class="burger-container dropdown"
+                onclick="handleBurger(this)">
                 <button class="burger-btn dropbtn">
                   <span class="material-icons-outlined"> menu </span>
                 </button>
@@ -121,33 +123,33 @@
             <img src="./assets/filter.svg" alt="Filter Icon" />
           </div>
           <div class="alphabets-container">
-            <div class="alph-btn btn-a" onclick="toggleAlphBtn()">A</div>
-            <div class="alph-btn btn-b">B</div>
-            <div class="alph-btn btn-c">C</div>
-            <div class="alph-btn btn-d">D</div>
-            <div class="alph-btn btn-e">E</div>
-            <div class="alph-btn btn-f">F</div>
-            <div class="alph-btn btn-g">G</div>
-            <div class="alph-btn btn-h">H</div>
-            <div class="alph-btn btn-i">I</div>
-            <div class="alph-btn btn-j">J</div>
-            <div class="alph-btn btn-k">K</div>
-            <div class="alph-btn btn-l">L</div>
-            <div class="alph-btn btn-m">M</div>
-            <div class="alph-btn btn-n">N</div>
-            <div class="alph-btn btn-o">O</div>
-            <div class="alph-btn btn-p">P</div>
-            <div class="alph-btn btn-q">Q</div>
-            <div class="alph-btn btn-r">R</div>
-            <div class="alph-btn btn-s">S</div>
-            <div class="alph-btn btn-t">T</div>
-            <div class="alph-btn btn-u">U</div>
-            <div class="alph-btn btn-v">V</div>
-            <div class="alph-btn btn-w">W</div>
-            <div class="alph-btn btn-x">X</div>
-            <div class="alph-btn btn-y">Y</div>
-            <div class="alph-btn btn-z">Z</div>
-            <div class="alph-btn btn-z">Z</div>
+            <div class="alph-btn btn-a" onclick="toggleAlphBtn(this)">A</div>
+            <div class="alph-btn btn-b" onclick="toggleAlphBtn(this)">B</div>
+            <div class="alph-btn btn-c" onclick="toggleAlphBtn(this)">C</div>
+            <div class="alph-btn btn-d" onclick="toggleAlphBtn(this)">D</div>
+            <div class="alph-btn btn-e" onclick="toggleAlphBtn(this)">E</div>
+            <div class="alph-btn btn-f" onclick="toggleAlphBtn(this)">F</div>
+            <div class="alph-btn btn-g" onclick="toggleAlphBtn(this)">G</div>
+            <div class="alph-btn btn-h" onclick="toggleAlphBtn(this)">H</div>
+            <div class="alph-btn btn-i" onclick="toggleAlphBtn(this)">I</div>
+            <div class="alph-btn btn-j" onclick="toggleAlphBtn(this)">J</div>
+            <div class="alph-btn btn-k" onclick="toggleAlphBtn(this)">K</div>
+            <div class="alph-btn btn-l" onclick="toggleAlphBtn(this)">L</div>
+            <div class="alph-btn btn-m" onclick="toggleAlphBtn(this)">M</div>
+            <div class="alph-btn btn-n" onclick="toggleAlphBtn(this)">N</div>
+            <div class="alph-btn btn-o" onclick="toggleAlphBtn(this)">O</div>
+            <div class="alph-btn btn-p" onclick="toggleAlphBtn(this)">P</div>
+            <div class="alph-btn btn-q" onclick="toggleAlphBtn(this)">Q</div>
+            <div class="alph-btn btn-r" onclick="toggleAlphBtn(this)">R</div>
+            <div class="alph-btn btn-s" onclick="toggleAlphBtn(this)">S</div>
+            <div class="alph-btn btn-t" onclick="toggleAlphBtn(this)">T</div>
+            <div class="alph-btn btn-u" onclick="toggleAlphBtn(this)">U</div>
+            <div class="alph-btn btn-v" onclick="toggleAlphBtn(this)">V</div>
+            <div class="alph-btn btn-w" onclick="toggleAlphBtn(this)">W</div>
+            <div class="alph-btn btn-x" onclick="toggleAlphBtn(this)">X</div>
+            <div class="alph-btn btn-y" onclick="toggleAlphBtn(this)">Y</div>
+            <div class="alph-btn btn-z" onclick="toggleAlphBtn(this)">Z</div>
+            <div class="alph-btn btn-z" onclick="toggleAlphBtn(this)">Z</div>
           </div>
         </div>
         <!--Filter-->
@@ -238,348 +240,350 @@
               </div>
             </div>
           </div>
-          <table class="employees-table">
-            <thead>
-              <tr>
-                <th class="check-box-col">
-                  <input type="checkbox" id="all-checkbox" />
-                </th>
-                <th class="col col-user">
-                  <span>USER</span>
-                  <span class="material-icons-outlined sort-icon"
-                    >unfold_more</span
-                  >
-                </th>
-                <th class="col col-location">
-                  <span>LOCATION</span>
-                  <span class="material-icons-outlined sort-icon"
-                    >unfold_more</span
-                  >
-                </th>
-                <th class="col col-department">
-                  <span>DEPARTMENT</span>
-                  <span class="material-icons-outlined sort-icon"
-                    >unfold_more</span
-                  >
-                </th>
-                <th class="col col-role">
-                  <span>ROLE</span>
-                  <span class="material-icons-outlined sort-icon"
-                    >unfold_more</span
-                  >
-                </th>
-                <th class="col col-emp-no">
-                  <span>EMP NO</span>
-                  <span class="material-icons-outlined sort-icon"
-                    >unfold_more</span
-                  >
-                </th>
-                <th class="col col-status">
-                  <span>STATUS</span>
-                  <span class="material-icons-outlined sort-icon"
-                    >unfold_more</span
-                  >
-                </th>
-                <th class="col col-join-dt">
-                  <span>JOIN DT</span>
-                  <span class="material-icons-outlined sort-icon"
-                    >unfold_more</span
-                  >
-                </th>
-                <th>
-                  <span class="material-icons-outlined">more_horiz</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="check-box-col"><input type="checkbox" /></td>
-                <td class="col col-user">
-                  <div class="profile-card emp-card">
-                    <img
-                      src="./assets/profile.png"
-                      alt="Employee Image"
-                      class="employee-img" />
-                    <div class="profile-details">
-                      <p class="profile-name">Edgar Jones</p>
-                      <p class="profile-email">edgar@tezo.com</p>
+          <div class="table-container">
+            <table class="employees-table">
+              <thead>
+                <tr>
+                  <th class="check-box-col">
+                    <input type="checkbox" id="all-checkbox" />
+                  </th>
+                  <th class="col col-user">
+                    <span>USER</span>
+                    <span class="material-icons-outlined sort-icon"
+                      >unfold_more</span
+                    >
+                  </th>
+                  <th class="col col-location">
+                    <span>LOCATION</span>
+                    <span class="material-icons-outlined sort-icon"
+                      >unfold_more</span
+                    >
+                  </th>
+                  <th class="col col-department">
+                    <span>DEPARTMENT</span>
+                    <span class="material-icons-outlined sort-icon"
+                      >unfold_more</span
+                    >
+                  </th>
+                  <th class="col col-role">
+                    <span>ROLE</span>
+                    <span class="material-icons-outlined sort-icon"
+                      >unfold_more</span
+                    >
+                  </th>
+                  <th class="col col-emp-no">
+                    <span>EMP NO</span>
+                    <span class="material-icons-outlined sort-icon"
+                      >unfold_more</span
+                    >
+                  </th>
+                  <th class="col col-status">
+                    <span>STATUS</span>
+                    <span class="material-icons-outlined sort-icon"
+                      >unfold_more</span
+                    >
+                  </th>
+                  <th class="col col-join-dt">
+                    <span>JOIN DT</span>
+                    <span class="material-icons-outlined sort-icon"
+                      >unfold_more</span
+                    >
+                  </th>
+                  <th>
+                    <span class="material-icons-outlined">more_horiz</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="check-box-col"><input type="checkbox" /></td>
+                  <td class="col col-user">
+                    <div class="profile-card emp-card">
+                      <img
+                        src="./assets/profile.png"
+                        alt="Employee Image"
+                        class="employee-img" />
+                      <div class="profile-details">
+                        <p class="profile-name">Edgar Jones</p>
+                        <p class="profile-email">edgar@tezo.com</p>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td class="col col-location">Hyderabad</td>
-                <td class="col col-department">Product Engg</td>
-                <td class="col col-role">Full-stack Developer</td>
-                <td class="col col-emp-no">TZ002341</td>
-                <td class="col col-status">
-                  <div class="btn-active">Active</div>
-                </td>
-                <td class="col col-join-dt">12/03/2023</td>
-                <td>
-                  <span class="material-icons-outlined">more_horiz</span>
-                </td>
-              </tr>
-              <tr>
-                <td class="check-box-col"><input type="checkbox" /></td>
-                <td class="col col-user">
-                  <div class="profile-card emp-card">
-                    <img
-                      src="./assets/profile.png"
-                      alt="Employee Image"
-                      class="employee-img" />
-                    <div class="profile-details">
-                      <p class="profile-name">Edgar Jones</p>
-                      <p class="profile-email">edgar@tezo.com</p>
+                  </td>
+                  <td class="col col-location">Hyderabad</td>
+                  <td class="col col-department">Product Engg</td>
+                  <td class="col col-role">Full-stack Developer</td>
+                  <td class="col col-emp-no">TZ002341</td>
+                  <td class="col col-status">
+                    <div class="btn-active">Active</div>
+                  </td>
+                  <td class="col col-join-dt">12/03/2023</td>
+                  <td>
+                    <span class="material-icons-outlined">more_horiz</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="check-box-col"><input type="checkbox" /></td>
+                  <td class="col col-user">
+                    <div class="profile-card emp-card">
+                      <img
+                        src="./assets/profile.png"
+                        alt="Employee Image"
+                        class="employee-img" />
+                      <div class="profile-details">
+                        <p class="profile-name">Edgar Jones</p>
+                        <p class="profile-email">edgar@tezo.com</p>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td class="col col-location">Hyderabad</td>
-                <td class="col col-department">Product Engg</td>
-                <td class="col col-role">Full-stack Developer</td>
-                <td class="col col-emp-no">TZ002341</td>
-                <td class="col col-status">
-                  <div class="btn-active">Active</div>
-                </td>
-                <td class="col col-join-dt">12/03/2023</td>
-                <td>
-                  <span class="material-icons-outlined">more_horiz</span>
-                </td>
-              </tr>
-              <tr>
-                <td class="check-box-col"><input type="checkbox" /></td>
-                <td class="col col-user">
-                  <div class="profile-card emp-card">
-                    <img
-                      src="./assets/profile.png"
-                      alt="Employee Image"
-                      class="employee-img" />
-                    <div class="profile-details">
-                      <p class="profile-name">Edgar Jones</p>
-                      <p class="profile-email">edgar@tezo.com</p>
+                  </td>
+                  <td class="col col-location">Hyderabad</td>
+                  <td class="col col-department">Product Engg</td>
+                  <td class="col col-role">Full-stack Developer</td>
+                  <td class="col col-emp-no">TZ002341</td>
+                  <td class="col col-status">
+                    <div class="btn-active">Active</div>
+                  </td>
+                  <td class="col col-join-dt">12/03/2023</td>
+                  <td>
+                    <span class="material-icons-outlined">more_horiz</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="check-box-col"><input type="checkbox" /></td>
+                  <td class="col col-user">
+                    <div class="profile-card emp-card">
+                      <img
+                        src="./assets/profile.png"
+                        alt="Employee Image"
+                        class="employee-img" />
+                      <div class="profile-details">
+                        <p class="profile-name">Edgar Jones</p>
+                        <p class="profile-email">edgar@tezo.com</p>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td class="col col-location">Hyderabad</td>
-                <td class="col col-department">Product Engg</td>
-                <td class="col col-role">Full-stack Developer</td>
-                <td class="col col-emp-no">TZ002341</td>
-                <td class="col col-status">
-                  <div class="btn-active">Active</div>
-                </td>
-                <td class="col col-join-dt">12/03/2023</td>
-                <td>
-                  <span class="material-icons-outlined">more_horiz</span>
-                </td>
-              </tr>
-              <tr>
-                <td class="check-box-col"><input type="checkbox" /></td>
-                <td class="col col-user">
-                  <div class="profile-card emp-card">
-                    <img
-                      src="./assets/profile.png"
-                      alt="Employee Image"
-                      class="employee-img" />
-                    <div class="profile-details">
-                      <p class="profile-name">Edgar Jones</p>
-                      <p class="profile-email">edgar@tezo.com</p>
+                  </td>
+                  <td class="col col-location">Hyderabad</td>
+                  <td class="col col-department">Product Engg</td>
+                  <td class="col col-role">Full-stack Developer</td>
+                  <td class="col col-emp-no">TZ002341</td>
+                  <td class="col col-status">
+                    <div class="btn-active">Active</div>
+                  </td>
+                  <td class="col col-join-dt">12/03/2023</td>
+                  <td>
+                    <span class="material-icons-outlined">more_horiz</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="check-box-col"><input type="checkbox" /></td>
+                  <td class="col col-user">
+                    <div class="profile-card emp-card">
+                      <img
+                        src="./assets/profile.png"
+                        alt="Employee Image"
+                        class="employee-img" />
+                      <div class="profile-details">
+                        <p class="profile-name">Edgar Jones</p>
+                        <p class="profile-email">edgar@tezo.com</p>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td class="col col-location">Hyderabad</td>
-                <td class="col col-department">Product Engg</td>
-                <td class="col col-role">Full-stack Developer</td>
-                <td class="col col-emp-no">TZ002341</td>
-                <td class="col col-status">
-                  <div class="btn-active">Active</div>
-                </td>
-                <td class="col col-join-dt">12/03/2023</td>
-                <td>
-                  <span class="material-icons-outlined">more_horiz</span>
-                </td>
-              </tr>
-              <tr>
-                <td class="check-box-col"><input type="checkbox" /></td>
-                <td class="col col-user">
-                  <div class="profile-card emp-card">
-                    <img
-                      src="./assets/profile.png"
-                      alt="Employee Image"
-                      class="employee-img" />
-                    <div class="profile-details">
-                      <p class="profile-name">Edgar Jones</p>
-                      <p class="profile-email">edgar@tezo.com</p>
+                  </td>
+                  <td class="col col-location">Hyderabad</td>
+                  <td class="col col-department">Product Engg</td>
+                  <td class="col col-role">Full-stack Developer</td>
+                  <td class="col col-emp-no">TZ002341</td>
+                  <td class="col col-status">
+                    <div class="btn-active">Active</div>
+                  </td>
+                  <td class="col col-join-dt">12/03/2023</td>
+                  <td>
+                    <span class="material-icons-outlined">more_horiz</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="check-box-col"><input type="checkbox" /></td>
+                  <td class="col col-user">
+                    <div class="profile-card emp-card">
+                      <img
+                        src="./assets/profile.png"
+                        alt="Employee Image"
+                        class="employee-img" />
+                      <div class="profile-details">
+                        <p class="profile-name">Edgar Jones</p>
+                        <p class="profile-email">edgar@tezo.com</p>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td class="col col-location">Hyderabad</td>
-                <td class="col col-department">Product Engg</td>
-                <td class="col col-role">Full-stack Developer</td>
-                <td class="col col-emp-no">TZ002341</td>
-                <td class="col col-status">
-                  <div class="btn-active">Active</div>
-                </td>
-                <td class="col col-join-dt">12/03/2023</td>
-                <td>
-                  <span class="material-icons-outlined">more_horiz</span>
-                </td>
-              </tr>
-              <tr>
-                <td class="check-box-col"><input type="checkbox" /></td>
-                <td class="col col-user">
-                  <div class="profile-card emp-card">
-                    <img
-                      src="./assets/profile.png"
-                      alt="Employee Image"
-                      class="employee-img" />
-                    <div class="profile-details">
-                      <p class="profile-name">Edgar Jones</p>
-                      <p class="profile-email">edgar@tezo.com</p>
+                  </td>
+                  <td class="col col-location">Hyderabad</td>
+                  <td class="col col-department">Product Engg</td>
+                  <td class="col col-role">Full-stack Developer</td>
+                  <td class="col col-emp-no">TZ002341</td>
+                  <td class="col col-status">
+                    <div class="btn-active">Active</div>
+                  </td>
+                  <td class="col col-join-dt">12/03/2023</td>
+                  <td>
+                    <span class="material-icons-outlined">more_horiz</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="check-box-col"><input type="checkbox" /></td>
+                  <td class="col col-user">
+                    <div class="profile-card emp-card">
+                      <img
+                        src="./assets/profile.png"
+                        alt="Employee Image"
+                        class="employee-img" />
+                      <div class="profile-details">
+                        <p class="profile-name">Edgar Jones</p>
+                        <p class="profile-email">edgar@tezo.com</p>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td class="col col-location">Hyderabad</td>
-                <td class="col col-department">Product Engg</td>
-                <td class="col col-role">Full-stack Developer</td>
-                <td class="col col-emp-no">TZ002341</td>
-                <td class="col col-status">
-                  <div class="btn-active">Active</div>
-                </td>
-                <td class="col col-join-dt">12/03/2023</td>
-                <td>
-                  <span class="material-icons-outlined">more_horiz</span>
-                </td>
-              </tr>
-              <tr>
-                <td class="check-box-col"><input type="checkbox" /></td>
-                <td class="col col-user">
-                  <div class="profile-card emp-card">
-                    <img
-                      src="./assets/profile.png"
-                      alt="Employee Image"
-                      class="employee-img" />
-                    <div class="profile-details">
-                      <p class="profile-name">Edgar Jones</p>
-                      <p class="profile-email">edgar@tezo.com</p>
+                  </td>
+                  <td class="col col-location">Hyderabad</td>
+                  <td class="col col-department">Product Engg</td>
+                  <td class="col col-role">Full-stack Developer</td>
+                  <td class="col col-emp-no">TZ002341</td>
+                  <td class="col col-status">
+                    <div class="btn-active">Active</div>
+                  </td>
+                  <td class="col col-join-dt">12/03/2023</td>
+                  <td>
+                    <span class="material-icons-outlined">more_horiz</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="check-box-col"><input type="checkbox" /></td>
+                  <td class="col col-user">
+                    <div class="profile-card emp-card">
+                      <img
+                        src="./assets/profile.png"
+                        alt="Employee Image"
+                        class="employee-img" />
+                      <div class="profile-details">
+                        <p class="profile-name">Edgar Jones</p>
+                        <p class="profile-email">edgar@tezo.com</p>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td class="col col-location">Hyderabad</td>
-                <td class="col col-department">Product Engg</td>
-                <td class="col col-role">Full-stack Developer</td>
-                <td class="col col-emp-no">TZ002341</td>
-                <td class="col col-status">
-                  <div class="btn-active">Active</div>
-                </td>
-                <td class="col col-join-dt">12/03/2023</td>
-                <td>
-                  <span class="material-icons-outlined">more_horiz</span>
-                </td>
-              </tr>
-              <tr>
-                <td class="check-box-col"><input type="checkbox" /></td>
-                <td class="col col-user">
-                  <div class="profile-card emp-card">
-                    <img
-                      src="./assets/profile.png"
-                      alt="Employee Image"
-                      class="employee-img" />
-                    <div class="profile-details">
-                      <p class="profile-name">Edgar Jones</p>
-                      <p class="profile-email">edgar@tezo.com</p>
+                  </td>
+                  <td class="col col-location">Hyderabad</td>
+                  <td class="col col-department">Product Engg</td>
+                  <td class="col col-role">Full-stack Developer</td>
+                  <td class="col col-emp-no">TZ002341</td>
+                  <td class="col col-status">
+                    <div class="btn-active">Active</div>
+                  </td>
+                  <td class="col col-join-dt">12/03/2023</td>
+                  <td>
+                    <span class="material-icons-outlined">more_horiz</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="check-box-col"><input type="checkbox" /></td>
+                  <td class="col col-user">
+                    <div class="profile-card emp-card">
+                      <img
+                        src="./assets/profile.png"
+                        alt="Employee Image"
+                        class="employee-img" />
+                      <div class="profile-details">
+                        <p class="profile-name">Edgar Jones</p>
+                        <p class="profile-email">edgar@tezo.com</p>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td class="col col-location">Hyderabad</td>
-                <td class="col col-department">Product Engg</td>
-                <td class="col col-role">Full-stack Developer</td>
-                <td class="col col-emp-no">TZ002341</td>
-                <td class="col col-status">
-                  <div class="btn-active">Active</div>
-                </td>
-                <td class="col col-join-dt">12/03/2023</td>
-                <td>
-                  <span class="material-icons-outlined">more_horiz</span>
-                </td>
-              </tr>
-              <tr>
-                <td class="check-box-col"><input type="checkbox" /></td>
-                <td class="col col-user">
-                  <div class="profile-card emp-card">
-                    <img
-                      src="./assets/profile.png"
-                      alt="Employee Image"
-                      class="employee-img" />
-                    <div class="profile-details">
-                      <p class="profile-name">Edgar Jones</p>
-                      <p class="profile-email">edgar@tezo.com</p>
+                  </td>
+                  <td class="col col-location">Hyderabad</td>
+                  <td class="col col-department">Product Engg</td>
+                  <td class="col col-role">Full-stack Developer</td>
+                  <td class="col col-emp-no">TZ002341</td>
+                  <td class="col col-status">
+                    <div class="btn-active">Active</div>
+                  </td>
+                  <td class="col col-join-dt">12/03/2023</td>
+                  <td>
+                    <span class="material-icons-outlined">more_horiz</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="check-box-col"><input type="checkbox" /></td>
+                  <td class="col col-user">
+                    <div class="profile-card emp-card">
+                      <img
+                        src="./assets/profile.png"
+                        alt="Employee Image"
+                        class="employee-img" />
+                      <div class="profile-details">
+                        <p class="profile-name">Edgar Jones</p>
+                        <p class="profile-email">edgar@tezo.com</p>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td class="col col-location">Hyderabad</td>
-                <td class="col col-department">Product Engg</td>
-                <td class="col col-role">Full-stack Developer</td>
-                <td class="col col-emp-no">TZ002341</td>
-                <td class="col col-status">
-                  <div class="btn-active">Active</div>
-                </td>
-                <td class="col col-join-dt">12/03/2023</td>
-                <td>
-                  <span class="material-icons-outlined">more_horiz</span>
-                </td>
-              </tr>
-              <tr>
-                <td class="check-box-col"><input type="checkbox" /></td>
-                <td class="col col-user">
-                  <div class="profile-card emp-card">
-                    <img
-                      src="./assets/profile.png"
-                      alt="Employee Image"
-                      class="employee-img" />
-                    <div class="profile-details">
-                      <p class="profile-name">Edgar Jones</p>
-                      <p class="profile-email">edgar@tezo.com</p>
+                  </td>
+                  <td class="col col-location">Hyderabad</td>
+                  <td class="col col-department">Product Engg</td>
+                  <td class="col col-role">Full-stack Developer</td>
+                  <td class="col col-emp-no">TZ002341</td>
+                  <td class="col col-status">
+                    <div class="btn-active">Active</div>
+                  </td>
+                  <td class="col col-join-dt">12/03/2023</td>
+                  <td>
+                    <span class="material-icons-outlined">more_horiz</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="check-box-col"><input type="checkbox" /></td>
+                  <td class="col col-user">
+                    <div class="profile-card emp-card">
+                      <img
+                        src="./assets/profile.png"
+                        alt="Employee Image"
+                        class="employee-img" />
+                      <div class="profile-details">
+                        <p class="profile-name">Edgar Jones</p>
+                        <p class="profile-email">edgar@tezo.com</p>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td class="col col-location">Hyderabad</td>
-                <td class="col col-department">Product Engg</td>
-                <td class="col col-role">Full-stack Developer</td>
-                <td class="col col-emp-no">TZ002341</td>
-                <td class="col col-status">
-                  <div class="btn-active">Active</div>
-                </td>
-                <td class="col col-join-dt">12/03/2023</td>
-                <td>
-                  <span class="material-icons-outlined">more_horiz</span>
-                </td>
-              </tr>
-              <tr>
-                <td class="check-box-col"><input type="checkbox" /></td>
-                <td class="col col-user">
-                  <div class="profile-card emp-card">
-                    <img
-                      src="./assets/profile.png"
-                      alt="Employee Image"
-                      class="employee-img" />
-                    <div class="profile-details">
-                      <p class="profile-name">Edgar Jones</p>
-                      <p class="profile-email">edgar@tezo.com</p>
+                  </td>
+                  <td class="col col-location">Hyderabad</td>
+                  <td class="col col-department">Product Engg</td>
+                  <td class="col col-role">Full-stack Developer</td>
+                  <td class="col col-emp-no">TZ002341</td>
+                  <td class="col col-status">
+                    <div class="btn-active">Active</div>
+                  </td>
+                  <td class="col col-join-dt">12/03/2023</td>
+                  <td>
+                    <span class="material-icons-outlined">more_horiz</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="check-box-col"><input type="checkbox" /></td>
+                  <td class="col col-user">
+                    <div class="profile-card emp-card">
+                      <img
+                        src="./assets/profile.png"
+                        alt="Employee Image"
+                        class="employee-img" />
+                      <div class="profile-details">
+                        <p class="profile-name">Edgar Jones</p>
+                        <p class="profile-email">edgar@tezo.com</p>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td class="col col-location">Hyderabad</td>
-                <td class="col col-department">Product Engg</td>
-                <td class="col col-role">Full-stack Developer</td>
-                <td class="col col-emp-no">TZ002341</td>
-                <td class="col col-status">
-                  <div class="btn-active">Active</div>
-                </td>
-                <td class="col col-join-dt">12/03/2023</td>
-                <td>
-                  <span class="material-icons-outlined">more_horiz</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  </td>
+                  <td class="col col-location">Hyderabad</td>
+                  <td class="col col-department">Product Engg</td>
+                  <td class="col col-role">Full-stack Developer</td>
+                  <td class="col col-emp-no">TZ002341</td>
+                  <td class="col col-status">
+                    <div class="btn-active">Active</div>
+                  </td>
+                  <td class="col col-join-dt">12/03/2023</td>
+                  <td>
+                    <span class="material-icons-outlined">more_horiz</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
         <!-- Functions Role -->
         <div class="function-container roles">
@@ -1312,6 +1316,19 @@
       <!--SideBar-->
       <nav class="sidebar active">
         <div>
+          <div class="profile-card">
+            <div class="profile-pic-container">
+              <img
+                src="./assets/profile.png"
+                alt="Profile Image"
+                class="profile-img" />
+              <div class="status-circle online"></div>
+            </div>
+            <div class="profile-details">
+              <p class="profile-name">Jhon Abraham</p>
+              <p class="profile-role">Admin</p>
+            </div>
+          </div>
           <div class="company-logo-area">
             <div class="sidebar-brand">
               <div class="tezo-logo">
