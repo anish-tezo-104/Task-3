@@ -692,7 +692,6 @@ body {
   width: 100%;
   margin: auto;
   margin-top: 2.5vh;
-  /* margin-right: 1rem; */
 }
 
 .alph-sort {
@@ -754,7 +753,6 @@ body {
   overflow-y: auto;
 }
 
-/* Track */
 .table-container::-webkit-scrollbar {
   width: 10px;
   height: 5px;
@@ -765,13 +763,10 @@ body {
 
 }
 
-/* Handle */
 .table-container::-webkit-scrollbar-thumb {
   background-color: #d6dee1;
   border-radius: 20px;
-
   border: 6px solid #f44848;
-
 }
 
 .table-container::-webkit-scrollbar-thumb:hover {
@@ -782,7 +777,6 @@ th,
 td {
   text-align: left;
   border-top: 1px solid #dcdcdd;
-  /* Top border */
   color: black;
   border-bottom: 1px solid #dcdcdd;
 }
@@ -1207,12 +1201,6 @@ tr:hover {
 }
 
 @media only screen and (max-width:900px) {
-  /* .sub-sec-left-left {
-    h4 {
-      display: none;
-    }
-  } */
-
   .th span:nth-child(1) {
     font-size: 0.8rem;
   }
@@ -1293,7 +1281,7 @@ tr:hover {
     font-size: 0.5rem;
   }
 
-  .col{
+  .col {
     width: auto !important;
   }
 

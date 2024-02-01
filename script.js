@@ -16,7 +16,6 @@ function toggleSubSecClass(
         container.classList.remove("active");
       });
     } else {
-      // Slide the sidebar back if it's active and the screen size is small
       if (window.innerWidth <= 900) {
         var sideBar = document.querySelector(".sidebar");
         if (sideBar.classList.contains("active")) {
@@ -44,44 +43,6 @@ function toggleSubSecClass(
   }
 }
 
-// function toggleSubSecClass(
-//   element,
-//   containerSelectors,
-//   removeContainers,
-//   removeActiveSubSec
-// ) {
-//   if (element.classList.contains("unlocked")) {
-//     console.log(element.classList.contains("active"));
-//     if (element.classList.contains("active")) {
-//       element.classList.remove("active");
-//       containerSelectors.forEach(function (containerSelector) {
-//         let container = document.querySelector(containerSelector);
-//         container.classList.remove("active");
-//       });
-//       removeContainers.forEach(function (removeContainer) {
-//         let container = document.querySelector(removeContainer);
-//         container.classList.remove("active");
-//       });
-//     } else {
-//       document.querySelectorAll(".sub-sec").forEach(function (subSec) {
-//         subSec.classList.remove("active");
-//       });
-
-//       element.classList.add("active");
-
-//       removeActiveSubSec.forEach(function (activeSubSec) {
-//         let container = document.querySelector(activeSubSec);
-//         if (container.classList.contains("active")) {
-//           container.classList.remove("active");
-//         }
-//       });
-//       containerSelectors.forEach(function (containerSelector) {
-//         let container = document.querySelector(containerSelector);
-//         container.classList.add("active");
-//       });
-//     }
-//   }
-// }
 function openRoleDescription(element) {
   var rolesDesc1 = document.querySelector(".roles-desc-1");
   var rolesDesc2 = document.querySelector(".roles-desc-2");
@@ -148,22 +109,6 @@ function toggleAlphBtn(element) {
   });
   element.classList.toggle("active");
 }
-
-// function toggleSideBar() {
-//   var sideBar = document.querySelector(".sidebar");
-//   var gridContainer = document.querySelector(".grid-container");
-//   if (sideBar.classList.contains("active")) {
-//     sideBar.classList.remove("active");
-//     gridContainer.style.gridTemplateColumns = "100%";
-//     document.querySelector(".sidebar-handle-icon img").style.transform =
-//       "rotate(-180deg)";
-//   } else {
-//     sideBar.classList.add("active");
-//     gridContainer.style.gridTemplateColumns = "20% 80%";
-//     document.querySelector(".sidebar-handle-icon img").style.transform =
-//       "rotate(360deg)";
-//   }
-// }
 
 function toggleSideBar() {
   var sideBar = document.querySelector(".sidebar");
