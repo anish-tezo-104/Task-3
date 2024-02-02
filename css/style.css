@@ -6,7 +6,9 @@ body {
   font-family: "Lato", sans-serif;
 }
 
-
+h4{
+  font-size: 1rem;
+}
 .material-icons-outlined {
   vertical-align: middle;
   line-height: 1px;
@@ -56,7 +58,7 @@ body {
 }
 
 .function-left .sub-heading {
-  font-size: 0.9em;
+  font-size: 1.1rem;
   color: #536576af;
   font-weight: 500;
 }
@@ -67,9 +69,8 @@ body {
 
 .function-container.active {
   grid-area: function;
-  margin: 1rem 1rem 3rem 2rem;
+  margin: 2rem 1rem 1rem 2rem;
   display: flex;
-  ;
   grid-area: function;
   display: flex;
   justify-content: space-between;
@@ -282,9 +283,14 @@ body {
   margin: 0 4px;
 }
 
-@media only screen and (max-width:1200px) {
+@media only screen and (min-width:1200px) {
+  body{
+    font-size: 1rem;
+  }
+}
+@media only screen and (max-width:1200px)  {
   body {
-    font-size: 12px;
+    font-size: 0.9rem;
   }
 
   .header {
@@ -447,7 +453,7 @@ body {
   }
 }
 
-@media only screen and (max-width: 680px) {
+@media only screen and (max-width: 710px) {
   .function-add-button span {
     font-size: 0.7rem !important;
   }
@@ -475,6 +481,7 @@ body {
     flex-direction: column;
     align-items: center;
     margin-bottom: 1rem;
+    text-align: center;
   }
 }
 
