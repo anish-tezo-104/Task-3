@@ -67,9 +67,9 @@ body {
 
 .function-container.active {
   grid-area: function;
-  margin: 1rem auto auto auto;
+  margin: 1rem 1rem 3rem 2rem;
   display: flex;
-  width: 95%;
+  ;
   grid-area: function;
   display: flex;
   justify-content: space-between;
@@ -294,7 +294,14 @@ body {
   .sub-sec.unlocked.active .sub-sec-right {
     display: none !important;
   }
+  .alph-sort.active{
+    flex-direction: column!important;
+  }
 
+  .alphabets-container {
+    flex-wrap: wrap;
+    justify-content: center!important;
+  }
 
 }
 
