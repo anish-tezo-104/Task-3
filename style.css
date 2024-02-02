@@ -92,6 +92,7 @@ body {
   display: flex;
   border-radius: 8px;
   z-index: 1;
+  height: 4rem;
   align-items: center;
   width: 100%;
   margin: 3rem 1rem 3rem 2rem;
@@ -394,7 +395,7 @@ body {
 
 .sidebar-handle-icon {
   position: absolute;
-  left: 0;
+  left: -10px;
 }
 
 .sidebar-handle-icon img {
@@ -749,7 +750,7 @@ body {
 }
 
 .table-container {
-  height: 600px;
+  height: 400px;
   overflow-y: auto;
 }
 
@@ -1214,6 +1215,10 @@ tr:hover {
     font-size: 0.8rem !important;
   }
 
+  .sidebar-handle-icon img {
+    transform: rotate(-180deg);
+  }
+
   .funtion-add-button {
     height: 2rem;
     font-size: 0.8rem;
@@ -1238,9 +1243,14 @@ tr:hover {
     transition: left 0.3s ease;
   }
 
+  .sidebar-handle-icon {
+    left: 0;
+  }
+
 
   .sidebar.active {
     left: 0;
+    box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.183);
   }
 
   .header .profile-card {
@@ -1256,7 +1266,7 @@ tr:hover {
   }
 
   .grid-container {
-    grid-template-columns: 100%;
+    grid-template-columns: 100% !important;
     grid-template-areas:
       "header"
       "sidebar"
@@ -1311,9 +1321,20 @@ tr:hover {
 @media only screen and (max-width:1090px) {
   .update-btn {
     transform: scale(0.9);
+    margin-right: 0;
   }
 
   .update-buttons {
-    justify-content: center
+    justify-content: center;
+  }
+
+  .update-content {
+    padding: 1rem 0;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .update-message-text {
+    text-align: center;
   }
 }
