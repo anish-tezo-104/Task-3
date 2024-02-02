@@ -1,3 +1,52 @@
+document.addEventListener("DOMContentLoaded", function () {
+  function includeHTML(url, containerId) {
+    fetch(url)
+      .then((response) => response.text())
+      .then((data) => {
+        document.getElementById(containerId).innerHTML += data;
+        addCheckboxEventListener();
+        updateGridTemplateColumns();
+      })
+      .catch((error) => console.error(`Error fetching ${url}:`, error));
+  }
+  includeHTML("header.html", "include-header");
+  includeHTML("sidebar.html", "include-sidebar");
+  includeHTML("employees.html", "include-employees");
+  includeHTML("role.html", "include-role");
+  includeHTML("role-desc.html", "include-role-desc");
+
+  var profileCard = document.querySelector(".sidebar .profile-card");
+  profileCard.addEventListener("click", function () {
+    toggleSideBar();
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  function checkScreenSize() {
+    var sideBar = document.querySelector(".sidebar");
+    if (sideBar) {
+      if (window.innerWidth <= 900) {
+        sideBar.classList.remove("active");
+      } else {
+        sideBar.classList.add("active");
+      }
+    }
+  }
+  checkScreenSize();
+  window.addEventListener("resize", function () {
+    checkScreenSize();
+  });
+});
+function updateGridTemplateColumns() {
+  var screenWidth = window.innerWidth;
+  var sideBar = document.querySelector(".sidebar");
+  var gridContainer = document.querySelector(".grid-container");
+  if (screenWidth > 900 && sideBar.classList.contains("active")) {
+    gridContainer.style.gridTemplateColumns = "20% 80%";
+  } else {
+    gridContainer.style.gridTemplateColumns = "100%";
+  }
+}
 function toggleSubSecClass(
   element,
   containerSelectors,
@@ -16,7 +65,7 @@ function toggleSubSecClass(
         container.classList.remove("active");
       });
     } else {
-      if (window.innerWidth < 900) {
+      if (window.innerWidth <= 900) {
         var sideBar = document.querySelector(".sidebar");
         if (sideBar.classList.contains("active")) {
           toggleSideBar();
@@ -57,7 +106,6 @@ function openRoleDescription(element) {
     rolesDescContainer.classList.add("active");
   }
 }
-
 function toggleSideBarListClass(element, containerSelectors) {
   if (element.classList.contains("active")) {
     element.classList.remove("active");
@@ -73,7 +121,6 @@ function toggleSideBarListClass(element, containerSelectors) {
     });
   }
 }
-
 function toggleFilterClass(element, containerSelectors) {
   var employeesContainer = document.querySelector(".sub-sec.employees");
   var btnStatus = document.querySelector(".btn-status");
@@ -93,7 +140,6 @@ function toggleFilterClass(element, containerSelectors) {
     btnStatus.classList.add("active");
   }
 }
-
 function toggleAlphBtn(element) {
   var alphBtns = document.querySelectorAll(".alph-btn");
   alphBtns.forEach(function (btn) {
@@ -103,7 +149,6 @@ function toggleAlphBtn(element) {
   });
   element.classList.toggle("active");
 }
-
 function toggleSideBar() {
   var sideBar = document.querySelector(".sidebar");
   var gridContainer = document.querySelector(".grid-container");
@@ -111,32 +156,42 @@ function toggleSideBar() {
   var sidebarHandleIconDiv = document.querySelector(".sidebar-handle-icon");
   if (sideBar.classList.contains("active")) {
     sideBar.classList.remove("active");
-    sidebarHandleIconDiv.style.left = "0";
+    if (!sideBar.classList.contains("active")) {
+      sidebarHandleIconDiv.style.left = "0";
+    } else {
+      sidebarHandleIconDiv.style.left = "-10px";
+    }
     gridContainer.style.gridTemplateColumns = "100%";
     sidebarHandleIcon.style.transform = "rotate(-180deg)";
   } else {
     sideBar.classList.add("active");
-    sidebarHandleIconDiv.style.left = "-10px";
+    if (!sideBar.classList.contains("active")) {
+      sidebarHandleIconDiv.style.left = "0";
+    } else {
+      sidebarHandleIconDiv.style.left = "-10px";
+    }
     gridContainer.style.gridTemplateColumns = "20% 80%";
     sidebarHandleIcon.style.transform = "rotate(360deg)";
   }
 }
-document.addEventListener("DOMContentLoaded", function () {
-  var profileCard = document.querySelector(".sidebar .profile-card");
-  profileCard.addEventListener("click", function () {
-    toggleSideBar();
-  });
-});
 function handleUpdateDismiss() {
   var updateContainer = document.querySelector(".update-message");
   updateContainer.classList.remove("active");
 }
-document.getElementById("all-checkbox").addEventListener("change", function () {
-  var checkboxes = document.querySelectorAll(".check-box-col input");
-  checkboxes.forEach(function (checkbox) {
-    checkbox.checked = this.checked;
-  }, this);
-});
+
+function addCheckboxEventListener() {
+  var allCheckbox = document.getElementById("all-checkbox");
+  if (allCheckbox) {
+    allCheckbox.addEventListener("change", function () {
+      var isChecked = this.checked; // Get the checked state of the "All" checkbox
+      var checkboxes = document.querySelectorAll(".check-box-col input");
+      checkboxes.forEach(function (checkbox) {
+        checkbox.checked = isChecked; // Apply the checked state to each checkbox
+      });
+    });
+  }
+}
+
 function handleBurger(burgerContainer) {
   var dropdownContent = document.querySelector(".dropdown-content-header");
   if (dropdownContent.classList.contains("active")) {
@@ -145,18 +200,10 @@ function handleBurger(burgerContainer) {
     dropdownContent.classList.add("active");
   }
 }
-document.addEventListener("DOMContentLoaded", function () {
-  // Function to check screen size and remove 'active' class if screen size is below 900 pixels
-  function checkScreenSize() {
-    var sideBar = document.querySelector(".sidebar");
-    if (window.innerWidth < 900) {
-      sideBar.classList.remove("active");
-    } else {
-      sideBar.classList.add("active");
-    }
+function handleFilterDropdown(element) {
+  if (element.classList.contains("active")) {
+    element.classList.remove("active");
+  } else {
+    element.classList.add("active");
   }
-  checkScreenSize();
-  window.addEventListener("resize", function () {
-    checkScreenSize();
-  });
-});
+}
