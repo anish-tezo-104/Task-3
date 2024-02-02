@@ -67,7 +67,7 @@
       </div>
     </button>
     <div class="dropdown" onclick="handleFilterDropdown(this)">
-      <button class="filter-btn btn-status dropbtn">
+      <button class="filter-btn btn-status dropbtn" data-default-text="Status">
         <div>Status</div>
         <div class="expand-more-icon">
           <span class="material-icons-outlined expand-more-icon">
@@ -76,13 +76,25 @@
         </div>
       </button>
       <div class="dropdown-content">
-        <div class="dropdown-options active-status">Active</div>
-        <div class="dropdown-options inactive-status">Inactive</div>
-        <div class="dropdown-options all-status">All</div>
+        <div
+          class="dropdown-options active-status"
+          onclick="selectOption(this)">
+          Active
+        </div>
+        <div
+          class="dropdown-options inactive-status"
+          onclick="selectOption(this)">
+          Inactive
+        </div>
+        <div class="dropdown-options all-status" onclick="selectOption(this)">
+          All
+        </div>
       </div>
     </div>
     <div class="dropdown" onclick="handleFilterDropdown(this)">
-      <button class="filter-btn btn-location dropbtn">
+      <button
+        class="filter-btn btn-location dropbtn"
+        data-default-text="Location">
         <div>Location</div>
         <div class="expand-more-icon">
           <span class="material-icons-outlined expand-more-icon">
@@ -91,16 +103,34 @@
         </div>
       </button>
       <div class="dropdown-content">
-        <div class="dropdown-options loc-hyderabad">Hyderabad</div>
-        <div class="dropdown-options loc-delhi">Delhi</div>
-        <div class="dropdown-options loc-mumbai">Mumbai</div>
-        <div class="dropdown-options loc-bangalore">Bangalore</div>
-        <div class="dropdown-options loc-seattle">Seattle</div>
-        <div class="dropdown-options loc-new-york">New York</div>
+        <div
+          class="dropdown-options loc-hyderabad"
+          onclick="selectOption(this)">
+          Hyderabad
+        </div>
+        <div class="dropdown-options loc-delhi" onclick="selectOption(this)">
+          Delhi
+        </div>
+        <div class="dropdown-options loc-mumbai" onclick="selectOption(this)">
+          Mumbai
+        </div>
+        <div
+          class="dropdown-options loc-bangalore"
+          onclick="selectOption(this)">
+          Bangalore
+        </div>
+        <div class="dropdown-options loc-seattle" onclick="selectOption(this)">
+          Seattle
+        </div>
+        <div class="dropdown-options loc-new-york" onclick="selectOption(this)">
+          New York
+        </div>
       </div>
     </div>
     <div class="dropdown" onclick="handleFilterDropdown(this)">
-      <button class="filter-btn btn-department dropbtn">
+      <button
+        class="filter-btn btn-department dropbtn"
+        data-default-text="Department">
         <div>Department</div>
         <div class="expand-more-icon">
           <span class="material-icons-outlined expand-more-icon">
@@ -109,12 +139,28 @@
         </div>
       </button>
       <div class="dropdown-content">
-        <div class="dropdown-options dept-IT">IT</div>
-        <div class="dropdown-options dept-HR">HR</div>
-        <div class="dropdown-options dept-Finance">Finance</div>
-        <div class="dropdown-options dept-Product-Engg">Product Engg.</div>
-        <div class="dropdown-options dept-UIUX">UIUX</div>
-        <div class="dropdown-options dept-Operations">Operations</div>
+        <div class="dropdown-options dept-IT" onclick="selectOption(this)">
+          IT
+        </div>
+        <div class="dropdown-options dept-HR" onclick="selectOption(this)">
+          HR
+        </div>
+        <div class="dropdown-options dept-Finance" onclick="selectOption(this)">
+          Finance
+        </div>
+        <div
+          class="dropdown-options dept-Product-Engg"
+          onclick="selectOption(this)">
+          Product Engg.
+        </div>
+        <div class="dropdown-options dept-UIUX" onclick="selectOption(this)">
+          UIUX
+        </div>
+        <div
+          class="dropdown-options dept-Operations"
+          onclick="selectOption(this)">
+          Operations
+        </div>
       </div>
     </div>
   </div>

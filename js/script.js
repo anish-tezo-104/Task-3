@@ -87,6 +87,7 @@ function toggleSubSecClass(
       });
     }
   }
+  resetFilter()
 }
 function openRoleDescription(element) {
   var rolesDesc1 = document.querySelector(".roles-desc-1");
@@ -206,4 +207,23 @@ function handleFilterDropdown(element) {
   } else {
     element.classList.add("active");
   }
+}
+
+function selectOption(option) {
+  var dropdownButton = option.closest('.dropdown').querySelector('.filter-btn');
+  var optionText = option.textContent.trim();
+  dropdownButton.querySelector('div').textContent = optionText;
+  
+  // Hide the dropdown after selecting an option
+  var dropdownContent = option.closest('.dropdown').querySelector('.dropdown-content');
+  dropdownContent.classList.remove('active');
+}
+
+function resetFilter() {
+  var dropdownButtons = document.querySelectorAll('.filter-btn');
+  dropdownButtons.forEach(function(button) {
+    button.querySelector('div').textContent = button.getAttribute('data-default-text');
+    var dropdownContent = button.closest('.dropdown').querySelector('.dropdown-content');
+    dropdownContent.classList.remove('active'); // Hide the dropdown content
+  });
 }
