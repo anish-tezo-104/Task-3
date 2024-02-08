@@ -238,6 +238,12 @@
   padding-left: 1rem;
 }
 
+.sidebar.active .sub-sec.unlocked.active .sub-sec-left .sidebar-icons {
+  background-color: #f44848;
+
+}
+
+
 .sidebar.active .sub-sec.unlocked.active .sub-sec-left {
   height: 100%;
   border-radius: 0.5rem;
@@ -246,7 +252,7 @@
   width: 90%;
 }
 
-.sidebar .sub-sec.unlocked.active .sub-sec-left {
+.sidebar .sub-sec.unlocked.active .sub-sec-left .sidebar-icons{
   height: 100%;
   border-radius: 0.5rem 0 0;
   color: #f44848 !important;
@@ -450,6 +456,9 @@
   mask: url("../assets/employees.svg") no-repeat center;
 }
 .sub-sec-left:hover .sidebar-icons{
+  background-color: #f44848;
+}
+.sub-sec-left:active .sidebar-icons{
   background-color: #f44848;
 }
 
