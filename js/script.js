@@ -273,46 +273,37 @@ function toggleDeleteButtonVisibility() {
   const deleteButton = document.querySelector(".btn-delete");
   const allCheckboxes = document.querySelectorAll(".check-box-col input");
   let anyChecked = false;
-
   allCheckboxes.forEach(function (checkbox) {
     if (checkbox.checked) {
       anyChecked = true;
       return;
     }
   });
-
   deleteButton.disabled = !anyChecked;
 }
-
 function deleteSelectedRows() {
   const allCheckboxes = document.querySelectorAll(".check-box-col input");
   let selectedRows = [];
-
   allCheckboxes.forEach(function (checkbox) {
     if (checkbox.checked) {
       let row = checkbox.closest("tr");
       selectedRows.push(row);
     }
   });
-
   let existingData = JSON.parse(localStorage.getItem("employees")) || [];
-
   selectedRows.forEach(function (row) {
     let empNo = row.querySelector(".col-emp-no").textContent;
     let index = existingData.findIndex((emp) => emp.empNo === empNo);
     if (index !== -1) {
       existingData.splice(index, 1);
     }
-
     row.remove();
   });
   localStorage.setItem("employees", JSON.stringify(existingData));
-
   toggleDeleteButtonVisibility();
   alert(selectedRows.length + " rows deleted");
   location.reload();
 }
-
 function loadEmployees() {
   let employees = localStorage.getItem("employees");
   if (employees) {
@@ -383,7 +374,6 @@ function downloadCSVFile(csvContent) {
   link.setAttribute("download", "employees.csv");
   link.click();
 }
-
 function updateGridTemplateColumns() {
   var screenWidth = window.innerWidth;
   var sideBar = document.querySelector(".sidebar");
@@ -525,24 +515,19 @@ function toggleSideBar() {
   var sideBar = document.querySelector(".sidebar");
   var gridContainer = document.querySelector(".grid-container");
   var sidebarHandleIcon = document.querySelector(".sidebar-handle-icon img");
-  var subSec = document.querySelector(".sub-sec");
   if (sideBar.classList.contains("active")) {
     sideBar.classList.remove("active");
     gridContainer.style.gridTemplateColumns = "5% 95%";
-    // subSec.style.margin = "0 0 0.3rem 0rem";
     document.querySelectorAll(".sub-sec-left-left img").forEach(function (img) {
       img.style.paddingLeft = "0.5rem";
     });
-
     document.querySelector(".sidebar-roles-icon").style.paddingLeft = "0.3rem";
     document.querySelector(".sidebar-assign-user-icon").style.paddingLeft =
       "0.3rem";
-
     sidebarHandleIcon.style.transform = "rotate(-180deg)";
   } else {
     sideBar.classList.add("active");
     gridContainer.style.gridTemplateColumns = "20% 80%";
-    // subSec.style.margin = "0 0 0.3rem 1rem";
     document.querySelectorAll(".sub-sec-left-left img").forEach(function (img) {
       img.style.paddingLeft = "1rem";
     });
@@ -556,7 +541,6 @@ function handleUpdateDismiss() {
   var updateContainer = document.querySelector(".update-message");
   updateContainer.classList.remove("active");
 }
-
 function addCheckboxEventListener() {
   var allCheckbox = document.getElementById("all-checkbox");
   const deleteButtonContainer = document.querySelector(".delete-button");
@@ -595,12 +579,10 @@ function selectOption(option) {
     .querySelector(".dropdown-content");
   option.classList.toggle("selected");
   option.classList.toggle("active");
-
   var selectedOptions = dropdownContent.querySelectorAll(
     ".dropdown-options.selected"
   );
   var selectedCount = selectedOptions.length;
-
   if (selectedCount === 0) {
     dropdownButton.querySelector("div").textContent =
       dropdownButton.getAttribute("data-default-text");
@@ -612,10 +594,10 @@ function selectOption(option) {
   var filterRightButtons = document.querySelector(".filter-container-right");
   if (selectedCount > 0) {
     document.querySelector(".btn-reset").disabled = false;
-  document.querySelector(".btn-apply").disabled = false;
+    document.querySelector(".btn-apply").disabled = false;
   } else {
     document.querySelector(".btn-reset").disabled = true;
-  document.querySelector(".btn-apply").disabled = true;
+    document.querySelector(".btn-apply").disabled = true;
   }
 }
 function resetFilter() {
@@ -623,7 +605,6 @@ function resetFilter() {
   var dropdownOptions = document.querySelectorAll(".dropdown-options");
   var filterRightButtons = document.querySelector(".filter-container-right");
   var dropdown = document.querySelector(".dropdown");
-
   dropdownButtons.forEach(function (button) {
     button.querySelector("div").textContent =
       button.getAttribute("data-default-text");
@@ -633,21 +614,16 @@ function resetFilter() {
     dropdownContent.classList.remove("active");
   });
   dropdown.classList.remove("active");
-
   dropdownOptions.forEach(function (dropdownOption) {
     if (dropdownOption.classList.contains("active"))
       dropdownOption.classList.remove("active");
     dropdownOption.classList.remove("selected");
   });
-
   document.querySelector(".btn-reset").disabled = true;
   document.querySelector(".btn-apply").disabled = true;
-
   loadEmployees();
 }
-
 let direction = "ascending";
-
 function filterByEach(departmentName) {
   const filters = { department: [departmentName] };
   const employees = localStorage.getItem("employees");
@@ -657,22 +633,19 @@ function filterByEach(departmentName) {
   }
   document.querySelector(".btn-reset").disabled = false;
 }
-
 function sortTable(n) {
   let table = document.getElementById("employeesTable");
   let switching = true;
   let direction = "ascending";
   let count = 0;
   let rows, i, x, y;
-
   while (switching) {
     switching = false;
     rows = table.rows;
-    let shouldSwitch = false; // Define shouldSwitch outside the loop
+    let shouldSwitch = false;
     for (i = 1; i < rows.length - 1; i++) {
       x = rows[i].getElementsByTagName("TD")[n].textContent.toLowerCase();
       y = rows[i + 1].getElementsByTagName("TD")[n].textContent.toLowerCase();
-
       if (
         (direction === "ascending" && x > y) ||
         (direction === "descending" && x < y)
@@ -693,12 +666,10 @@ function sortTable(n) {
     }
   }
 }
-
 function ellipsisFunction(icon) {
   let menu = icon.nextElementSibling;
   menu.style.display = menu.style.display === "block" ? "none" : "block";
 }
-
 function deleteRow(row) {
   var tableRow = row.closest("tr");
   var tableBody = tableRow.parentNode;
@@ -719,19 +690,16 @@ function handleFormCancel() {
   const profileImagePreview = document.getElementById("profileImagePreview");
   profileImagePreview.src = defaultImageSource;
 }
-
 function updateFilteredResults() {
   const employees = JSON.parse(localStorage.getItem("employees"));
   const selectedFilters = getSelectedFilters();
   console.log(selectedFilters);
   renderEmployees(employees, selectedFilters);
 }
-
 function renderEmployees(employees, selectedFilters = {}) {
   toggleDeleteButtonVisibility();
   const tableBody = document.querySelector(".employees-table tbody");
   tableBody.innerHTML = "";
-
   employees.forEach(function (employee) {
     const firstName = employee.firstName ? employee.firstName : "N/A";
     const lastName = employee.lastName ? employee.lastName : "N/A";
@@ -787,12 +755,9 @@ function renderEmployees(employees, selectedFilters = {}) {
     }
   });
 }
-
 const selectedFilters = {};
 function getSelectedFilters() {
   const selectedFilters = {};
-
-  // Retrieve selected status
   const selectedStatusOptions = document.querySelectorAll(
     ".dropdown-status .dropdown-options.selected.active"
   );
