@@ -1,7 +1,10 @@
 <div>
   <div class="profile-card" onclick="toggleSideBar()">
     <div class="profile-pic-container">
-      <img src="../assets/profile.png" alt="Profile Image" class="profile-img" />
+      <img
+        src="../assets/profile.png"
+        alt="Profile Image"
+        class="profile-img" />
       <div class="status-circle online"></div>
     </div>
     <div class="profile-details">
@@ -43,7 +46,7 @@
         </div>
         <div
           class="sub-sec employees item unlocked"
-          onclick="toggleSubSecClass(this, ['.employees-container','.alph-sort', '.function-container.employees',], ['.filter-container'],['.roles-container','.roles-desc-container','.roles-desc-1','.roles-desc-2','.function-container.roles','.filter-container'])">
+          onclick="toggleSubSecClass(this, ['.employees-container','.alph-sort', '.departments', '.function-container.employees','.filter-container','.btn-status'], ['.filter-container','.add-employee-container','.add-roles-container'],['.roles-container','.roles-desc-container','.roles-desc-1','.roles-desc-2','.function-container.roles','.filter-container','.add-employee-container','.add-roles-container'])">
           <div class="sub-sec-left">
             <div class="sub-sec-left-left">
               <img
@@ -61,67 +64,11 @@
           </div>
           <div class="sub-sec-right"></div>
         </div>
-        <div class="employee-sub-lists sub-lists active">
-          <ul>
-            <li><a href="#">All</a></li>
-            <li><a href="#">Active</a></li>
-            <li><a href="#">Inactive</a></li>
-          </ul>
+        <div class="departments">
+          <div class="department-sub-lists sub-lists">
+            <ul id="departmentList"></ul>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="departments-section"
-    onclick="toggleSideBarListClass(this,['.departments','.departments-section'])">
-    <div class="underline-heading-container">
-      <div class="underline"></div>
-      <div class="sidebar-list-heading">DEPARTMENTS</div>
-    </div>
-    <div class="departments">
-      <div class="department-sub-lists sub-lists">
-        <ul>
-          <li>
-            <a href="#">
-              <div class="dept-details">
-                <div class="dept-names">IT</div>
-                <div class="employee-dept-count">3</div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <div class="dept-details">
-                <div class="dept-names">UI/UX</div>
-                <div class="employee-dept-count">3</div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <div class="dept-details">
-                <div class="dept-names">PE</div>
-                <div class="employee-dept-count">2</div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <div class="dept-details">
-                <div class="dept-names">Human Resources</div>
-                <div class="employee-dept-count">24</div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <div class="dept-details">
-                <div class="dept-names">Sales</div>
-                <div class="employee-dept-count">12</div>
-              </div>
-            </a>
-          </li>
-        </ul>
       </div>
     </div>
   </div>
@@ -133,10 +80,11 @@
     <div class="management-sub-section active">
       <div
         class="sub-sec roles item unlocked"
-        onclick="toggleSubSecClass(this, ['.roles-container','.function-container.roles','.filter-container'], ['.roles-desc-container','.roles-desc-1','.roles-desc-2'],['.employees-container','.alph-sort', '.function-container.employees','.btn-status'])">
+        onclick="toggleSubSecClass(this, ['.roles-container','.function-container.roles','.filter-container'], ['.roles-desc-container','.roles-desc-1','.roles-desc-2','.add-roles-container','.add-employee-container'],['.employees-container','.alph-sort', '.function-container.employees','.btn-status','.add-employee-container'])">
         <div class="sub-sec-left">
           <div class="sub-sec-left-left">
-            <span class="icon-roles sidebar-roles-icon"></span>
+            <span
+              class="icon-roles sidebar-roles-icon sidebar-dashboard-icon"></span>
             <img
               src="../assets/bx-lock.png"
               alt="Lock Icon"

@@ -6,10 +6,16 @@
 .roles-container.active, .roles-desc-container.active {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
-  gap: 2rem;
-  margin-right: 1rem;
-  padding: 1.5rem 0 0 1rem;
+  gap: 10px;
+  margin-right:.5rem;
+  padding: 1rem 0 0 1rem;
   z-index: 1;
+}
+
+.heading h3{
+  padding-top: 0;
+  margin-top: 10px;
+
 }
 
 .roles-container-item {
@@ -17,10 +23,9 @@
 }
 
 .roles-card {
-  padding: 1.5rem 1rem 1rem 1rem;
-  margin-bottom: 1rem;
-  width: 19rem;
-  height: 12rem;
+  padding:1rem;
+  width: 90%;
+  height: 80%;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -98,3 +103,29 @@
 }
 
 
+.function-add-role-button {
+  align-items: center;
+  display: flex;
+  font-weight: 500;
+  width: auto;
+  padding: 0 1rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  justify-content: center;
+}
+
+.function-add-role-button img {
+  margin-right: 5px;
+}
+
+.function-add-role-button {
+  height: 2.5rem;
+  width: 9rem;
+  border: none;
+  color: white;
+  background-color: #f44848;
+}
+
+.function-add-role-button:hover{
+  transform: scale(1.1);
+}

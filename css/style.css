@@ -6,9 +6,10 @@ body {
   font-family: "Lato", sans-serif;
 }
 
-h4{
+h4 {
   font-size: 1rem;
 }
+
 .material-icons-outlined {
   vertical-align: middle;
   line-height: 1px;
@@ -25,6 +26,8 @@ h4{
 .right-background {
   background-color: #fcfcfc;
   width: 100%;
+  height: 100vh;
+  overflow: auto;
 }
 
 .grid-container {
@@ -69,7 +72,7 @@ h4{
 
 .function-container.active {
   grid-area: function;
-  margin: 2rem 1rem 1rem 2rem;
+  margin: 1rem 1rem 1rem 2rem;
   display: flex;
   grid-area: function;
   display: flex;
@@ -124,15 +127,12 @@ h4{
 
 .function-add-button {
   height: 2.5rem;
+  width: 14rem;
   border: none;
   color: white;
   background-color: #f44848;
 }
 
-.function-add-button:hover,
-.export-button:hover {
-  transform: scale(1.1);
-}
 
 .export-icon {
   margin-right: 0.5rem;
@@ -143,15 +143,13 @@ h4{
   display: none;
 }
 
-.sidebar-lists {
-  margin-bottom: 1rem;
-}
+
 
 .filter-container.active {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 1rem 1rem 0 1rem;
+  margin: 1rem 1rem 0 2rem;
   padding: 0 0.5rem;
   height: 3.5rem;
   z-index: 1;
@@ -166,6 +164,12 @@ h4{
 }
 
 .filter-container-right {
+  display: none;
+}
+
+
+
+.filter-container-right {
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -176,9 +180,18 @@ h4{
   color: #9E9EA4;
 }
 
+.filter-btn:hover{
+  cursor: pointer;
+}
+
 .dropdown-options:hover {
   background-color: #f44848;
   color: white;
+}
+.dropdown-options.active{
+  background-color: #f44848;
+  color: white;
+  border: 1px solid white;
 }
 
 .dropdown.active .dropdown-content {
@@ -220,8 +233,12 @@ h4{
 .dropdown-content {
   max-height: 8rem;
   width: 8rem;
-  overflow-y: auto;
-}
+  overflow-y:auto
+  }
+
+  .dropdown-content::-webkit-scrollbar-thumb{
+    border: 6px solid ;
+  }
 
 .dropdown-options {
   color: #000;
@@ -246,9 +263,14 @@ h4{
   margin: 0.2rem;
   border-radius: 5px;
   background-color: white;
-  border: 1px solid #f44848;
+  border: 1px solid #f448487a;
 }
-
+.filter-container-right button:disabled,
+button[disabled]{
+  background-color: #f89191;
+  color: white;
+  cursor: pointer;
+}
 .btn-filter {
   display: flex;
   border: none;
@@ -259,7 +281,7 @@ h4{
   color: #f44848;
 }
 
-.btn-status.active,
+.btn-status,
 .btn-location,
 .btn-department {
   display: flex;
@@ -277,6 +299,7 @@ h4{
 .btn-apply:hover {
   background-color: #f44848;
   color: white;
+  cursor:pointer;
 }
 
 .filter-list-icon {
@@ -284,11 +307,12 @@ h4{
 }
 
 @media only screen and (min-width:1200px) {
-  body{
+  body {
     font-size: 1rem;
   }
 }
-@media only screen and (max-width:1200px)  {
+
+@media only screen and (max-width:1200px) {
   body {
     font-size: 0.9rem;
   }
@@ -300,13 +324,14 @@ h4{
   .sub-sec.unlocked.active .sub-sec-right {
     display: none !important;
   }
-  .alph-sort.active{
-    flex-direction: column!important;
+
+  .alph-sort.active {
+    flex-direction: column !important;
   }
 
   .alphabets-container {
     flex-wrap: wrap;
-    justify-content: center!important;
+    justify-content: center !important;
   }
 
 }
@@ -337,55 +362,12 @@ h4{
 }
 
 @media only screen and (max-width:900px) {
-  .th span:nth-child(1) {
-    font-size: 0.8rem;
-  }
+  
 
-  .col-user,
-  .col-role {
-    width: 12% !important;
-  }
-
-  .sort-icon {
-    font-size: 0.8rem !important;
-  }
-
-  .sidebar-handle-icon img {
-    transform: rotate(-180deg);
-  }
-
+  
   .function-add-button {
     height: 2rem;
     font-size: 0.8rem;
-  }
-
-  .sidebar-brand {
-    display: none !important;
-  }
-
-  .sidebar .profile-card {
-    margin: 1rem 0 1rem 1rem;
-    display: flex !important;
-    position: relative;
-  }
-
-  .sidebar {
-    position: fixed;
-    top: 0;
-    width: 15rem;
-    background-color: white;
-    left: -20%;
-    transition: left 0.3s ease;
-  }
-
-  .sidebar-handle-icon {
-    left: 0;
-  }
-
-
-  .sidebar.active {
-    left: 0;
-    box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.183);
   }
 
   .header .profile-card {
@@ -394,10 +376,6 @@ h4{
 
   .header {
     height: 2.5rem;
-  }
-
-  .sub-sec-left {
-    justify-content: flex-start;
   }
 
   .grid-container {
