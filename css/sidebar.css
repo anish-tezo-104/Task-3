@@ -127,7 +127,12 @@
 .sidebar .sub-sec.active {
   justify-content: center;
   margin: 0 0 0.3rem 0;
+  background-color: #fde9e9;
   width: 100%;
+}
+
+.sidebar .sub-sec.active .sidebar-icons {
+  background-color: #f44848;
 }
 
 .sidebar.active .sub-sec.active {
@@ -252,7 +257,7 @@
   width: 90%;
 }
 
-.sidebar .sub-sec.unlocked.active .sub-sec-left .sidebar-icons{
+.sidebar .sub-sec.unlocked.active .sub-sec-left .sidebar-icons {
   height: 100%;
   border-radius: 0.5rem 0 0;
   color: #f44848 !important;
@@ -340,12 +345,21 @@
   display: none;
 }
 
+.sub-sec.roles.unlocked.active .sidebar-roles-icon {
+  color: #f44848;
+}
+
 .sub-sec.employees.unlocked.active+.employee-sub-lists {
   display: block;
 }
 
 .sub-sec.employees.unlocked.active {
+  background-color: #fde6e6;
   width: 100%;
+}
+
+.sub-sec.employees.unlocked.active .sidebar-icons {
+  background-color: #f44848;
 }
 
 .dept-details {
@@ -436,7 +450,7 @@
   border: none;
   margin-right: 1rem;
 
-    background-color: #f44848;
+  background-color: #f44848;
   color: white;
   padding: 0.5rem;
   width: 5rem;
@@ -444,27 +458,32 @@
   text-align: center;
 }
 
-.dashboard-icon-container{
+.dashboard-icon-container {
   background-color: #5F5F5F;
   -webkit-mask: url("../assets/dashboard.svg") no-repeat center;
   mask: url("../assets/dashboard.svg") no-repeat center;
 }
 
-.employees-icon-container{
+.employees-icon-container {
   background-color: #5F5F5F;
   -webkit-mask: url("../assets/employees.svg") no-repeat center;
   mask: url("../assets/employees.svg") no-repeat center;
 }
-.sub-sec-left:hover .sidebar-icons{
+
+.sub-sec-left:hover .sidebar-icons {
   background-color: #f44848;
 }
-.sub-sec-left:active .sidebar-icons{
+
+.sub-sec-left.active .sidebar-icons {
   background-color: #f44848;
+}
+.sub-sec-left.active .sidebar-roles-icon{
+  color:#f44848;
 }
 
 
 .update-btn:hover {
-background-color: #f76666;
+  background-color: #f76666;
   cursor: pointer;
 }
 
