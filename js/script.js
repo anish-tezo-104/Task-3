@@ -106,6 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         if (url == "employees.html") {
           loadEmployees();
+          generateAlphabetButtons();
           const deleteButton = document.querySelector(".delete-button");
         }
         if (url == "addRoles.html") {
@@ -135,6 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .catch((error) => console.error(`Error fetching ${url}:`, error));
   }
+
   includeHTML("sidebar.html", "include-sidebar");
   includeHTML("header.html", "include-header");
   includeHTML("employees.html", "include-employees");
@@ -142,6 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
   includeHTML("role.html", "include-role");
   includeHTML("addRoles.html", "include-new-role");
   includeHTML("roleDesc.html", "include-role-desc");
+
   function handleFormSubmit(event) {
     event.preventDefault();
     const form = document.getElementById("employeeForm");
@@ -159,12 +162,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const department = formData.get("department");
     const assignManager = formData.get("assignManager");
     const assignProject = formData.get("assignProject");
-    const profileImageFile = formData.get("profileImage");
+    const profileImageInput = formData.get("profileImage");
 
     let profileImageBase64 = "";
-    if (profileImageFile) {
+    if (profileImageInput) {
       const reader = new FileReader();
-      reader.readAsDataURL(profileImageFile);
+      reader.readAsDataURL(profileImageInput);
       reader.onload = function () {
         profileImageBase64 = reader.result;
         saveToLocalStorage(
@@ -213,6 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     window.location.reload(true);
   }
+
   function saveToLocalStorage(
     empNo,
     firstName,
@@ -247,17 +251,21 @@ document.addEventListener("DOMContentLoaded", function () {
     existingData.push(employeeData);
     localStorage.setItem("employees", JSON.stringify(existingData));
   }
+
   function getAllEmployeesFromLocalStorage() {
     return JSON.parse(localStorage.getItem("employees")) || [];
   }
+
   function showErrorMessage(input) {
     var nextSpan = input.nextElementSibling;
     nextSpan.classList.add("active");
   }
+
   function hideErrorMessage(input) {
     var nextSpan = input.nextElementSibling;
     nextSpan.classList.remove("active");
   }
+
   function checkScreenSize() {
     var sideBar = document.querySelector(".sidebar");
     if (sideBar) {
@@ -269,6 +277,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 });
+
 function toggleDeleteButtonVisibility() {
   const deleteButton = document.querySelector(".btn-delete");
   const allCheckboxes = document.querySelectorAll(".check-box-col input");
@@ -281,6 +290,7 @@ function toggleDeleteButtonVisibility() {
   });
   deleteButton.disabled = !anyChecked;
 }
+
 function deleteSelectedRows() {
   const allCheckboxes = document.querySelectorAll(".check-box-col input");
   let selectedRows = [];
@@ -304,6 +314,7 @@ function deleteSelectedRows() {
   alert(selectedRows.length + " rows deleted");
   location.reload();
 }
+
 function loadEmployees() {
   let employees = localStorage.getItem("employees");
   if (employees) {
@@ -311,6 +322,7 @@ function loadEmployees() {
     renderEmployees(employees);
   }
 }
+
 function filterEmployeesByAlphabet(alphabet, element) {
   var alphBtns = document.querySelectorAll(".alph-btn");
   var filterBtn = document.querySelector(".icon-filter");
@@ -339,6 +351,7 @@ function filterEmployeesByAlphabet(alphabet, element) {
   filterBtn.classList.add("active");
   renderEmployees(filteredEmployees);
 }
+
 function tableToCSV() {
   let table = document.querySelector(".employees-table");
   let columnsToRemove = ["STATUS", "more_horiz"];
@@ -366,6 +379,7 @@ function tableToCSV() {
   });
   downloadCSVFile(csvContent);
 }
+
 function downloadCSVFile(csvContent) {
   let blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
   let url = URL.createObjectURL(blob);
@@ -374,6 +388,7 @@ function downloadCSVFile(csvContent) {
   link.setAttribute("download", "employees.csv");
   link.click();
 }
+
 function updateGridTemplateColumns() {
   var screenWidth = window.innerWidth;
   var sideBar = document.querySelector(".sidebar");
@@ -384,6 +399,7 @@ function updateGridTemplateColumns() {
     gridContainer.style.gridTemplateColumns = "100%";
   }
 }
+
 function toggleSubSecClass(
   element,
   containerSelectors,
@@ -426,6 +442,7 @@ function toggleSubSecClass(
   }
   resetFilter();
 }
+
 function openRoleDescription(element) {
   var rolesDesc1 = document.querySelector(".roles-desc-1");
   var rolesDesc2 = document.querySelector(".roles-desc-2");
@@ -444,6 +461,7 @@ function openRoleDescription(element) {
     rolesDescContainer.classList.add("active");
   }
 }
+
 function toggleSideBarListClass(element, containerSelectors) {
   if (element.classList.contains("active")) {
     element.classList.remove("active");
@@ -459,6 +477,7 @@ function toggleSideBarListClass(element, containerSelectors) {
     });
   }
 }
+
 function handleAddEmployeeBtn(element, removeContainers) {
   let addEmployeePage = document.querySelector(".add-employee-container");
   if (addEmployeePage.classList.contains("active")) {
@@ -471,6 +490,7 @@ function handleAddEmployeeBtn(element, removeContainers) {
     addEmployeePage.classList.add("active");
   }
 }
+
 function handleAddRoleBtn(element, removeContainers) {
   let addEmployeePage = document.querySelector(".add-roles-container");
   if (addEmployeePage.classList.contains("active")) {
@@ -483,6 +503,7 @@ function handleAddRoleBtn(element, removeContainers) {
     addEmployeePage.classList.add("active");
   }
 }
+
 function toggleFilterClass(element, containerSelectors) {
   var employeesContainer = document.querySelector(".sub-sec.employees");
   var btnStatus = document.querySelector(".btn-status");
@@ -502,6 +523,7 @@ function toggleFilterClass(element, containerSelectors) {
     btnStatus.classList.add("active");
   }
 }
+
 function toggleAlphBtn(element) {
   var alphBtns = document.querySelectorAll(".alph-btn");
   alphBtns.forEach(function (btn) {
@@ -511,6 +533,7 @@ function toggleAlphBtn(element) {
   });
   element.classList.toggle("active");
 }
+
 function toggleSideBar() {
   var sideBar = document.querySelector(".sidebar");
   var gridContainer = document.querySelector(".grid-container");
@@ -537,10 +560,12 @@ function toggleSideBar() {
     sidebarHandleIcon.style.transform = "rotate(360deg)";
   }
 }
+
 function handleUpdateDismiss() {
   var updateContainer = document.querySelector(".update-message");
   updateContainer.classList.remove("active");
 }
+
 function addCheckboxEventListener() {
   var allCheckbox = document.getElementById("all-checkbox");
   const deleteButtonContainer = document.querySelector(".delete-button");
@@ -557,6 +582,7 @@ function addCheckboxEventListener() {
     }
   }
 }
+
 function handleBurger(burgerContainer) {
   var dropdownContent = document.querySelector(".dropdown-content-header");
   if (dropdownContent.classList.contains("active")) {
@@ -565,6 +591,7 @@ function handleBurger(burgerContainer) {
     dropdownContent.classList.add("active");
   }
 }
+
 function handleFilterDropdown(element) {
   if (element.classList.contains("active")) {
     element.classList.remove("active");
@@ -572,6 +599,7 @@ function handleFilterDropdown(element) {
     element.classList.add("active");
   }
 }
+
 function selectOption(option) {
   var dropdownButton = option.closest(".dropdown").querySelector(".filter-btn");
   var dropdownContent = option
@@ -600,6 +628,7 @@ function selectOption(option) {
     document.querySelector(".btn-apply").disabled = true;
   }
 }
+
 function resetFilter() {
   var dropdownButtons = document.querySelectorAll(".filter-btn");
   var dropdownOptions = document.querySelectorAll(".dropdown-options");
@@ -623,6 +652,7 @@ function resetFilter() {
   document.querySelector(".btn-apply").disabled = true;
   loadEmployees();
 }
+
 let direction = "ascending";
 function filterByEach(departmentName) {
   const filters = { department: [departmentName] };
@@ -633,6 +663,7 @@ function filterByEach(departmentName) {
   }
   document.querySelector(".btn-reset").disabled = false;
 }
+
 function sortTable(n) {
   let table = document.getElementById("employeesTable");
   let switching = true;
@@ -666,6 +697,7 @@ function sortTable(n) {
     }
   }
 }
+
 function ellipsisFunction(icon) {
   let menu = icon.nextElementSibling;
   menu.style.display = menu.style.display === "block" ? "none" : "block";
@@ -690,12 +722,14 @@ function handleFormCancel() {
   const profileImagePreview = document.getElementById("profileImagePreview");
   profileImagePreview.src = defaultImageSource;
 }
+
 function updateFilteredResults() {
   const employees = JSON.parse(localStorage.getItem("employees"));
   const selectedFilters = getSelectedFilters();
   console.log(selectedFilters);
   renderEmployees(employees, selectedFilters);
 }
+
 function renderEmployees(employees, selectedFilters = {}) {
   toggleDeleteButtonVisibility();
   const tableBody = document.querySelector(".employees-table tbody");
@@ -755,6 +789,7 @@ function renderEmployees(employees, selectedFilters = {}) {
     }
   });
 }
+
 const selectedFilters = {};
 function getSelectedFilters() {
   const selectedFilters = {};
@@ -798,3 +833,17 @@ function getSelectedFilters() {
 
   return selectedFilters;
 }
+function generateAlphabetButtons() {
+    const alphabetsContainer = document.getElementById("alphabetsContainer");
+    for (let i = 65; i <= 90; i++) {
+        const alphabetChar = String.fromCharCode(i);
+        const alphabetButton = document.createElement("div");
+        alphabetButton.classList.add("alph-btn", `btn-${alphabetChar.toLowerCase()}`);
+        alphabetButton.textContent = alphabetChar;
+        alphabetButton.addEventListener("click", function () {
+            filterEmployeesByAlphabet(alphabetChar, this);
+        });
+        alphabetsContainer.appendChild(alphabetButton);
+    }
+}
+
