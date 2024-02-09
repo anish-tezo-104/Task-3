@@ -131,6 +131,12 @@
   width: 100%;
 }
 
+.sidebar.active .sub-sec.active {
+  justify-content: center;
+  margin: 0 0 0.3rem 0;
+  background-color: transparent !important;
+  width: 100%;
+}
 .sidebar .sub-sec.active .sidebar-icons {
   background-color: #f44848;
 }
@@ -354,7 +360,6 @@
 }
 
 .sub-sec.employees.unlocked.active {
-  background-color: #fde6e6;
   width: 100%;
 }
 
