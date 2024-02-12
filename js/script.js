@@ -163,6 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const assignManager = formData.get("assignManager");
     const assignProject = formData.get("assignProject");
     const profileImageInput = formData.get("profileImage");
+    const status = true;
 
     let profileImageBase64 = "";
     if (profileImageInput) {
@@ -178,6 +179,7 @@ document.addEventListener("DOMContentLoaded", function () {
           email,
           mobileNumber,
           joiningDate,
+          status,
           location,
           jobTitle,
           department,
@@ -203,6 +205,7 @@ document.addEventListener("DOMContentLoaded", function () {
         email,
         mobileNumber,
         joiningDate,
+        status,
         location,
         jobTitle,
         department,
@@ -225,6 +228,7 @@ document.addEventListener("DOMContentLoaded", function () {
     email,
     mobileNumber,
     joiningDate,
+    status,
     location,
     jobTitle,
     department,
@@ -239,6 +243,7 @@ document.addEventListener("DOMContentLoaded", function () {
       lastName: lastName,
       dob: dob,
       email: email,
+      status: status,
       mobileNumber: mobileNumber,
       joiningDate: joiningDate,
       location: location,
@@ -632,7 +637,6 @@ function selectOption(option) {
 function resetFilter() {
   var dropdownButtons = document.querySelectorAll(".filter-btn");
   var dropdownOptions = document.querySelectorAll(".dropdown-options");
-  var filterRightButtons = document.querySelector(".filter-container-right");
   var dropdown = document.querySelector(".dropdown");
   dropdownButtons.forEach(function (button) {
     button.querySelector("div").textContent =
@@ -727,6 +731,14 @@ function updateFilteredResults() {
   const employees = JSON.parse(localStorage.getItem("employees"));
   const selectedFilters = getSelectedFilters();
   console.log(selectedFilters);
+  var alphBtns = document.querySelectorAll(".alph-btn");
+  var filterBtn = document.querySelector(".icon-filter");
+  alphBtns.forEach(function (btn) {
+    if (btn.classList.contains("active")) {
+      btn.classList.remove("active");
+    }
+  });
+  filterBtn.classList.remove("active");
   renderEmployees(employees, selectedFilters);
 }
 
@@ -742,7 +754,7 @@ function renderEmployees(employees, selectedFilters = {}) {
     const department = employee.department ? employee.department : "N/A";
     const role = employee.jobTitle ? employee.jobTitle : "N/A";
     const empNo = employee.empNo ? employee.empNo : "N/A";
-    const status = "Active";
+    const status = employee.status ? "Active" : "Inactive";
     const joiningDate = employee.joiningDate ? employee.joiningDate : "N/A";
     const profileImageBase64 = employee.profileImageBase64;
     if (
@@ -834,16 +846,18 @@ function getSelectedFilters() {
   return selectedFilters;
 }
 function generateAlphabetButtons() {
-    const alphabetsContainer = document.getElementById("alphabetsContainer");
-    for (let i = 65; i <= 90; i++) {
-        const alphabetChar = String.fromCharCode(i);
-        const alphabetButton = document.createElement("div");
-        alphabetButton.classList.add("alph-btn", `btn-${alphabetChar.toLowerCase()}`);
-        alphabetButton.textContent = alphabetChar;
-        alphabetButton.addEventListener("click", function () {
-            filterEmployeesByAlphabet(alphabetChar, this);
-        });
-        alphabetsContainer.appendChild(alphabetButton);
-    }
+  const alphabetsContainer = document.getElementById("alphabetsContainer");
+  for (let i = 65; i <= 90; i++) {
+    const alphabetChar = String.fromCharCode(i);
+    const alphabetButton = document.createElement("div");
+    alphabetButton.classList.add(
+      "alph-btn",
+      `btn-${alphabetChar.toLowerCase()}`
+    );
+    alphabetButton.textContent = alphabetChar;
+    alphabetButton.addEventListener("click", function () {
+      filterEmployeesByAlphabet(alphabetChar, this);
+    });
+    alphabetsContainer.appendChild(alphabetButton);
+  }
 }
-
