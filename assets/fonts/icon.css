@@ -96,6 +96,8 @@
 .icon-team-icon:before {
   content: "\e913";
 }
+
+
 .icon-TezoLogo .path1:before {
   content: "\e914";
   color: rgb(244, 72, 72)!important;
@@ -124,6 +126,7 @@
   content: "\e919";
   color: #32475c;
 }
+
 .icon-filter:before {
   content: "\e900";
   color: #f44848;

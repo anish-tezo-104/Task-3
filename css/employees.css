@@ -79,15 +79,15 @@
   color: #f44848;
 }
 
-.employees-container {
+/* .employees-container {
   display: none;
-}
+} */
 
-.employees-container.active {
+.employees-container{
   display: block;
 }
 
-.function-add-button:hover {
+.function-button:hover {
   background-color: #f77575;
   cursor: pointer;
 

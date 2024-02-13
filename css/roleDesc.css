@@ -9,6 +9,14 @@
   font-weight: bold
 }
 
+.roles-desc-page{
+  display: none;
+}
+
+.roles-desc-page.active{
+  display: block;
+}
+
 .roles-card .profile-title {
   margin: 0;
   font-size: 13px;

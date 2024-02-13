@@ -23,7 +23,7 @@
 }
 
 .header-icons span:hover {
-  transform: scale(1.2);
+  cursor: pointer;
 }
 
 .header-icons-burger span:hover {
@@ -31,7 +31,7 @@
 }
 
 .dropdown-content span:hover {
-  transform: scale(1.2);
+  cursor: pointer;
 }
 
 .header-container {
@@ -69,7 +69,7 @@
 
 .header-right img:hover,
 .header-left img:hover {
-  transform: scale(1.2);
+  cursor: pointer;
 }
 
 .search-icon {

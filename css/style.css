@@ -55,6 +55,7 @@ h4 {
 
 .function-left .heading {
   font-size: 1.2rem;
+  margin-top : 0;
   color: #536576;
   margin-bottom: 0.6rem;
   font-weight: bold;
@@ -70,9 +71,9 @@ h4 {
   margin-right: 0.5rem;
 }
 
-.function-container.active {
+.function-container {
   grid-area: function;
-  margin: 1rem 1rem 1rem 2rem;
+  margin: 0.5rem 1rem 1rem 2rem;
   display: flex;
   grid-area: function;
   display: flex;
@@ -88,9 +89,9 @@ h4 {
   margin-top: 1rem !important;
 }
 
-.function-container {
+/* .function-container {
   display: none
-}
+} */
 
 .function-container .sub-heading {
   line-height: 1.4rem;
@@ -110,7 +111,7 @@ h4 {
 }
 
 .export-button,
-.function-add-button {
+.function-button {
   align-items: center;
   display: flex;
   font-weight: 500;
@@ -121,11 +122,11 @@ h4 {
   justify-content: center;
 }
 
-.function-add-button img {
+.function-button img {
   margin-right: 5px;
 }
 
-.function-add-button {
+.function-button {
   height: 2.5rem;
   width: 14rem;
   border: none;
@@ -138,14 +139,8 @@ h4 {
   margin-right: 0.5rem;
 }
 
-/* Filter container */
+
 .filter-container {
-  display: none;
-}
-
-
-
-.filter-container.active {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -325,7 +320,7 @@ button[disabled]{
     display: none !important;
   }
 
-  .alph-sort.active {
+  .alph-sort {
     flex-direction: column !important;
   }
 
@@ -365,7 +360,7 @@ button[disabled]{
   
 
   
-  .function-add-button {
+  .function-button {
     height: 2rem;
     font-size: 0.8rem;
   }
@@ -417,12 +412,12 @@ button[disabled]{
   }
 
 
-  .function-add-button {
+  .function-button {
     transform: scale(1);
 
   }
 
-  .function-add-button span {
+  .function-button span {
     font-size: 0.8rem !important;
   }
 
@@ -432,20 +427,20 @@ button[disabled]{
 }
 
 @media only screen and (max-width: 710px) {
-  .function-add-button span {
+  .function-button span {
     font-size: 0.7rem !important;
   }
 
-  .function-container.active {
+  .function-container {
     flex-direction: column;
   }
 
-  .filter-container.active {
+  .filter-container {
     flex-direction: column;
     height: auto;
   }
 
-  .roles-container.active {
+  .roles-container {
     justify-content: center;
   }
 

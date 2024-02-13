@@ -1,226 +1,208 @@
+const selectedFilters = {
+  alphabet: [],
+  status: [],
+  department: [],
+  location: [],
+};
 document.addEventListener("DOMContentLoaded", function () {
-  function includeHTML(url, containerId) {
-    fetch(url)
-      .then((response) => response.text())
-      .then((data) => {
-        updateGridTemplateColumns();
-        let container = document.getElementById(containerId);
-        if (container) {
-          container.innerHTML += data;
-        }
-        const employees = JSON.parse(localStorage.getItem("employees")) || [];
-        const departmentCounts = {};
-        employees.forEach((employee) => {
-          const department = employee.department;
-          departmentCounts[department] =
-            (departmentCounts[department] || 0) + 1;
-        });
-        const departmentList = document.getElementById("departmentList");
-        departmentList.innerHTML = "";
-        function generateDepartmentListItem(departmentName, employeeCount) {
-          return `
-            <li onclick="filterByEach('${departmentName
-              .trim()
-              .toLowerCase()}')">
-                <a href="#">
-                    <div class="dept-details">
-                        <div class="dept-names" >${departmentName}</div>
-                        <div class="employee-dept-count">${employeeCount}</div>
-                    </div>
-                </a>
-            </li>
-        `;
-        }
-        for (const departmentName in departmentCounts) {
-          const employeeCount = departmentCounts[departmentName];
-          const departmentListItemHTML = generateDepartmentListItem(
-            departmentName,
-            employeeCount
-          );
-          departmentList.insertAdjacentHTML(
-            "beforeend",
-            departmentListItemHTML
-          );
-        }
-        updateGridTemplateColumns();
-        checkScreenSize();
-        updateGridTemplateColumns();
-        const allCheckboxes = document.querySelectorAll(".check-box-col input");
-        document.addEventListener("change", function (event) {
-          const target = event.target;
-          if (target.matches(".check-box-col input")) {
-            toggleDeleteButtonVisibility();
-          }
-        });
+  includeHTML("sidebar.html", "sidebarContainer");
+  includeHTML("header.html", "headerContainer");
+  includeHTML("employees.html", "employeesContainer");
+  includeHTML("addEmployee.html", "addEmployeesContainer");
+  includeHTML("role.html", "roleContainer");
+  includeHTML("addRoles.html", "newRoleContainer");
+  includeHTML("roleDesc.html", "roleDescContainer");
+});
+function includeHTML(url, containerId) {
+  fetch(url)
+    .then((response) => response.text())
+    .then((data) => {
+      updateGridTemplateColumns();
+      let container = document.getElementById(containerId);
+      if (container) {
+        container.innerHTML += data;
+      }
+      populateDepartmentList();
+      handleEmployeesPage(url);
+      handleAddEmployeePage(url);
+      handleAddRolesPage(url);
+    })
+    .catch((error) => console.error(`Error fetching ${url}:`, error));
+}
+function populateDepartmentList() {
+  const employees = getAllEmployeesFromLocalStorage();
+  const departmentCounts = {};
 
-        window.addEventListener("resize", function () {
-          checkScreenSize();
-        });
-
-        if (url == "addEmployee.html") {
-          const form = document.getElementById("employeeForm");
-          form.addEventListener("submit", handleFormSubmit);
-          const inputFields = form.querySelectorAll(
-            "input[required], select[required]"
-          );
-          inputFields.forEach(function (input) {
-            input.addEventListener("focus", function () {
-              if (this.value.trim() === "") {
-                showErrorMessage(this);
-              }
-            });
-            input.addEventListener("input", function () {
-              if (this.value.trim() === "") {
-                showErrorMessage(this);
-              } else {
-                hideErrorMessage(this);
-              }
-            });
-            input.addEventListener("blur", function () {
-              hideErrorMessage(this);
-            });
-          });
-          const profileImageInput =
-            document.getElementById("profileImageInput");
-          const addProfilePhotoButton = document.getElementById(
-            "addProfilePhotoButton"
-          );
-
-          addProfilePhotoButton.addEventListener("click", function (event) {
-            event.preventDefault();
-            profileImageInput.click();
-          });
-          profileImageInput.addEventListener("change", function (event) {
-            const selectedFile = event.target.files[0];
-            if (selectedFile) {
-              const reader = new FileReader();
-              reader.onload = function () {
-                const profileImagePreview = document.getElementById(
-                  "profileImagePreview"
-                );
-                profileImagePreview.src = reader.result;
-              };
-              reader.readAsDataURL(selectedFile);
-            }
-          });
-        }
-        if (url == "employees.html") {
-          loadEmployees();
-          generateAlphabetButtons();
-          const deleteButton = document.querySelector(".delete-button");
-        }
-        if (url == "addRoles.html") {
-          var selected = document.querySelector(".select-selected");
-          var options = document.querySelector(".select-items");
-          selected.addEventListener("click", function () {
-            options.classList.toggle("select-hide");
-          });
-          var checkboxes = document.querySelectorAll(
-            ".select-items input[type='checkbox']"
-          );
-          checkboxes.forEach(function (checkbox) {
-            checkbox.addEventListener("click", function () {
-              var selectedOptions = [];
-              checkboxes.forEach(function (cb) {
-                if (cb.checked) {
-                  selectedOptions.push(cb.value);
-                }
-              });
-              selected.textContent = selectedOptions.length
-                ? selectedOptions.join(", ")
-                : "Select an option";
-            });
-          });
-        }
-        addCheckboxEventListener();
-      })
-      .catch((error) => console.error(`Error fetching ${url}:`, error));
+  if (employees) {
+    employees.forEach((employee) => {
+      const department = employee.department || "Others";
+      departmentCounts[department] = (departmentCounts[department] || 0) + 1;
+    });
   }
 
-  includeHTML("sidebar.html", "include-sidebar");
-  includeHTML("header.html", "include-header");
-  includeHTML("employees.html", "include-employees");
-  includeHTML("addEmployee.html", "include-add-employee");
-  includeHTML("role.html", "include-role");
-  includeHTML("addRoles.html", "include-new-role");
-  includeHTML("roleDesc.html", "include-role-desc");
+  const departmentList = document.getElementById("departmentList");
+  departmentList.innerHTML = "";
 
-  function handleFormSubmit(event) {
-    event.preventDefault();
+  const staticDepartments = [
+    "HR",
+    "Finance",
+    "IT",
+    "Product Engineering",
+    "UI/UX",
+    "Legal",
+    "Management",
+    "Others",
+  ];
+  staticDepartments.forEach((departmentName) => {
+    const employeeCount = departmentCounts[departmentName] || 0;
+    const departmentListItemHTML = generateDepartmentListItem(
+      departmentName,
+      employeeCount
+    );
+    departmentList.insertAdjacentHTML("beforeend", departmentListItemHTML);
+    delete departmentCounts[departmentName];
+  });
+  for (const departmentName in departmentCounts) {
+    const employeeCount = departmentCounts[departmentName];
+    const departmentListItemHTML = generateDepartmentListItem(
+      departmentName,
+      employeeCount
+    );
+    departmentList.insertAdjacentHTML("beforeend", departmentListItemHTML);
+  }
+}
+function generateDepartmentListItem(departmentName, employeeCount) {
+  return `
+          <li onclick="sidebarFilter({ 'department': ['${departmentName
+            .trim()
+            .toLowerCase()}'] })">
+            <a href="#">
+              <div class="dept-details">
+                <div class="dept-names">${departmentName}</div>
+                <div class="employee-dept-count">${employeeCount}</div>
+              </div>
+            </a>
+          </li>
+          `;
+}
+function handleEmployeesPage(url) {
+  if (url == "employees.html") {
+    loadEmployees();
+    generateAlphabetButtons();
+  }
+}
+function handleAddEmployeePage(url) {
+  if (url == "addEmployee.html") {
     const form = document.getElementById("employeeForm");
-    const formData = new FormData(form);
-
-    const empNo = formData.get("empNo");
-    const firstName = formData.get("firstName");
-    const lastName = formData.get("lastName");
-    const dob = formData.get("dob");
-    const email = formData.get("email");
-    const mobileNumber = formData.get("mobileNumber");
-    const joiningDate = formData.get("joiningDate");
-    const location = formData.get("location");
-    const jobTitle = formData.get("jobTitle");
-    const department = formData.get("department");
-    const assignManager = formData.get("assignManager");
-    const assignProject = formData.get("assignProject");
-    const profileImageInput = formData.get("profileImage");
-    const status = true;
-
-    let profileImageBase64 = "";
-    if (profileImageInput) {
-      const reader = new FileReader();
-      reader.readAsDataURL(profileImageInput);
-      reader.onload = function () {
-        profileImageBase64 = reader.result;
-        saveToLocalStorage(
-          empNo,
-          firstName,
-          lastName,
-          dob,
-          email,
-          mobileNumber,
-          joiningDate,
-          status,
-          location,
-          jobTitle,
-          department,
-          assignManager,
-          assignProject,
-          profileImageBase64
-        );
-        form.reset();
-        const defaultImageSource = "../assets/default-user.png";
-        const profileImagePreview = document.getElementById(
-          "profileImagePreview"
-        );
-        profileImagePreview.src = defaultImageSource;
-        alert("Employee data has been stored in local storage!");
-        renderEmployees(getAllEmployeesFromLocalStorage());
-      };
-    } else {
-      saveToLocalStorage(
-        empNo,
-        firstName,
-        lastName,
-        dob,
-        email,
-        mobileNumber,
-        joiningDate,
-        status,
-        location,
-        jobTitle,
-        department,
-        assignManager,
-        assignProject,
-        profileImageBase64
-      );
-      form.reset();
-      alert("Employee data has been stored in local storage!");
-      renderEmployees(getAllEmployeesFromLocalStorage());
-    }
-    window.location.reload(true);
+    const inputFields = form.querySelectorAll(
+      "input[required], select[required]"
+    );
+    inputFields.forEach(handleInputField);
+    const profileImageInput = document.getElementById("profileImageInput");
+    const addProfilePhotoButton = document.getElementById(
+      "addProfilePhotoButton"
+    );
+    addProfilePhotoButton.addEventListener("click", openProfileImageInput);
+    profileImageInput.addEventListener("change", previewProfileImage);
   }
+}
+function handleInputField(input) {
+  input.addEventListener("focus", validateInput);
+  input.addEventListener("input", validateInput);
+  input.addEventListener("blur", validateInput);
+}
+function validateInput() {
+  if (this.value.trim() === "") {
+    showErrorMessage(this);
+  } else {
+    hideErrorMessage(this);
+  }
+}
+function openProfileImageInput(event) {
+  event.preventDefault();
+  document.getElementById("profileImageInput").click();
+}
+function previewProfileImage(event) {
+  const selectedFile = event.target.files[0];
+  if (selectedFile) {
+    const reader = new FileReader();
+    reader.onload = function () {
+      const profileImagePreview = document.getElementById(
+        "profileImagePreview"
+      );
+      profileImagePreview.src = reader.result;
+    };
+    reader.readAsDataURL(selectedFile);
+  }
+}
+function handleAddRolesPage(url) {
+  if (url == "addRoles.html") {
+    const selected = document.querySelector(".select-selected");
+    const options = document.querySelector(".select-items");
+    selected.addEventListener("click", toggleSelectOptions);
+    const checkboxes = document.querySelectorAll(
+      ".select-items input[type='checkbox']"
+    );
+    checkboxes.forEach(handleCheckbox);
+  }
+}
+function toggleSelectOptions() {
+  const options = document.querySelector(".select-items");
+  options.classList.toggle("select-hide");
+}
+function handleCheckbox(checkbox) {
+  checkbox.addEventListener("click", updateSelectedOptions);
+}
+function updateSelectedOptions() {
+  const checkboxes = document.querySelectorAll(
+    ".select-items input[type='checkbox']"
+  );
+  const selectedOptions = [];
+  checkboxes.forEach(function (cb) {
+    if (cb.checked) {
+      selectedOptions.push(cb.value);
+    }
+  });
+  const selected = document.querySelector(".select-selected");
+  selected.textContent = selectedOptions.length
+    ? selectedOptions.join(", ")
+    : "Select an option";
+}
+function handleSidebarResponsive() {
+  var sideBar = document.querySelector(".sidebar");
+  if (sideBar) {
+    if (window.innerWidth <= 900) {
+      sideBar.classList.remove("active");
+    } else {
+      sideBar.classList.add("active");
+    }
+  }
+}
+function showErrorMessage(input) {
+  const errorMessage = input.nextElementSibling;
+  errorMessage.classList.add("active");
+}
+function hideErrorMessage(input) {
+  const errorMessage = input.nextElementSibling;
+  errorMessage.classList.remove("active");
+}
+function validateForm(formData) {
+  const requiredFields = ["empNo", "firstName", "lastName", "email"];
+  let formIsValid = true;
+  requiredFields.forEach(function (field) {
+    const inputElement = document.getElementById(field);
+    if (!inputElement.value.trim()) {
+      showErrorMessage(inputElement);
+      formIsValid = false;
+    } else {
+      hideErrorMessage(inputElement);
+    }
+  });
 
-  function saveToLocalStorage(
+  return formIsValid;
+}
+class Employee {
+  constructor(
     empNo,
     firstName,
     lastName,
@@ -236,66 +218,125 @@ document.addEventListener("DOMContentLoaded", function () {
     assignProject,
     profileImageBase64
   ) {
-    let existingData = JSON.parse(localStorage.getItem("employees")) || [];
-    const employeeData = {
-      empNo: empNo,
-      firstName: firstName,
-      lastName: lastName,
-      dob: dob,
-      email: email,
-      status: status,
-      mobileNumber: mobileNumber,
-      joiningDate: joiningDate,
-      location: location,
-      jobTitle: jobTitle,
-      department: department,
-      assignManager: assignManager,
-      assignProject: assignProject,
-      profileImageBase64: profileImageBase64,
+    this.empNo = empNo || null;
+    this.firstName = firstName || null;
+    this.lastName = lastName || null;
+    this.dob = dob || null;
+    this.email = email || null;
+    this.mobileNumber = mobileNumber || null;
+    this.joiningDate = joiningDate || null;
+    this.status = status || null;
+    this.location = location || null;
+    this.jobTitle = jobTitle || null;
+    this.department = department || null;
+    this.assignManager = assignManager || null;
+    this.assignProject = assignProject || null;
+    this.profileImageBase64 =
+      profileImageBase64 || "../assets/default-user.png";
+  }
+}
+function handleFormSubmit() {
+  const form = document.getElementById("employeeForm");
+  const formData = new FormData(form);
+
+  if (validateForm(formData)) {
+    const employee = createEmployeeFromFormData(formData);
+    saveEmployeeToLocalStorage(employee);
+    form.reset();
+    alert("Employee data added successfully!");
+    renderEmployees();
+  }
+}
+function createEmployeeFromFormData(formData) {
+  const empNo = formData.get("empNo");
+  const firstName = formData.get("firstName");
+  const lastName = formData.get("lastName");
+  const dob = formData.get("dob");
+  const email = formData.get("email");
+  const mobileNumber = formData.get("mobileNumber");
+  const joiningDate = formData.get("joiningDate");
+  const location = formData.get("location");
+  const jobTitle = formData.get("jobTitle");
+  const department = formData.get("department");
+  const assignManager = formData.get("assignManager");
+  const assignProject = formData.get("assignProject");
+
+  let profileImageBase64 = "../assets/default-user.png";
+
+  const profileImageInput = formData.get("profileImage");
+  if (profileImageInput.size > 0) {
+    const reader = new FileReader();
+    reader.readAsDataURL(profileImageInput);
+    reader.onload = function () {
+      profileImageBase64 = reader.result;
+      const employee = new Employee(
+        empNo,
+        firstName,
+        lastName,
+        dob,
+        email,
+        mobileNumber,
+        joiningDate,
+        true,
+        location,
+        jobTitle,
+        department,
+        assignManager,
+        assignProject,
+        profileImageBase64
+      );
+
+      saveEmployeeToLocalStorage(employee);
     };
-    existingData.push(employeeData);
+  } else {
+    const employee = new Employee(
+      empNo,
+      firstName,
+      lastName,
+      dob,
+      email,
+      mobileNumber,
+      joiningDate,
+      true,
+      location,
+      jobTitle,
+      department,
+      assignManager,
+      assignProject,
+      profileImageBase64
+    );
+
+    saveEmployeeToLocalStorage(employee);
+  }
+}
+function saveEmployeeToLocalStorage(employee) {
+  let existingData = getAllEmployeesFromLocalStorage() || [];
+  if (employee) {
+    existingData.push(employee);
     localStorage.setItem("employees", JSON.stringify(existingData));
   }
-
-  function getAllEmployeesFromLocalStorage() {
-    return JSON.parse(localStorage.getItem("employees")) || [];
-  }
-
-  function showErrorMessage(input) {
-    var nextSpan = input.nextElementSibling;
-    nextSpan.classList.add("active");
-  }
-
-  function hideErrorMessage(input) {
-    var nextSpan = input.nextElementSibling;
-    nextSpan.classList.remove("active");
-  }
-
-  function checkScreenSize() {
-    var sideBar = document.querySelector(".sidebar");
-    if (sideBar) {
-      if (window.innerWidth <= 900) {
-        sideBar.classList.remove("active");
-      } else {
-        sideBar.classList.add("active");
-      }
-    }
-  }
-});
-
+  const defaultImageSource = "../assets/default-user.png";
+  const profileImagePreview = document.getElementById("profileImagePreview");
+  profileImagePreview.src = defaultImageSource;
+}
+function getAllEmployeesFromLocalStorage() {
+  return JSON.parse(localStorage.getItem("employees")) || [];
+}
 function toggleDeleteButtonVisibility() {
   const deleteButton = document.querySelector(".btn-delete");
   const allCheckboxes = document.querySelectorAll(".check-box-col input");
   let anyChecked = false;
+
   allCheckboxes.forEach(function (checkbox) {
     if (checkbox.checked) {
+      console.log(checkbox.checked);
       anyChecked = true;
       return;
     }
   });
+
   deleteButton.disabled = !anyChecked;
 }
-
 function deleteSelectedRows() {
   const allCheckboxes = document.querySelectorAll(".check-box-col input");
   let selectedRows = [];
@@ -305,7 +346,7 @@ function deleteSelectedRows() {
       selectedRows.push(row);
     }
   });
-  let existingData = JSON.parse(localStorage.getItem("employees")) || [];
+  let existingData = getAllEmployeesFromLocalStorage();
   selectedRows.forEach(function (row) {
     let empNo = row.querySelector(".col-emp-no").textContent;
     let index = existingData.findIndex((emp) => emp.empNo === empNo);
@@ -316,50 +357,36 @@ function deleteSelectedRows() {
   });
   localStorage.setItem("employees", JSON.stringify(existingData));
   toggleDeleteButtonVisibility();
-  alert(selectedRows.length + " rows deleted");
-  location.reload();
+  alert("Successfully deleted " + selectedRows.length + " employees data");
+  renderEmployees();
 }
-
 function loadEmployees() {
   let employees = localStorage.getItem("employees");
   if (employees) {
-    employees = JSON.parse(employees);
-    renderEmployees(employees);
+    renderEmployees();
   }
 }
-
-function filterEmployeesByAlphabet(alphabet, element) {
+function filterEmployeesByAlphabet(element) {
   var alphBtns = document.querySelectorAll(".alph-btn");
   var filterBtn = document.querySelector(".icon-filter");
-  alphBtns.forEach(function (btn) {
-    if (btn !== element) {
-      btn.classList.remove("active");
-    }
-  });
   element.classList.toggle("active");
-  var noActiveAlphabets = true;
+  filterBtn.classList.add("active");
+
+  selectedFilters.alphabet = [];
   alphBtns.forEach(function (btn) {
     if (btn.classList.contains("active")) {
-      noActiveAlphabets = false;
+      selectedFilters.alphabet.push(btn.textContent.trim().toLowerCase());
     }
   });
-  let employees = JSON.parse(localStorage.getItem("employees")) || [];
+  var noActiveAlphabets = selectedFilters.alphabet.length === 0;
   if (noActiveAlphabets) {
     filterBtn.classList.remove("active");
-    renderEmployees(employees);
-    return;
   }
-  let filteredEmployees = employees.filter(function (employee) {
-    let fullName = (employee.firstName + " " + employee.lastName).toUpperCase();
-    return fullName.startsWith(alphabet);
-  });
-  filterBtn.classList.add("active");
-  renderEmployees(filteredEmployees);
+  renderEmployees(selectedFilters);
 }
-
 function tableToCSV() {
   let table = document.querySelector(".employees-table");
-  let columnsToRemove = ["STATUS", "more_horiz"];
+  let columnsToRemove = ["", "STATUS", "more_horiz"];
   let headers = Array.from(table.querySelectorAll("th")).map((header) => {
     let firstSpan = header.querySelector("span:first-child");
     return firstSpan ? firstSpan.textContent.trim() : "";
@@ -384,7 +411,6 @@ function tableToCSV() {
   });
   downloadCSVFile(csvContent);
 }
-
 function downloadCSVFile(csvContent) {
   let blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
   let url = URL.createObjectURL(blob);
@@ -393,7 +419,6 @@ function downloadCSVFile(csvContent) {
   link.setAttribute("download", "employees.csv");
   link.click();
 }
-
 function updateGridTemplateColumns() {
   var screenWidth = window.innerWidth;
   var sideBar = document.querySelector(".sidebar");
@@ -404,7 +429,6 @@ function updateGridTemplateColumns() {
     gridContainer.style.gridTemplateColumns = "100%";
   }
 }
-
 function toggleSubSecClass(
   element,
   containerSelectors,
@@ -418,10 +442,6 @@ function toggleSubSecClass(
         let container = document.querySelector(containerSelector);
         container.classList.remove("active");
       });
-      removeContainers.forEach(function (removeContainer) {
-        let container = document.querySelector(removeContainer);
-        container.classList.remove("active");
-      });
     } else {
       if (window.innerWidth <= 900) {
         var sideBar = document.querySelector(".sidebar");
@@ -433,21 +453,17 @@ function toggleSubSecClass(
         subSec.classList.remove("active");
       });
       element.classList.add("active");
-      removeActiveSubSec.forEach(function (activeSubSec) {
-        let container = document.querySelector(activeSubSec);
-        if (container.classList.contains("active")) {
-          container.classList.remove("active");
-        }
-      });
       containerSelectors.forEach(function (containerSelector) {
         let container = document.querySelector(containerSelector);
         container.classList.add("active");
       });
     }
+    removeContainers.forEach(function (removeContainer) {
+      document.querySelector(removeContainer).classList.remove("active");
+    });
   }
   resetFilter();
 }
-
 function openRoleDescription(element) {
   var rolesDesc1 = document.querySelector(".roles-desc-1");
   var rolesDesc2 = document.querySelector(".roles-desc-2");
@@ -466,7 +482,6 @@ function openRoleDescription(element) {
     rolesDescContainer.classList.add("active");
   }
 }
-
 function toggleSideBarListClass(element, containerSelectors) {
   if (element.classList.contains("active")) {
     element.classList.remove("active");
@@ -482,7 +497,6 @@ function toggleSideBarListClass(element, containerSelectors) {
     });
   }
 }
-
 function handleAddEmployeeBtn(element, removeContainers) {
   let addEmployeePage = document.querySelector(".add-employee-container");
   if (addEmployeePage.classList.contains("active")) {
@@ -495,20 +509,18 @@ function handleAddEmployeeBtn(element, removeContainers) {
     addEmployeePage.classList.add("active");
   }
 }
-
 function handleAddRoleBtn(element, removeContainers) {
-  let addEmployeePage = document.querySelector(".add-roles-container");
-  if (addEmployeePage.classList.contains("active")) {
+  let addRolesPage = document.querySelector(".add-roles-container");
+  if (addRolesPage.classList.contains("active")) {
     element.classList.remove("active");
   } else {
-    removeContainers.forEach(function (removeContainer) {
-      let container = document.querySelector(removeContainer);
-      container.classList.remove("active");
-    });
-    addEmployeePage.classList.add("active");
+    addRolesPage.classList.add("active");
   }
+  removeContainers.forEach(function (removeContainer) {
+    let container = document.querySelector(removeContainer);
+    container.classList.remove("active");
+  });
 }
-
 function toggleFilterClass(element, containerSelectors) {
   var employeesContainer = document.querySelector(".sub-sec.employees");
   var btnStatus = document.querySelector(".btn-status");
@@ -528,7 +540,6 @@ function toggleFilterClass(element, containerSelectors) {
     btnStatus.classList.add("active");
   }
 }
-
 function toggleAlphBtn(element) {
   var alphBtns = document.querySelectorAll(".alph-btn");
   alphBtns.forEach(function (btn) {
@@ -538,14 +549,13 @@ function toggleAlphBtn(element) {
   });
   element.classList.toggle("active");
 }
-
 function toggleSideBar() {
   var sideBar = document.querySelector(".sidebar");
   var gridContainer = document.querySelector(".grid-container");
   var sidebarHandleIcon = document.querySelector(".sidebar-handle-icon img");
   if (sideBar.classList.contains("active")) {
     sideBar.classList.remove("active");
-    gridContainer.style.gridTemplateColumns = "5% 95%";
+    gridContainer.style.gridTemplateColumns = "6% 94%";
     document.querySelectorAll(".sub-sec-left-left img").forEach(function (img) {
       img.style.paddingLeft = "0.5rem";
     });
@@ -565,12 +575,10 @@ function toggleSideBar() {
     sidebarHandleIcon.style.transform = "rotate(360deg)";
   }
 }
-
 function handleUpdateDismiss() {
   var updateContainer = document.querySelector(".update-message");
   updateContainer.classList.remove("active");
 }
-
 function addCheckboxEventListener() {
   var allCheckbox = document.getElementById("all-checkbox");
   const deleteButtonContainer = document.querySelector(".delete-button");
@@ -587,7 +595,6 @@ function addCheckboxEventListener() {
     }
   }
 }
-
 function handleBurger(burgerContainer) {
   var dropdownContent = document.querySelector(".dropdown-content-header");
   if (dropdownContent.classList.contains("active")) {
@@ -596,7 +603,6 @@ function handleBurger(burgerContainer) {
     dropdownContent.classList.add("active");
   }
 }
-
 function handleFilterDropdown(element) {
   if (element.classList.contains("active")) {
     element.classList.remove("active");
@@ -604,40 +610,14 @@ function handleFilterDropdown(element) {
     element.classList.add("active");
   }
 }
-
-function selectOption(option) {
-  var dropdownButton = option.closest(".dropdown").querySelector(".filter-btn");
-  var dropdownContent = option
-    .closest(".dropdown")
-    .querySelector(".dropdown-content");
-  option.classList.toggle("selected");
-  option.classList.toggle("active");
-  var selectedOptions = dropdownContent.querySelectorAll(
-    ".dropdown-options.selected"
-  );
-  var selectedCount = selectedOptions.length;
-  if (selectedCount === 0) {
-    dropdownButton.querySelector("div").textContent =
-      dropdownButton.getAttribute("data-default-text");
-    loadEmployees();
-  } else {
-    dropdownButton.querySelector("div").textContent =
-      selectedCount + " Selected";
-  }
-  var filterRightButtons = document.querySelector(".filter-container-right");
-  if (selectedCount > 0) {
-    document.querySelector(".btn-reset").disabled = false;
-    document.querySelector(".btn-apply").disabled = false;
-  } else {
-    document.querySelector(".btn-reset").disabled = true;
-    document.querySelector(".btn-apply").disabled = true;
-  }
-}
-
 function resetFilter() {
   var dropdownButtons = document.querySelectorAll(".filter-btn");
   var dropdownOptions = document.querySelectorAll(".dropdown-options");
   var dropdown = document.querySelector(".dropdown");
+  var alphBtns = document.querySelectorAll(".alph-btn");
+  alphBtns.forEach(function (btn) {
+    btn.classList.remove("active");
+  });
   dropdownButtons.forEach(function (button) {
     button.querySelector("div").textContent =
       button.getAttribute("data-default-text");
@@ -654,20 +634,13 @@ function resetFilter() {
   });
   document.querySelector(".btn-reset").disabled = true;
   document.querySelector(".btn-apply").disabled = true;
-  loadEmployees();
+  selectedFilters.status = [];
+  selectedFilters.department = [];
+  selectedFilters.location = [];
+  selectedFilters.alphabet = [];
+  renderEmployees(selectedFilters);
 }
-
 let direction = "ascending";
-function filterByEach(departmentName) {
-  const filters = { department: [departmentName] };
-  const employees = localStorage.getItem("employees");
-  if (employees) {
-    const parsedEmployees = JSON.parse(employees);
-    renderEmployees(parsedEmployees, filters);
-  }
-  document.querySelector(".btn-reset").disabled = false;
-}
-
 function sortTable(n) {
   let table = document.getElementById("employeesTable");
   let switching = true;
@@ -701,7 +674,6 @@ function sortTable(n) {
     }
   }
 }
-
 function ellipsisFunction(icon) {
   let menu = icon.nextElementSibling;
   menu.style.display = menu.style.display === "block" ? "none" : "block";
@@ -710,42 +682,179 @@ function deleteRow(row) {
   var tableRow = row.closest("tr");
   var tableBody = tableRow.parentNode;
   var rowIndex = Array.from(tableBody.children).indexOf(tableRow);
-  var existingData = JSON.parse(localStorage.getItem("employees")) || [];
+  var existingData = getAllEmployeesFromLocalStorage();
   existingData.splice(rowIndex, 1);
   localStorage.setItem("employees", JSON.stringify(existingData));
   tableRow.remove();
   loadEmployees();
-  alert("Row deleted");
-  location.reload();
+  alert("Employee data deleted successfully!");
+  renderEmployees();
 }
-
-function handleFormCancel() {
+function handleFormCancel(activeContainers, removeContainers) {
   const form = document.getElementById("employeeForm");
-  form.reset();
-  const defaultImageSource = "../assets/default-user.png";
+  defaultImageSource="../assets/default-user.png"
   const profileImagePreview = document.getElementById("profileImagePreview");
   profileImagePreview.src = defaultImageSource;
+  let errorMessages = document.querySelectorAll(".error-message");
+  errorMessages.forEach(function (errorMessage) {
+    errorMessage.classList.remove("active");
+  });
+  activeContainers.forEach(function (container) {
+    document.querySelector(container).classList.add("active");
+  });
+  removeContainers.forEach(function (container) {
+    document.querySelector(container).classList.remove("active");
+  });
+  form.reset();
 }
-
-function updateFilteredResults() {
-  const employees = JSON.parse(localStorage.getItem("employees"));
-  const selectedFilters = getSelectedFilters();
-  console.log(selectedFilters);
+function generateAlphabetButtons() {
+  const alphabetsContainer = document.getElementById("alphabetsContainer");
+  for (let i = 65; i <= 90; i++) {
+    const alphabetChar = String.fromCharCode(i);
+    const alphabetButton = document.createElement("div");
+    alphabetButton.classList.add(
+      "alph-btn",
+      `btn-${alphabetChar.toLowerCase()}`
+    );
+    alphabetButton.textContent = alphabetChar;
+    alphabetButton.addEventListener("click", function () {
+      filterEmployeesByAlphabet(this);
+    });
+    alphabetsContainer.appendChild(alphabetButton);
+  }
+}
+function getSelectedFilters() {
+  const selectedFilters = {
+    alphabet: getSelectedAlphabets(),
+    status: getSelectedOptions(".dropdown-status"),
+    location: getSelectedOptions(".dropdown-location"),
+    department: getSelectedOptions(".dropdown-department"),
+  };
+  return selectedFilters;
+}
+function getSelectedAlphabets() {
+  const selectedAlphabets = [];
   var alphBtns = document.querySelectorAll(".alph-btn");
-  var filterBtn = document.querySelector(".icon-filter");
   alphBtns.forEach(function (btn) {
     if (btn.classList.contains("active")) {
-      btn.classList.remove("active");
+      const alphabet = btn.textContent.trim().toLowerCase();
+      if (!selectedAlphabets.includes(alphabet)) {
+        selectedAlphabets.push(alphabet);
+      }
     }
   });
-  filterBtn.classList.remove("active");
-  renderEmployees(employees, selectedFilters);
+  return selectedAlphabets;
 }
+function getSelectedOptions(selector) {
+  const selectedOptions = [];
+  const selectedElements = document.querySelectorAll(
+    `${selector} .dropdown-options.selected`
+  );
+  selectedElements.forEach((option) => {
+    const value = option.getAttribute("value").trim().toLowerCase();
+    // Check if the value already exists in the selectedOptions array
+    if (!selectedOptions.includes(value)) {
+      selectedOptions.push(value);
+    }
+  });
+  return selectedOptions;
+}
+function selectOption(option) {
+  option.classList.toggle("selected");
+  option.classList.toggle("active");
 
-function renderEmployees(employees, selectedFilters = {}) {
-  toggleDeleteButtonVisibility();
+  // Update the state of the corresponding option in the filter dropdown
+  const value = option.getAttribute("value").trim().toLowerCase();
+  const dropdownOptions = document.querySelectorAll(".dropdown-options");
+
+  dropdownOptions.forEach((dropdownOption) => {
+    if (dropdownOption.getAttribute("value").trim().toLowerCase() === value) {
+      dropdownOption.classList.toggle(
+        "selected",
+        option.classList.contains("selected")
+      );
+      dropdownOption.classList.toggle(
+        "active",
+        option.classList.contains("active")
+      );
+    }
+  });
+
+  handleFilterBar();
+}
+function handleFilterBar() {
+  var dropdownButtons = document.querySelectorAll(".filter-btn");
+  var totalSelectedCount = 0;
+  dropdownButtons.forEach(function (button) {
+    var dropdownContent = button.nextElementSibling;
+    var selectedOptions = dropdownContent.querySelectorAll(
+      ".dropdown-options.selected.active"
+    );
+    var selectedCount = selectedOptions.length;
+    button.querySelector("div").textContent =
+      selectedCount > 0
+        ? selectedCount + " Selected"
+        : button.getAttribute("data-default-text");
+    totalSelectedCount += selectedCount;
+  });
+  var resetButton = document.querySelector(".btn-reset");
+  var applyButton = document.querySelector(".btn-apply");
+  if (totalSelectedCount > 0) {
+    resetButton.disabled = false;
+    applyButton.disabled = false;
+  } else {
+    resetButton.disabled = true;
+    applyButton.disabled = true;
+  }
+  updateFilteredResults();
+}
+function sidebarFilter(selectedFilter) {
+  const allDepartmentDivs = document.querySelectorAll(".dropdown-options");
+  allDepartmentDivs.forEach((departmentDiv) => {
+    const departmentValue = departmentDiv
+      .getAttribute("value")
+      .trim()
+      .toLowerCase();
+    const isActiveDepartment =
+      selectedFilter.department.includes(departmentValue);
+    if (isActiveDepartment) {
+      departmentDiv.classList.add("active");
+      departmentDiv.classList.add("selected");
+    } else {
+      departmentDiv.classList.remove("active");
+      departmentDiv.classList.remove("selected");
+    }
+  });
+  handleFilterBar();
+  const applyButton = document.querySelector(".btn-apply");
+  const resetButton = document.querySelector(".btn-reset");
+  applyButton.disabled = false;
+  resetButton.disabled = false;
+  if (selectedFilter.department.length === 0) {
+    applyButton.disabled = true;
+    resetButton.disabled = true;
+  }
+  if (selectedFilter.department.length > 0) {
+    renderEmployees(selectedFilter);
+  } else {
+    renderEmployees();
+  }
+}
+function updateFilteredResults() {
+  const selectedFilters = getSelectedFilters();
+  renderEmployees(selectedFilters);
+}
+function renderEmployees(selectedFilters = {}) {
+  console.log(selectedFilters);
+  let employees = getAllEmployeesFromLocalStorage();
   const tableBody = document.querySelector(".employees-table tbody");
   tableBody.innerHTML = "";
+  const allFiltersEmpty = Object.values(selectedFilters).every(
+    (filter) => filter.length === 0
+  );
+  if (allFiltersEmpty) {
+    selectedFilters = {};
+  }
   employees.forEach(function (employee) {
     const firstName = employee.firstName ? employee.firstName : "N/A";
     const lastName = employee.lastName ? employee.lastName : "N/A";
@@ -757,15 +866,21 @@ function renderEmployees(employees, selectedFilters = {}) {
     const status = employee.status ? "Active" : "Inactive";
     const joiningDate = employee.joiningDate ? employee.joiningDate : "N/A";
     const profileImageBase64 = employee.profileImageBase64;
-    if (
-      Object.keys(selectedFilters).length === 0 ||
-      ((!selectedFilters.status ||
-        selectedFilters.status.includes(status.trim().toLowerCase())) &&
-        (!selectedFilters.location ||
-          selectedFilters.location.includes(location.trim().toLowerCase())) &&
-        (!selectedFilters.department ||
-          selectedFilters.department.includes(department.trim().toLowerCase())))
-    ) {
+    const matchesFilters =
+      (!selectedFilters.status ||
+        selectedFilters.status.length === 0 ||
+        selectedFilters.status.includes(status.toLowerCase())) &&
+      (!selectedFilters.location ||
+        selectedFilters.location.length === 0 ||
+        selectedFilters.location.includes(location.toLowerCase())) &&
+      (!selectedFilters.department ||
+        selectedFilters.department.length === 0 ||
+        selectedFilters.department.includes(department.toLowerCase())) &&
+      (!selectedFilters.alphabet ||
+        selectedFilters.alphabet.some((alphabet) =>
+          firstName.toLowerCase().startsWith(alphabet)
+        ));
+    if (matchesFilters || Object.keys(selectedFilters).length === 0) {
       const row = document.createElement("tr");
       row.innerHTML = `
         <td class="check-box-col"><input type="checkbox"/></td>
@@ -800,64 +915,4 @@ function renderEmployees(employees, selectedFilters = {}) {
       tableBody.appendChild(row);
     }
   });
-}
-
-const selectedFilters = {};
-function getSelectedFilters() {
-  const selectedFilters = {};
-  const selectedStatusOptions = document.querySelectorAll(
-    ".dropdown-status .dropdown-options.selected.active"
-  );
-  if (selectedStatusOptions.length > 0) {
-    selectedFilters.status = [];
-    selectedStatusOptions.forEach((option) => {
-      selectedFilters.status.push(
-        option.getAttribute("value").trim().toLowerCase()
-      );
-    });
-  }
-
-  // Retrieve selected location
-  const selectedLocationOptions = document.querySelectorAll(
-    ".dropdown-location .dropdown-options.selected.active"
-  );
-  if (selectedLocationOptions.length > 0) {
-    selectedFilters.location = [];
-    selectedLocationOptions.forEach((option) => {
-      selectedFilters.location.push(
-        option.getAttribute("value").trim().toLowerCase()
-      );
-    });
-  }
-
-  // Retrieve selected department
-  const selectedDepartmentOptions = document.querySelectorAll(
-    ".dropdown-department .dropdown-options.selected.active"
-  );
-  if (selectedDepartmentOptions.length > 0) {
-    selectedFilters.department = [];
-    selectedDepartmentOptions.forEach((option) => {
-      selectedFilters.department.push(
-        option.getAttribute("value").trim().toLowerCase()
-      );
-    });
-  }
-
-  return selectedFilters;
-}
-function generateAlphabetButtons() {
-  const alphabetsContainer = document.getElementById("alphabetsContainer");
-  for (let i = 65; i <= 90; i++) {
-    const alphabetChar = String.fromCharCode(i);
-    const alphabetButton = document.createElement("div");
-    alphabetButton.classList.add(
-      "alph-btn",
-      `btn-${alphabetChar.toLowerCase()}`
-    );
-    alphabetButton.textContent = alphabetChar;
-    alphabetButton.addEventListener("click", function () {
-      filterEmployeesByAlphabet(alphabetChar, this);
-    });
-    alphabetsContainer.appendChild(alphabetButton);
-  }
 }

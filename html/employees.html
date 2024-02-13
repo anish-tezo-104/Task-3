@@ -1,8 +1,8 @@
-<div class="employees-page active">
+<div class="employees-page">
   <!--Functions Employees-->
   <div class="function-container employees">
     <div class="function-left">
-      <div class="heading">Employees</div>
+      <h5 class="heading">Employees</h5>
       <div class="sub-heading">
         Find all your company's employee account and their associated roles.
       </div>
@@ -16,8 +16,8 @@
         <span>EXPORT</span>
       </button>
       <button
-        class="function-add-button"
-        onclick="handleAddEmployeeBtn(this, ['.employees-container','.alph-sort', '.function-container.employees','.filter-container'])">
+        class="function-button function-add-button"
+        onclick="handleAddEmployeeBtn(this, ['.employees-page'])">
         <img src="../assets/add.svg" alt="Plus Icon" />
         <span>ADD EMPLOYEE</span>
       </button>
@@ -129,29 +129,38 @@
           </div>
         </button>
         <div class="dropdown-content">
-          <div class="dropdown-options dept-IT" onclick="selectOption(this)" value="IT">
+          <div class="dropdown-options dept-IT" id="itFilter" onclick="selectOption(this)" value="IT">
             IT
           </div>
-          <div class="dropdown-options dept-HR" onclick="selectOption(this)" value="Human Resources">
+          <div class="dropdown-options dept-HR" id="hrFilter" onclick="selectOption(this)" value="HR">
             HR
           </div>
           <div
             class="dropdown-options dept-Finance"
+            id="financeFilter"
             onclick="selectOption(this)" value="Finance">
             Finance
           </div>
           <div
             class="dropdown-options dept-Product-Engg"
+            id="productengineeringFilter"
             onclick="selectOption(this)" value="Product Engineering">
             Product Engg.
           </div>
-          <div class="dropdown-options dept-UIUX" onclick="selectOption(this)" value="UI/UX">
+          <div class="dropdown-options dept-UIUX" id="ui/uxFilter" onclick="selectOption(this)" value="UI/UX">
             UI/UX
           </div>
           <div
-            class="dropdown-options dept-Operations"
-            onclick="selectOption(this)" value="Operations">
-            Operations
+            class="dropdown-options dept-Legal"
+            id="legalFilter"
+            onclick="selectOption(this)" value="Legal">
+            Legal
+          </div>
+          <div
+            class="dropdown-options dept-Management"
+            id="managementFilter"
+            onclick="selectOption(this)" value="Management">
+            Management
           </div>
         </div>
       </div>
@@ -162,7 +171,7 @@
     </div>
   </div>
   <!--Employees Container-->
-  <div class="employees-container">
+  <div class="employees-container ">
     <div class="above-section-table">
       <div class="above-section-content">
         <div class="above-section-left">
@@ -172,7 +181,7 @@
               alt="Arrow Turn Left Down Icon" />
           </div>
           <div class="delete-button">
-            <button class="btn-delete" disabled onclick="deleteSelectedRows()">Delete</button>
+            <button class="btn-delete" onclick="deleteSelectedRows()">Delete</button>
           </div>
         </div>
         <div class="above-section-right">
