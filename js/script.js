@@ -49,7 +49,6 @@ function populateDepartmentList() {
     "IT",
     "Product Engineering",
     "UI/UX",
-    "Legal",
     "Management",
     "Others",
   ];

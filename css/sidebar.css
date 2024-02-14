@@ -11,12 +11,9 @@
 }
 
 .sidebar {
-  height: 90vh;
-}
-
-.sidebar.active {
   height: 100vh;
 }
+
 
 .sidebar .departments.active {
   display: none;

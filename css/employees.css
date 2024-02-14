@@ -193,6 +193,10 @@ th span {
   box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.183);
 }
 
+tr{
+  position: relative;
+}
+
 tr:hover {
   background-color: #f5f5f5;
 }
@@ -281,8 +285,10 @@ button[disabled], .btn-delete:hover {
   display: none;
   position: absolute;
   background-color: #fff;
+  box-shadow: black 0px 0px 5px 0px;
   border: 1px solid #ffffff;
-  right: 1rem;
+  right: 2rem;
+  bottom: 0.5rem;
   z-index: 1;
 }
 

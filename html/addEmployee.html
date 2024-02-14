@@ -62,7 +62,7 @@
                         <div class="input-field-container">
                             <label for="location">Location</label>
                             <select id="location" name="location" >
-                                <option value="">Search for location</option>
+                                <option value="">Select location</option>
                                 <option value="Hyderabad">Hyderabad</option>
                                 <option value="Delhi">Delhi</option>
                                 <option value="Mumbai">Mumbai</option>
@@ -76,7 +76,7 @@
                         <div class="input-field-container">
                             <label for="jobTitle">Job Title</label>
                             <select id="jobTitle" name="jobTitle">
-                                <option value="">Search for job title</option>
+                                <option value="">Select job title</option>
                                 <option value="UXDesigner">UX Designer</option>
                                 <option value="Front End Developer">Front End Developer</option>
                                 <option value="Back End Developer">Back End Developer</option>
@@ -91,14 +91,13 @@
                         <div class="input-field-container">
                             <label for="department">Department</label>
                             <select id="department" name="department">
-                                <option value="">Search for department</option>
+                                <option value="">Select department</option>
                                 <option value="UI/UX">UI/UX</option>
                                 <option value="HR">HR</option>
                                 <option value="IT">IT</option>
                                 <option value="Product Engineering">Product Engg.</option>
                                 <option value="Management">Management</option>
                                 <option value="Finance">Finance</option>
-                                <option value="Legal">Legal</option>
                             </select>
                         </div>
                     </div>
@@ -106,7 +105,7 @@
                         <div class="input-field-container">
                             <label for="assignManager">Assign Manager</label>
                             <select id="assignManager" name="assignManager">
-                                <option value="">Search for manager</option>
+                                <option value="">Select manager</option>
                                 <option value="None">None</option>
                                 <option value="John Doe">John Doe</option>
                                 <option value="Jane Smith">Jane Smith</option>
@@ -116,7 +115,7 @@
                         <div class="input-field-container">
                             <label for="assignProject">Assign Project</label>
                             <select id="assignProject" name="assignProject">
-                                <option value="">Search for project</option>
+                                <option value="">Select project</option>
                                 <option value="None">None</option>
                                 <option value="Project 1">Project 1</option>
                                 <option value="Project 2">Project 2</option>
@@ -128,7 +127,7 @@
                 </div>
                 <div class="form-buttons">
                     <button type="button" id="cancelButon" onclick="handleAddEmployeesFormCancel(['.employees-page','.sub-sec.employees'],['.add-employee-container'])">Cancel</button>
-                    <button type="submit" id="submitButton" onclick="handleFormSubmit()">Add Employee</button>
+                    <button type="button" id="submitButton" onclick="handleFormSubmit()">Add Employee</button>
                 </div>
             </div>
     </form>
