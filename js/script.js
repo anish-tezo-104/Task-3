@@ -690,11 +690,7 @@ function deleteRow(row) {
   alert("Employee data deleted successfully!");
   renderEmployees();
 }
-function handleFormCancel(activeContainers, removeContainers) {
-  const form = document.getElementById("employeeForm");
-  defaultImageSource="../assets/default-user.png"
-  const profileImagePreview = document.getElementById("profileImagePreview");
-  profileImagePreview.src = defaultImageSource;
+function handleFormFunctions(form, activeContainers, removeContainers) {
   let errorMessages = document.querySelectorAll(".error-message");
   errorMessages.forEach(function (errorMessage) {
     errorMessage.classList.remove("active");
@@ -706,6 +702,17 @@ function handleFormCancel(activeContainers, removeContainers) {
     document.querySelector(container).classList.remove("active");
   });
   form.reset();
+}
+function handleAddEmployeesFormCancel(activeContainers, removeContainers) {
+  let form = document.getElementById("employeeForm");
+  defaultImageSource = "../assets/default-user.png";
+  const profileImagePreview = document.getElementById("profileImagePreview");
+  profileImagePreview.src = defaultImageSource;
+  handleFormFunctions(form, activeContainers, removeContainers);
+}
+function handleAddRolesFormCancel(activeContainers, removeContainers) {
+  let form = document.getElementById("roleForm");
+  handleFormFunctions(form, activeContainers, removeContainers);
 }
 function generateAlphabetButtons() {
   const alphabetsContainer = document.getElementById("alphabetsContainer");
@@ -752,7 +759,6 @@ function getSelectedOptions(selector) {
   );
   selectedElements.forEach((option) => {
     const value = option.getAttribute("value").trim().toLowerCase();
-    // Check if the value already exists in the selectedOptions array
     if (!selectedOptions.includes(value)) {
       selectedOptions.push(value);
     }
@@ -763,7 +769,6 @@ function selectOption(option) {
   option.classList.toggle("selected");
   option.classList.toggle("active");
 
-  // Update the state of the corresponding option in the filter dropdown
   const value = option.getAttribute("value").trim().toLowerCase();
   const dropdownOptions = document.querySelectorAll(".dropdown-options");
 
@@ -780,10 +785,12 @@ function selectOption(option) {
     }
   });
 
+
   handleFilterBar();
 }
 function handleFilterBar() {
   var dropdownButtons = document.querySelectorAll(".filter-btn");
+
   var totalSelectedCount = 0;
   dropdownButtons.forEach(function (button) {
     var dropdownContent = button.nextElementSibling;
@@ -803,12 +810,15 @@ function handleFilterBar() {
     resetButton.disabled = false;
     applyButton.disabled = false;
   } else {
+    updateFilteredResults();
     resetButton.disabled = true;
     applyButton.disabled = true;
   }
-  updateFilteredResults();
 }
 function sidebarFilter(selectedFilter) {
+  let selectedFilters = getSelectedFilters();
+  const departmentName = selectedFilter.department[0];
+  selectedFilters.department = [departmentName];
   const allDepartmentDivs = document.querySelectorAll(".dropdown-options");
   allDepartmentDivs.forEach((departmentDiv) => {
     const departmentValue = departmentDiv
@@ -835,52 +845,58 @@ function sidebarFilter(selectedFilter) {
     resetButton.disabled = true;
   }
   if (selectedFilter.department.length > 0) {
-    renderEmployees(selectedFilter);
+    renderEmployees(selectedFilters);
   } else {
     renderEmployees();
   }
 }
+
 function updateFilteredResults() {
-  const selectedFilters = getSelectedFilters();
+  let selectedFilters = getSelectedFilters();
+  console.log("Update Filtered Results", selectedFilters);
   renderEmployees(selectedFilters);
 }
-function renderEmployees(selectedFilters = {}) {
+function renderEmployees(
+  selectedFilters = { alphabet: [], status: [], department: [], location: [] }
+) {
   console.log(selectedFilters);
   let employees = getAllEmployeesFromLocalStorage();
   const tableBody = document.querySelector(".employees-table tbody");
   tableBody.innerHTML = "";
-  const allFiltersEmpty = Object.values(selectedFilters).every(
-    (filter) => filter.length === 0
-  );
-  if (allFiltersEmpty) {
-    selectedFilters = {};
-  }
+
   employees.forEach(function (employee) {
-    const firstName = employee.firstName ? employee.firstName : "N/A";
-    const lastName = employee.lastName ? employee.lastName : "N/A";
-    const email = employee.email ? employee.email : "N/A";
-    const location = employee.location ? employee.location : "N/A";
-    const department = employee.department ? employee.department : "N/A";
-    const role = employee.jobTitle ? employee.jobTitle : "N/A";
-    const empNo = employee.empNo ? employee.empNo : "N/A";
-    const status = employee.status ? "Active" : "Inactive";
-    const joiningDate = employee.joiningDate ? employee.joiningDate : "N/A";
+    const firstName = employee.firstName
+      ? employee.firstName.toLowerCase()
+      : "n/a";
+    const lastName = employee.lastName
+      ? employee.lastName.toLowerCase()
+      : "n/a";
+    const email = employee.email ? employee.email.toLowerCase() : "n/a";
+    const location = employee.location
+      ? employee.location.toLowerCase()
+      : "n/a";
+    const department = employee.department
+      ? employee.department.toLowerCase()
+      : "n/a";
+    const role = employee.jobTitle ? employee.jobTitle.toLowerCase() : "n/a";
+    const empNo = employee.empNo ? employee.empNo : "n/a";
+    const status = employee.status ? "active" : "inactive";
+    const joiningDate = employee.joiningDate ? employee.joiningDate : "n/a";
     const profileImageBase64 = employee.profileImageBase64;
+
     const matchesFilters =
-      (!selectedFilters.status ||
-        selectedFilters.status.length === 0 ||
-        selectedFilters.status.includes(status.toLowerCase())) &&
-      (!selectedFilters.location ||
-        selectedFilters.location.length === 0 ||
-        selectedFilters.location.includes(location.toLowerCase())) &&
-      (!selectedFilters.department ||
-        selectedFilters.department.length === 0 ||
-        selectedFilters.department.includes(department.toLowerCase())) &&
-      (!selectedFilters.alphabet ||
+      (selectedFilters.alphabet.length === 0 ||
         selectedFilters.alphabet.some((alphabet) =>
-          firstName.toLowerCase().startsWith(alphabet)
-        ));
-    if (matchesFilters || Object.keys(selectedFilters).length === 0) {
+          firstName.startsWith(alphabet.toLowerCase())
+        )) &&
+      (selectedFilters.status.length === 0 ||
+        selectedFilters.status.includes(status)) &&
+      (selectedFilters.department.length === 0 ||
+        selectedFilters.department.includes(department)) &&
+      (selectedFilters.location.length === 0 ||
+        selectedFilters.location.includes(location));
+
+    if (matchesFilters) {
       const row = document.createElement("tr");
       row.innerHTML = `
         <td class="check-box-col"><input type="checkbox"/></td>
@@ -888,19 +904,23 @@ function renderEmployees(selectedFilters = {}) {
           <div class="profile-card emp-card">
             <img src="${profileImageBase64}" alt="Employee Image" class="employee-img" />
             <div class="profile-details">
-              <p class="profile-name">${firstName} ${lastName}</p>
-              <p class="profile-email">${email}</p>
+              <p class="profile-name">${employee.firstName} ${
+        employee.lastName
+      }</p>
+              <p class="profile-email">${employee.email}</p>
             </div>
           </div>
         </td>
-        <td class="col col-location">${location}</td>
-        <td class="col col-department">${department}</td>
-        <td class="col col-role">${role}</td>
-        <td class="col col-emp-no">${empNo}</td>
+        <td class="col col-location">${employee.location}</td>
+        <td class="col col-department">${employee.department}</td>
+        <td class="col col-role">${employee.jobTitle}</td>
+        <td class="col col-emp-no">${employee.empNo}</td>
         <td class="col col-status">
-          <div class="btn-active">${status}</div>
+          <div class="btn-active">${
+            employee.status ? "Active" : "Inactive"
+          }</div>
         </td>
-        <td class="col col-join-dt">${joiningDate}</td>
+        <td class="col col-join-dt">${employee.joiningDate}</td>
         <td>
           <span class="material-icons-outlined ellipsis-icon" onclick="ellipsisFunction(this)">more_horiz</span>
           <div class="ellipsis-menu">
