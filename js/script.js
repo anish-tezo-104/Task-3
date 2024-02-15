@@ -265,6 +265,18 @@ function handleCheckbox(checkbox) {
   checkbox.addEventListener("click", updateSelectedOptions);
 }
 
+// Responsiveness for SideBar
+function handleSidebarResponsive() {
+  var sideBar = document.querySelector(".sidebar");
+  if (sideBar) {
+    if (window.innerWidth <= 900) {
+      sideBar.classList.remove("active");
+    } else {
+      sideBar.classList.add("active");
+    }
+  }
+}
+
 function updateSelectedOptions() {
   const checkboxes = document.querySelectorAll(
     ".select-items input[type='checkbox']"
@@ -280,19 +292,6 @@ function updateSelectedOptions() {
     ? selectedOptions.join(", ")
     : "Select an option";
 }
-
-// Responsiveness for SideBar
-function handleSidebarResponsive() {
-  var sideBar = document.querySelector(".sidebar");
-  if (sideBar) {
-    if (window.innerWidth <= 900) {
-      sideBar.classList.remove("active");
-    } else {
-      sideBar.classList.add("active");
-    }
-  }
-}
-
 
 // Functions to get employee data from the form and save it to local storage
 function createEmployeeFromFormData(formData) {
@@ -317,14 +316,56 @@ function createEmployeeFromFormData(formData) {
     reader.readAsDataURL(profileImageInput);
     reader.onload = function () {
       profileImageBase64 = reader.result;
-      createAndSaveEmployee(empNo, firstName, lastName, dob, email, mobileNumber, joiningDate, location, jobTitle, department, assignManager, assignProject, profileImageBase64);
+      createAndSaveEmployee(
+        empNo,
+        firstName,
+        lastName,
+        dob,
+        email,
+        mobileNumber,
+        joiningDate,
+        location,
+        jobTitle,
+        department,
+        assignManager,
+        assignProject,
+        profileImageBase64
+      );
     };
   } else {
-    createAndSaveEmployee(empNo, firstName, lastName, dob, email, mobileNumber, joiningDate, location, jobTitle, department, assignManager, assignProject, profileImageBase64);
+    createAndSaveEmployee(
+      empNo,
+      firstName,
+      lastName,
+      dob,
+      email,
+      mobileNumber,
+      joiningDate,
+      location,
+      jobTitle,
+      department,
+      assignManager,
+      assignProject,
+      profileImageBase64
+    );
   }
 }
 
-function createAndSaveEmployee(empNo, firstName, lastName, dob, email, mobileNumber, joiningDate, location, jobTitle, department, assignManager, assignProject, profileImageBase64) {
+function createAndSaveEmployee(
+  empNo,
+  firstName,
+  lastName,
+  dob,
+  email,
+  mobileNumber,
+  joiningDate,
+  location,
+  jobTitle,
+  department,
+  assignManager,
+  assignProject,
+  profileImageBase64
+) {
   const employee = new Employee(
     empNo,
     firstName,
@@ -405,7 +446,6 @@ function loadEmployees() {
   let employees = getAllEmployeesFromLocalStorage();
   if (employees) {
     renderEmployees(employees);
-    
   }
 }
 
@@ -760,8 +800,8 @@ function deleteRow(row) {
   alert("Employee data deleted successfully!");
   renderEmployees();
 }
-
-function handleFormFunctions(form, activeContainers, removeContainers) {
+getSelectedOptions;
+function handlePostFormSubmissions(form, activeContainers, removeContainers) {
   let errorMessages = document.querySelectorAll(".error-message");
   errorMessages.forEach(function (errorMessage) {
     errorMessage.classList.remove("active");
@@ -780,20 +820,20 @@ function handleAddEmployeesFormCancel(activeContainers, removeContainers) {
   defaultImageSource = "../assets/default-user.png";
   const profileImagePreview = document.getElementById("profileImagePreview");
   profileImagePreview.src = defaultImageSource;
-  handleFormFunctions(form, activeContainers, removeContainers);
+  handlePostFormSubmissions(form, activeContainers, removeContainers);
 }
 
 function handleAddRolesFormCancel(activeContainers, removeContainers) {
   let form = document.getElementById("roleForm");
-  handleFormFunctions(form, activeContainers, removeContainers);
+  handlePostFormSubmissions(form, activeContainers, removeContainers);
 }
 
 function getSelectedFilters() {
   const selectedFilters = {
     alphabet: getSelectedAlphabets(),
-    status: getSelectedOptions(".dropdown-status"),
-    location: getSelectedOptions(".dropdown-location"),
-    department: getSelectedOptions(".dropdown-department"),
+    status: getSelectedFilterOptions(".dropdown-status"),
+    location: getSelectedFilterOptions(".dropdown-location"),
+    department: getSelectedFilterOptions(".dropdown-department"),
   };
   return selectedFilters;
 }
@@ -812,17 +852,20 @@ function getSelectedAlphabets() {
   return selectedAlphabets;
 }
 
-function getSelectedOptions(selector) {
+function getSelectedFilterOptions(selector) {
   const selectedOptions = [];
   const selectedElements = document.querySelectorAll(
     `${selector} .dropdown-options.selected`
   );
   selectedElements.forEach((option) => {
     const value = option.getAttribute("value").trim().toLowerCase();
-    if (!selectedOptions.includes(value)) {
+    if (value === "all") {
+      selectedOptions.push("active", "inactive");
+    } else if (!selectedOptions.includes(value)) {
       selectedOptions.push(value);
     }
   });
+
   return selectedOptions;
 }
 
@@ -832,7 +875,6 @@ function selectOption(option) {
 
   const value = option.getAttribute("value").trim().toLowerCase();
   const dropdownOptions = document.querySelectorAll(".dropdown-options");
-
   dropdownOptions.forEach((dropdownOption) => {
     if (dropdownOption.getAttribute("value").trim().toLowerCase() === value) {
       dropdownOption.classList.toggle(
@@ -919,24 +961,34 @@ function updateFilteredResults() {
   renderEmployees(getFilteredData(selectedFilters));
 }
 
-function getFilteredData(selectedFilters = { alphabet: [], status: [], department: [], location: [] }) {
+function getFilteredData(
+  selectedFilters = { alphabet: [], status: [], department: [], location: [] }
+) {
   const employees = getAllEmployeesFromLocalStorage();
 
-  return employees.filter(employee => {
-    const firstName = employee.firstName ? employee.firstName.toLowerCase() : "n/a";
-    const lastName = employee.lastName ? employee.lastName.toLowerCase() : "n/a";
-    const email = employee.email ? employee.email.toLowerCase() : "n/a";
-    const location = employee.location ? employee.location.toLowerCase() : "n/a";
-    const department = employee.department ? employee.department.toLowerCase() : "n/a";
-    const role = employee.jobTitle ? employee.jobTitle.toLowerCase() : "n/a";
-    const empNo = employee.empNo ? employee.empNo : "n/a";
+  return employees.filter((employee) => {
+    const firstName = employee.firstName
+      ? employee.firstName.toLowerCase()
+      : "n/a";
+    const location = employee.location
+      ? employee.location.toLowerCase()
+      : "n/a";
+    const department = employee.department
+      ? employee.department.toLowerCase()
+      : "n/a";
     const status = employee.status ? "active" : "inactive";
 
     const matchesFilters =
-      (selectedFilters.alphabet.length === 0 || selectedFilters.alphabet.some(alphabet => firstName.startsWith(alphabet.toLowerCase()))) &&
-      (selectedFilters.status.length === 0 || selectedFilters.status.includes(status)) &&
-      (selectedFilters.department.length === 0 || selectedFilters.department.includes(department)) &&
-      (selectedFilters.location.length === 0 || selectedFilters.location.includes(location));
+      (selectedFilters.alphabet.length === 0 ||
+        selectedFilters.alphabet.some((alphabet) =>
+          firstName.startsWith(alphabet.toLowerCase())
+        )) &&
+      (selectedFilters.status.length === 0 ||
+        selectedFilters.status.includes(status)) &&
+      (selectedFilters.department.length === 0 ||
+        selectedFilters.department.includes(department)) &&
+      (selectedFilters.location.length === 0 ||
+        selectedFilters.location.includes(location));
 
     return matchesFilters;
   });
@@ -946,15 +998,19 @@ function renderEmployees(filteredData) {
   const tableBody = document.querySelector(".employees-table tbody");
   tableBody.innerHTML = "";
   console.log(filteredData);
-  filteredData.forEach(employee => {
+  filteredData.forEach((employee) => {
     const row = document.createElement("tr");
     row.innerHTML = `
       <td class="check-box-col"><input type="checkbox"/></td>
       <td class="col col-user">
         <div class="profile-card emp-card">
-          <img src="${employee.profileImageBase64}" alt="Employee Image" class="employee-img" />
+          <img src="${
+            employee.profileImageBase64
+          }" alt="Employee Image" class="employee-img" />
           <div class="profile-details">
-            <p class="profile-name">${employee.firstName} ${employee.lastName}</p>
+            <p class="profile-name">${employee.firstName} ${
+      employee.lastName
+    }</p>
             <p class="profile-email">${employee.email}</p>
           </div>
         </div>
