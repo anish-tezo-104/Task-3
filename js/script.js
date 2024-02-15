@@ -4,202 +4,7 @@ const selectedFilters = {
   department: [],
   location: [],
 };
-document.addEventListener("DOMContentLoaded", function () {
-  includeHTML("sidebar.html", "sidebarContainer");
-  includeHTML("header.html", "headerContainer");
-  includeHTML("employees.html", "employeesContainer");
-  includeHTML("addEmployee.html", "addEmployeesContainer");
-  includeHTML("role.html", "roleContainer");
-  includeHTML("addRoles.html", "newRoleContainer");
-  includeHTML("roleDesc.html", "roleDescContainer");
-});
-function includeHTML(url, containerId) {
-  fetch(url)
-    .then((response) => response.text())
-    .then((data) => {
-      updateGridTemplateColumns();
-      let container = document.getElementById(containerId);
-      if (container) {
-        container.innerHTML += data;
-      }
-      populateDepartmentList();
-      handleEmployeesPage(url);
-      handleAddEmployeePage(url);
-      handleAddRolesPage(url);
-    })
-    .catch((error) => console.error(`Error fetching ${url}:`, error));
-}
-function populateDepartmentList() {
-  const employees = getAllEmployeesFromLocalStorage();
-  const departmentCounts = {};
 
-  if (employees) {
-    employees.forEach((employee) => {
-      const department = employee.department || "Others";
-      departmentCounts[department] = (departmentCounts[department] || 0) + 1;
-    });
-  }
-
-  const departmentList = document.getElementById("departmentList");
-  departmentList.innerHTML = "";
-
-  const staticDepartments = [
-    "HR",
-    "Finance",
-    "IT",
-    "Product Engineering",
-    "UI/UX",
-    "Management",
-    "Others",
-  ];
-  staticDepartments.forEach((departmentName) => {
-    const employeeCount = departmentCounts[departmentName] || 0;
-    const departmentListItemHTML = generateDepartmentListItem(
-      departmentName,
-      employeeCount
-    );
-    departmentList.insertAdjacentHTML("beforeend", departmentListItemHTML);
-    delete departmentCounts[departmentName];
-  });
-  for (const departmentName in departmentCounts) {
-    const employeeCount = departmentCounts[departmentName];
-    const departmentListItemHTML = generateDepartmentListItem(
-      departmentName,
-      employeeCount
-    );
-    departmentList.insertAdjacentHTML("beforeend", departmentListItemHTML);
-  }
-}
-function generateDepartmentListItem(departmentName, employeeCount) {
-  return `
-          <li onclick="sidebarFilter({ 'department': ['${departmentName
-            .trim()
-            .toLowerCase()}'] })">
-            <a href="#">
-              <div class="dept-details">
-                <div class="dept-names">${departmentName}</div>
-                <div class="employee-dept-count">${employeeCount}</div>
-              </div>
-            </a>
-          </li>
-          `;
-}
-function handleEmployeesPage(url) {
-  if (url == "employees.html") {
-    loadEmployees();
-    generateAlphabetButtons();
-  }
-}
-function handleAddEmployeePage(url) {
-  if (url == "addEmployee.html") {
-    const form = document.getElementById("employeeForm");
-    const inputFields = form.querySelectorAll(
-      "input[required], select[required]"
-    );
-    inputFields.forEach(handleInputField);
-    const profileImageInput = document.getElementById("profileImageInput");
-    const addProfilePhotoButton = document.getElementById(
-      "addProfilePhotoButton"
-    );
-    addProfilePhotoButton.addEventListener("click", openProfileImageInput);
-    profileImageInput.addEventListener("change", previewProfileImage);
-  }
-}
-function handleInputField(input) {
-  input.addEventListener("focus", validateInput);
-  input.addEventListener("input", validateInput);
-  input.addEventListener("blur", validateInput);
-}
-function validateInput() {
-  if (this.value.trim() === "") {
-    showErrorMessage(this);
-  } else {
-    hideErrorMessage(this);
-  }
-}
-function openProfileImageInput(event) {
-  event.preventDefault();
-  document.getElementById("profileImageInput").click();
-}
-function previewProfileImage(event) {
-  const selectedFile = event.target.files[0];
-  if (selectedFile) {
-    const reader = new FileReader();
-    reader.onload = function () {
-      const profileImagePreview = document.getElementById(
-        "profileImagePreview"
-      );
-      profileImagePreview.src = reader.result;
-    };
-    reader.readAsDataURL(selectedFile);
-  }
-}
-function handleAddRolesPage(url) {
-  if (url == "addRoles.html") {
-    const selected = document.querySelector(".select-selected");
-    const options = document.querySelector(".select-items");
-    selected.addEventListener("click", toggleSelectOptions);
-    const checkboxes = document.querySelectorAll(
-      ".select-items input[type='checkbox']"
-    );
-    checkboxes.forEach(handleCheckbox);
-  }
-}
-function toggleSelectOptions() {
-  const options = document.querySelector(".select-items");
-  options.classList.toggle("select-hide");
-}
-function handleCheckbox(checkbox) {
-  checkbox.addEventListener("click", updateSelectedOptions);
-}
-function updateSelectedOptions() {
-  const checkboxes = document.querySelectorAll(
-    ".select-items input[type='checkbox']"
-  );
-  const selectedOptions = [];
-  checkboxes.forEach(function (cb) {
-    if (cb.checked) {
-      selectedOptions.push(cb.value);
-    }
-  });
-  const selected = document.querySelector(".select-selected");
-  selected.textContent = selectedOptions.length
-    ? selectedOptions.join(", ")
-    : "Select an option";
-}
-function handleSidebarResponsive() {
-  var sideBar = document.querySelector(".sidebar");
-  if (sideBar) {
-    if (window.innerWidth <= 900) {
-      sideBar.classList.remove("active");
-    } else {
-      sideBar.classList.add("active");
-    }
-  }
-}
-function showErrorMessage(input) {
-  const errorMessage = input.nextElementSibling;
-  errorMessage.classList.add("active");
-}
-function hideErrorMessage(input) {
-  const errorMessage = input.nextElementSibling;
-  errorMessage.classList.remove("active");
-}
-function validateForm(formData) {
-  const requiredFields = ["empNo", "firstName", "lastName", "email"];
-  let formIsValid = true;
-  requiredFields.forEach(function (field) {
-    const inputElement = document.getElementById(field);
-    if (!inputElement.value.trim()) {
-      showErrorMessage(inputElement);
-      formIsValid = false;
-    } else {
-      hideErrorMessage(inputElement);
-    }
-  });
-
-  return formIsValid;
-}
 class Employee {
   constructor(
     empNo,
@@ -234,6 +39,215 @@ class Employee {
       profileImageBase64 || "../assets/default-user.png";
   }
 }
+
+(function () {
+  function includeHTML(url, containerId) {
+    fetch(url)
+      .then((response) => response.text())
+      .then((data) => {
+        updateGridTemplateColumns();
+        let container = document.getElementById(containerId);
+        if (container) {
+          container.innerHTML += data;
+        }
+        handlePostProcessing(url);
+      })
+      .catch((error) => console.error(`Error fetching ${url}:`, error));
+  }
+
+  function main() {
+    document.addEventListener("DOMContentLoaded", function () {
+      includeHTML("./html/sidebar.html", "sidebarContainer");
+      includeHTML("./html/header.html", "headerContainer");
+      includeHTML("./html/employees.html", "employeesContainer");
+      includeHTML("./html/addEmployee.html", "addEmployeesContainer");
+      includeHTML("./html/role.html", "roleContainer");
+      includeHTML("./html/addRoles.html", "newRoleContainer");
+      includeHTML("./html/roleDesc.html", "roleDescContainer");
+    });
+  }
+
+  function handlePostProcessing(url) {
+    populateDepartmentList();
+    handleEmployeesPage(url);
+    handleAddEmployeePage(url);
+    handleAddRolesPage(url);
+  }
+  main();
+})();
+
+//Post processing functions
+function populateDepartmentList() {
+  const employees = getAllEmployeesFromLocalStorage();
+  const departmentCounts = {};
+  if (employees) {
+    employees.forEach((employee) => {
+      const department = employee.department || "Others";
+      departmentCounts[department] = (departmentCounts[department] || 0) + 1;
+    });
+  }
+  const departmentList = document.getElementById("departmentList");
+  departmentList.innerHTML = "";
+  const staticDepartments = [
+    "HR",
+    "Finance",
+    "IT",
+    "Product Engineering",
+    "UI/UX",
+    "Management",
+    "Others",
+  ];
+  staticDepartments.forEach((departmentName) => {
+    const employeeCount = departmentCounts[departmentName] || 0;
+    const departmentListItemHTML = generateDepartmentListItem(
+      departmentName,
+      employeeCount
+    );
+    departmentList.insertAdjacentHTML("beforeend", departmentListItemHTML);
+    delete departmentCounts[departmentName];
+  });
+  for (const departmentName in departmentCounts) {
+    const employeeCount = departmentCounts[departmentName];
+    const departmentListItemHTML = generateDepartmentListItem(
+      departmentName,
+      employeeCount
+    );
+    departmentList.insertAdjacentHTML("beforeend", departmentListItemHTML);
+  }
+}
+
+function generateDepartmentListItem(departmentName, employeeCount) {
+  return `
+          <li onclick="sidebarFilter({ 'department': ['${departmentName
+            .trim()
+            .toLowerCase()}'] })">
+            <a href="#">
+              <div class="dept-details">
+                <div class="dept-names">${departmentName}</div>
+                <div class="employee-dept-count">${employeeCount}</div>
+              </div>
+            </a>
+          </li>
+          `;
+}
+
+function handleEmployeesPage(url) {
+  if (url == "./html/employees.html") {
+    loadEmployees();
+    generateAlphabetButtons();
+  }
+}
+
+function handleAddEmployeePage(url) {
+  if (url == "./html/addEmployee.html") {
+    const profileImageInput = document.getElementById("profileImageInput");
+    const addProfilePhotoButton = document.getElementById(
+      "addProfilePhotoButton"
+    );
+
+    if (profileImageInput && addProfilePhotoButton) {
+      addProfilePhotoButton.addEventListener("click", openProfileImageInput);
+      profileImageInput.addEventListener("change", previewProfileImage);
+    }
+  }
+}
+
+function handleAddRolesPage(url) {
+  if (url == "./html/addRoles.html") {
+    const selected = document.querySelector(".select-selected");
+    const options = document.querySelector(".select-items");
+    selected.addEventListener("click", toggleSelectOptions);
+    const checkboxes = document.querySelectorAll(
+      ".select-items input[type='checkbox']"
+    );
+    checkboxes.forEach(handleCheckbox);
+  }
+}
+
+function toggleSelectOptions() {
+  const options = document.querySelector(".select-items");
+  options.classList.toggle("select-hide");
+}
+
+// Generate alphabet buttons for alphabet filtering
+function generateAlphabetButtons() {
+  const alphabetsContainer = document.getElementById("alphabetsContainer");
+  for (let i = 65; i <= 90; i++) {
+    const alphabetChar = String.fromCharCode(i);
+    const alphabetButton = document.createElement("div");
+    alphabetButton.classList.add(
+      "alph-btn",
+      `btn-${alphabetChar.toLowerCase()}`
+    );
+    alphabetButton.textContent = alphabetChar;
+    alphabetButton.addEventListener("click", function () {
+      filterEmployeesByAlphabet(this);
+    });
+    alphabetsContainer.appendChild(alphabetButton);
+  }
+}
+
+//Form validation and submission functions
+function handleInputField(input) {
+  input.addEventListener("focus", validateInput);
+  input.addEventListener("input", validateInput);
+  input.addEventListener("blur", validateInput);
+}
+
+function validateInput() {
+  if (this.value.trim() === "") {
+    showErrorMessage(this);
+  } else {
+    hideErrorMessage(this);
+  }
+}
+
+function openProfileImageInput() {
+  document.getElementById("profileImageInput").click();
+}
+
+function previewProfileImage(event) {
+  const selectedFile = event.target.files[0];
+  if (selectedFile) {
+    const reader = new FileReader();
+    reader.onload = function () {
+      const profileImagePreview = document.getElementById(
+        "profileImagePreview"
+      );
+      if (profileImagePreview) {
+        profileImagePreview.src = reader.result;
+      }
+    };
+    reader.readAsDataURL(selectedFile);
+  }
+}
+
+function showErrorMessage(input) {
+  const errorMessage = input.nextElementSibling;
+  errorMessage.classList.add("active");
+}
+
+function hideErrorMessage(input) {
+  const errorMessage = input.nextElementSibling;
+  errorMessage.classList.remove("active");
+}
+
+function validateForm(formData) {
+  const requiredFields = ["empNo", "firstName", "lastName", "email"];
+  let formIsValid = true;
+  requiredFields.forEach(function (field) {
+    const inputElement = document.getElementById(field);
+    if (!inputElement.value.trim()) {
+      showErrorMessage(inputElement);
+      formIsValid = false;
+    } else {
+      hideErrorMessage(inputElement);
+    }
+  });
+
+  return formIsValid;
+}
+
 function handleFormSubmit() {
   const form = document.getElementById("employeeForm");
   const formData = new FormData(form);
@@ -243,9 +257,44 @@ function handleFormSubmit() {
     saveEmployeeToLocalStorage(employee);
     form.reset();
     alert("Employee data added successfully!");
-    renderEmployees();
+    loadEmployees();
   }
 }
+
+function handleCheckbox(checkbox) {
+  checkbox.addEventListener("click", updateSelectedOptions);
+}
+
+function updateSelectedOptions() {
+  const checkboxes = document.querySelectorAll(
+    ".select-items input[type='checkbox']"
+  );
+  const selectedOptions = [];
+  checkboxes.forEach(function (cb) {
+    if (cb.checked) {
+      selectedOptions.push(cb.value);
+    }
+  });
+  const selected = document.querySelector(".select-selected");
+  selected.textContent = selectedOptions.length
+    ? selectedOptions.join(", ")
+    : "Select an option";
+}
+
+// Responsiveness for SideBar
+function handleSidebarResponsive() {
+  var sideBar = document.querySelector(".sidebar");
+  if (sideBar) {
+    if (window.innerWidth <= 900) {
+      sideBar.classList.remove("active");
+    } else {
+      sideBar.classList.add("active");
+    }
+  }
+}
+
+
+// Functions to get employee data from the form and save it to local storage
 function createEmployeeFromFormData(formData) {
   const empNo = formData.get("empNo");
   const firstName = formData.get("firstName");
@@ -261,53 +310,41 @@ function createEmployeeFromFormData(formData) {
   const assignProject = formData.get("assignProject");
 
   let profileImageBase64 = "../assets/default-user.png";
-
   const profileImageInput = formData.get("profileImage");
+
   if (profileImageInput.size > 0) {
     const reader = new FileReader();
     reader.readAsDataURL(profileImageInput);
     reader.onload = function () {
       profileImageBase64 = reader.result;
-      const employee = new Employee(
-        empNo,
-        firstName,
-        lastName,
-        dob,
-        email,
-        mobileNumber,
-        joiningDate,
-        true,
-        location,
-        jobTitle,
-        department,
-        assignManager,
-        assignProject,
-        profileImageBase64
-      );
-
-      saveEmployeeToLocalStorage(employee);
+      createAndSaveEmployee(empNo, firstName, lastName, dob, email, mobileNumber, joiningDate, location, jobTitle, department, assignManager, assignProject, profileImageBase64);
     };
   } else {
-    const employee = new Employee(
-      empNo,
-      firstName,
-      lastName,
-      dob,
-      email,
-      mobileNumber,
-      joiningDate,
-      true,
-      location,
-      jobTitle,
-      department,
-      assignManager,
-      assignProject,
-      profileImageBase64
-    );
-
-    saveEmployeeToLocalStorage(employee);
+    createAndSaveEmployee(empNo, firstName, lastName, dob, email, mobileNumber, joiningDate, location, jobTitle, department, assignManager, assignProject, profileImageBase64);
   }
 }
+
+function createAndSaveEmployee(empNo, firstName, lastName, dob, email, mobileNumber, joiningDate, location, jobTitle, department, assignManager, assignProject, profileImageBase64) {
+  const employee = new Employee(
+    empNo,
+    firstName,
+    lastName,
+    dob,
+    email,
+    mobileNumber,
+    joiningDate,
+    true,
+    location,
+    jobTitle,
+    department,
+    assignManager,
+    assignProject,
+    profileImageBase64
+  );
+
+  saveEmployeeToLocalStorage(employee);
+}
+
 function saveEmployeeToLocalStorage(employee) {
   let existingData = getAllEmployeesFromLocalStorage() || [];
   if (employee) {
@@ -318,9 +355,11 @@ function saveEmployeeToLocalStorage(employee) {
   const profileImagePreview = document.getElementById("profileImagePreview");
   profileImagePreview.src = defaultImageSource;
 }
+
 function getAllEmployeesFromLocalStorage() {
   return JSON.parse(localStorage.getItem("employees")) || [];
 }
+
 function toggleDeleteButtonVisibility() {
   const deleteButton = document.querySelector(".btn-delete");
   const allCheckboxes = document.querySelectorAll(".check-box-col input");
@@ -336,6 +375,8 @@ function toggleDeleteButtonVisibility() {
 
   deleteButton.disabled = !anyChecked;
 }
+
+// Function to delete rows(data) whose checkbox are checked from local storage
 function deleteSelectedRows() {
   const allCheckboxes = document.querySelectorAll(".check-box-col input");
   let selectedRows = [];
@@ -357,14 +398,18 @@ function deleteSelectedRows() {
   localStorage.setItem("employees", JSON.stringify(existingData));
   toggleDeleteButtonVisibility();
   alert("Successfully deleted " + selectedRows.length + " employees data");
-  renderEmployees();
+  loadEmployees();
 }
+
 function loadEmployees() {
-  let employees = localStorage.getItem("employees");
+  let employees = getAllEmployeesFromLocalStorage();
   if (employees) {
-    renderEmployees();
+    renderEmployees(employees);
+    
   }
 }
+
+// handle filtration of data on basis of alphabets
 function filterEmployeesByAlphabet(element) {
   var alphBtns = document.querySelectorAll(".alph-btn");
   var filterBtn = document.querySelector(".icon-filter");
@@ -381,8 +426,15 @@ function filterEmployeesByAlphabet(element) {
   if (noActiveAlphabets) {
     filterBtn.classList.remove("active");
   }
-  renderEmployees(selectedFilters);
+  renderEmployees(getFilteredData(selectedFilters));
 }
+
+// Handle export of data to CSV
+function exportCSV() {
+  let csvContent = tableToCSV();
+  downloadCSVFile(csvContent);
+}
+
 function tableToCSV() {
   let table = document.querySelector(".employees-table");
   let columnsToRemove = ["", "STATUS", "more_horiz"];
@@ -408,8 +460,9 @@ function tableToCSV() {
       csvContent += rowData.join(",") + "\n";
     }
   });
-  downloadCSVFile(csvContent);
+  return csvContent;
 }
+
 function downloadCSVFile(csvContent) {
   let blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
   let url = URL.createObjectURL(blob);
@@ -418,6 +471,8 @@ function downloadCSVFile(csvContent) {
   link.setAttribute("download", "employees.csv");
   link.click();
 }
+
+// Handle grid layout on responsiveness change
 function updateGridTemplateColumns() {
   var screenWidth = window.innerWidth;
   var sideBar = document.querySelector(".sidebar");
@@ -428,6 +483,7 @@ function updateGridTemplateColumns() {
     gridContainer.style.gridTemplateColumns = "100%";
   }
 }
+
 function toggleSubSecClass(
   element,
   containerSelectors,
@@ -463,6 +519,7 @@ function toggleSubSecClass(
   }
   resetFilter();
 }
+
 function openRoleDescription(element) {
   var rolesDesc1 = document.querySelector(".roles-desc-1");
   var rolesDesc2 = document.querySelector(".roles-desc-2");
@@ -481,6 +538,7 @@ function openRoleDescription(element) {
     rolesDescContainer.classList.add("active");
   }
 }
+
 function toggleSideBarListClass(element, containerSelectors) {
   if (element.classList.contains("active")) {
     element.classList.remove("active");
@@ -496,6 +554,7 @@ function toggleSideBarListClass(element, containerSelectors) {
     });
   }
 }
+
 function handleAddEmployeeBtn(element, removeContainers) {
   let addEmployeePage = document.querySelector(".add-employee-container");
   if (addEmployeePage.classList.contains("active")) {
@@ -508,6 +567,7 @@ function handleAddEmployeeBtn(element, removeContainers) {
     addEmployeePage.classList.add("active");
   }
 }
+
 function handleAddRoleBtn(element, removeContainers) {
   let addRolesPage = document.querySelector(".add-roles-container");
   if (addRolesPage.classList.contains("active")) {
@@ -520,6 +580,7 @@ function handleAddRoleBtn(element, removeContainers) {
     container.classList.remove("active");
   });
 }
+
 function toggleFilterClass(element, containerSelectors) {
   var employeesContainer = document.querySelector(".sub-sec.employees");
   var btnStatus = document.querySelector(".btn-status");
@@ -539,6 +600,7 @@ function toggleFilterClass(element, containerSelectors) {
     btnStatus.classList.add("active");
   }
 }
+
 function toggleAlphBtn(element) {
   var alphBtns = document.querySelectorAll(".alph-btn");
   alphBtns.forEach(function (btn) {
@@ -548,6 +610,7 @@ function toggleAlphBtn(element) {
   });
   element.classList.toggle("active");
 }
+
 function toggleSideBar() {
   var sideBar = document.querySelector(".sidebar");
   var gridContainer = document.querySelector(".grid-container");
@@ -574,10 +637,12 @@ function toggleSideBar() {
     sidebarHandleIcon.style.transform = "rotate(360deg)";
   }
 }
+
 function handleUpdateDismiss() {
   var updateContainer = document.querySelector(".update-message");
   updateContainer.classList.remove("active");
 }
+
 function addCheckboxEventListener() {
   var allCheckbox = document.getElementById("all-checkbox");
   const deleteButtonContainer = document.querySelector(".delete-button");
@@ -594,6 +659,7 @@ function addCheckboxEventListener() {
     }
   }
 }
+
 function handleBurger(burgerContainer) {
   var dropdownContent = document.querySelector(".dropdown-content-header");
   if (dropdownContent.classList.contains("active")) {
@@ -602,6 +668,7 @@ function handleBurger(burgerContainer) {
     dropdownContent.classList.add("active");
   }
 }
+
 function handleFilterDropdown(element) {
   if (element.classList.contains("active")) {
     element.classList.remove("active");
@@ -609,6 +676,7 @@ function handleFilterDropdown(element) {
     element.classList.add("active");
   }
 }
+
 function resetFilter() {
   var dropdownButtons = document.querySelectorAll(".filter-btn");
   var dropdownOptions = document.querySelectorAll(".dropdown-options");
@@ -637,9 +705,10 @@ function resetFilter() {
   selectedFilters.department = [];
   selectedFilters.location = [];
   selectedFilters.alphabet = [];
-  renderEmployees(selectedFilters);
+  renderEmployees(getFilteredData(selectedFilters));
 }
-let direction = "ascending";
+
+// handle sorting of columns in the table
 function sortTable(n) {
   let table = document.getElementById("employeesTable");
   let switching = true;
@@ -673,10 +742,12 @@ function sortTable(n) {
     }
   }
 }
+
 function ellipsisFunction(icon) {
   let menu = icon.nextElementSibling;
   menu.style.display = menu.style.display === "block" ? "none" : "block";
 }
+
 function deleteRow(row) {
   var tableRow = row.closest("tr");
   var tableBody = tableRow.parentNode;
@@ -689,6 +760,7 @@ function deleteRow(row) {
   alert("Employee data deleted successfully!");
   renderEmployees();
 }
+
 function handleFormFunctions(form, activeContainers, removeContainers) {
   let errorMessages = document.querySelectorAll(".error-message");
   errorMessages.forEach(function (errorMessage) {
@@ -702,6 +774,7 @@ function handleFormFunctions(form, activeContainers, removeContainers) {
   });
   form.reset();
 }
+
 function handleAddEmployeesFormCancel(activeContainers, removeContainers) {
   let form = document.getElementById("employeeForm");
   defaultImageSource = "../assets/default-user.png";
@@ -709,26 +782,12 @@ function handleAddEmployeesFormCancel(activeContainers, removeContainers) {
   profileImagePreview.src = defaultImageSource;
   handleFormFunctions(form, activeContainers, removeContainers);
 }
+
 function handleAddRolesFormCancel(activeContainers, removeContainers) {
   let form = document.getElementById("roleForm");
   handleFormFunctions(form, activeContainers, removeContainers);
 }
-function generateAlphabetButtons() {
-  const alphabetsContainer = document.getElementById("alphabetsContainer");
-  for (let i = 65; i <= 90; i++) {
-    const alphabetChar = String.fromCharCode(i);
-    const alphabetButton = document.createElement("div");
-    alphabetButton.classList.add(
-      "alph-btn",
-      `btn-${alphabetChar.toLowerCase()}`
-    );
-    alphabetButton.textContent = alphabetChar;
-    alphabetButton.addEventListener("click", function () {
-      filterEmployeesByAlphabet(this);
-    });
-    alphabetsContainer.appendChild(alphabetButton);
-  }
-}
+
 function getSelectedFilters() {
   const selectedFilters = {
     alphabet: getSelectedAlphabets(),
@@ -738,6 +797,7 @@ function getSelectedFilters() {
   };
   return selectedFilters;
 }
+
 function getSelectedAlphabets() {
   const selectedAlphabets = [];
   var alphBtns = document.querySelectorAll(".alph-btn");
@@ -751,6 +811,7 @@ function getSelectedAlphabets() {
   });
   return selectedAlphabets;
 }
+
 function getSelectedOptions(selector) {
   const selectedOptions = [];
   const selectedElements = document.querySelectorAll(
@@ -764,6 +825,7 @@ function getSelectedOptions(selector) {
   });
   return selectedOptions;
 }
+
 function selectOption(option) {
   option.classList.toggle("selected");
   option.classList.toggle("active");
@@ -784,9 +846,9 @@ function selectOption(option) {
     }
   });
 
-
   handleFilterBar();
 }
+
 function handleFilterBar() {
   var dropdownButtons = document.querySelectorAll(".filter-btn");
 
@@ -814,6 +876,7 @@ function handleFilterBar() {
     applyButton.disabled = true;
   }
 }
+
 function sidebarFilter(selectedFilter) {
   let selectedFilters = getSelectedFilters();
   const departmentName = selectedFilter.department[0];
@@ -844,7 +907,7 @@ function sidebarFilter(selectedFilter) {
     resetButton.disabled = true;
   }
   if (selectedFilter.department.length > 0) {
-    renderEmployees(selectedFilters);
+    renderEmployees(getFilteredData(selectedFilters));
   } else {
     renderEmployees();
   }
@@ -853,85 +916,69 @@ function sidebarFilter(selectedFilter) {
 function updateFilteredResults() {
   let selectedFilters = getSelectedFilters();
   console.log("Update Filtered Results", selectedFilters);
-  renderEmployees(selectedFilters);
+  renderEmployees(getFilteredData(selectedFilters));
 }
-function renderEmployees(
-  selectedFilters = { alphabet: [], status: [], department: [], location: [] }
-) {
-  console.log(selectedFilters);
-  let employees = getAllEmployeesFromLocalStorage();
-  const tableBody = document.querySelector(".employees-table tbody");
-  tableBody.innerHTML = "";
 
-  employees.forEach(function (employee) {
-    const firstName = employee.firstName
-      ? employee.firstName.toLowerCase()
-      : "n/a";
-    const lastName = employee.lastName
-      ? employee.lastName.toLowerCase()
-      : "n/a";
+function getFilteredData(selectedFilters = { alphabet: [], status: [], department: [], location: [] }) {
+  const employees = getAllEmployeesFromLocalStorage();
+
+  return employees.filter(employee => {
+    const firstName = employee.firstName ? employee.firstName.toLowerCase() : "n/a";
+    const lastName = employee.lastName ? employee.lastName.toLowerCase() : "n/a";
     const email = employee.email ? employee.email.toLowerCase() : "n/a";
-    const location = employee.location
-      ? employee.location.toLowerCase()
-      : "n/a";
-    const department = employee.department
-      ? employee.department.toLowerCase()
-      : "n/a";
+    const location = employee.location ? employee.location.toLowerCase() : "n/a";
+    const department = employee.department ? employee.department.toLowerCase() : "n/a";
     const role = employee.jobTitle ? employee.jobTitle.toLowerCase() : "n/a";
     const empNo = employee.empNo ? employee.empNo : "n/a";
     const status = employee.status ? "active" : "inactive";
-    const joiningDate = employee.joiningDate ? employee.joiningDate : "n/a";
-    const profileImageBase64 = employee.profileImageBase64;
 
     const matchesFilters =
-      (selectedFilters.alphabet.length === 0 ||
-        selectedFilters.alphabet.some((alphabet) =>
-          firstName.startsWith(alphabet.toLowerCase())
-        )) &&
-      (selectedFilters.status.length === 0 ||
-        selectedFilters.status.includes(status)) &&
-      (selectedFilters.department.length === 0 ||
-        selectedFilters.department.includes(department)) &&
-      (selectedFilters.location.length === 0 ||
-        selectedFilters.location.includes(location));
+      (selectedFilters.alphabet.length === 0 || selectedFilters.alphabet.some(alphabet => firstName.startsWith(alphabet.toLowerCase()))) &&
+      (selectedFilters.status.length === 0 || selectedFilters.status.includes(status)) &&
+      (selectedFilters.department.length === 0 || selectedFilters.department.includes(department)) &&
+      (selectedFilters.location.length === 0 || selectedFilters.location.includes(location));
 
-    if (matchesFilters) {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td class="check-box-col"><input type="checkbox"/></td>
-        <td class="col col-user">
-          <div class="profile-card emp-card">
-            <img src="${profileImageBase64}" alt="Employee Image" class="employee-img" />
-            <div class="profile-details">
-              <p class="profile-name">${employee.firstName} ${
-        employee.lastName
-      }</p>
-              <p class="profile-email">${employee.email}</p>
-            </div>
-          </div>
-        </td>
-        <td class="col col-location">${employee.location}</td>
-        <td class="col col-department">${employee.department}</td>
-        <td class="col col-role">${employee.jobTitle}</td>
-        <td class="col col-emp-no">${employee.empNo}</td>
-        <td class="col col-status">
-          <div class="btn-active">${
-            employee.status ? "Active" : "Inactive"
-          }</div>
-        </td>
-        <td class="col col-join-dt">${employee.joiningDate}</td>
-        <td>
-          <span class="material-icons-outlined ellipsis-icon" onclick="ellipsisFunction(this)">more_horiz</span>
-          <div class="ellipsis-menu">
-            <ul>
-              <li><a href="#" onclick="viewDetails()">View Details</a></li>
-              <li><a href="#" onclick="editRow()">Edit</a></li>
-              <li onclick="deleteRow(this)"><a href="#">Delete</a></li>
-            </ul>
-          </div>
-        </td>
-      `;
-      tableBody.appendChild(row);
-    }
+    return matchesFilters;
   });
+}
+
+function renderEmployees(filteredData) {
+  const tableBody = document.querySelector(".employees-table tbody");
+  tableBody.innerHTML = "";
+  console.log(filteredData);
+  filteredData.forEach(employee => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td class="check-box-col"><input type="checkbox"/></td>
+      <td class="col col-user">
+        <div class="profile-card emp-card">
+          <img src="${employee.profileImageBase64}" alt="Employee Image" class="employee-img" />
+          <div class="profile-details">
+            <p class="profile-name">${employee.firstName} ${employee.lastName}</p>
+            <p class="profile-email">${employee.email}</p>
+          </div>
+        </div>
+      </td>
+      <td class="col col-location">${employee.location}</td>
+      <td class="col col-department">${employee.department}</td>
+      <td class="col col-role">${employee.jobTitle}</td>
+      <td class="col col-emp-no">${employee.empNo}</td>
+      <td class="col col-status">
+        <div class="btn-active">${employee.status ? "Active" : "Inactive"}</div>
+      </td>
+      <td class="col col-join-dt">${employee.joiningDate}</td>
+      <td>
+        <span class="material-icons-outlined ellipsis-icon" onclick="ellipsisFunction(this)">more_horiz</span>
+        <div class="ellipsis-menu">
+          <ul>
+            <li><a href="#" onclick="viewDetails()">View Details</a></li>
+            <li><a href="#" onclick="editRow()">Edit</a></li>
+            <li onclick="deleteRow(this)"><a href="#">Delete</a></li>
+          </ul>
+        </div>
+      </td>
+    `;
+    tableBody.appendChild(row);
+  });
+  populateDepartmentList();
 }
