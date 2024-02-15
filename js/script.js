@@ -408,7 +408,6 @@ function toggleDeleteButtonVisibility() {
 
   allCheckboxes.forEach(function (checkbox) {
     if (checkbox.checked) {
-      console.log(checkbox.checked);
       anyChecked = true;
       return;
     }
@@ -956,7 +955,6 @@ function sidebarFilter(selectedFilter) {
 
 function updateFilteredResults() {
   let selectedFilters = getSelectedFilters();
-  console.log("Update Filtered Results", selectedFilters);
   renderEmployees(getFilteredData(selectedFilters));
 }
 
@@ -996,7 +994,6 @@ function getFilteredData(
 function renderEmployees(filteredData) {
   const tableBody = document.querySelector(".employees-table tbody");
   tableBody.innerHTML = "";
-  console.log(filteredData);
   filteredData.forEach((employee) => {
     const row = document.createElement("tr");
     row.innerHTML = `
