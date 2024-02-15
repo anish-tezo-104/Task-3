@@ -800,7 +800,6 @@ function deleteRow(row) {
   alert("Employee data deleted successfully!");
   renderEmployees();
 }
-getSelectedOptions;
 function handlePostFormSubmissions(form, activeContainers, removeContainers) {
   let errorMessages = document.querySelectorAll(".error-message");
   errorMessages.forEach(function (errorMessage) {
