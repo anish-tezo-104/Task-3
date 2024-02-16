@@ -8,7 +8,7 @@
     <div class="function-right">
       <div
         class="function-button function-add-role-button"
-        onclick="handleAddRoleBtn(this, ['.role-page'])">
+        onclick="EMS.rolesPageFunctions.handleAddRoleBtn(this, ['.role-page'])">
         <img src="../assets/add.svg" alt="Plus Icon" />
         <span>ADD ROLE</span>
       </div>
@@ -25,7 +25,7 @@
       </button>
       <div
         class="dropdown dropdown-location"
-        onclick="handleFilterDropdown(this)">
+        onclick="EMS.filterFunctions.handleFilterDropdown(this)">
         <button
           class="filter-btn btn-location dropbtn"
           data-default-text="Location">
@@ -39,37 +39,37 @@
         <div class="dropdown-content">
           <div
             class="dropdown-options loc-hyderabad"
-            onclick="selectOption(this)"
+            onclick="EMS.filterFunctions.selectOption(this)"
             value="Hyderabad">
             Hyderabad
           </div>
           <div
             class="dropdown-options loc-delhi"
-            onclick="selectOption(this)"
+            onclick="EMS.filterFunctions.selectOption(this)"
             value="Delhi">
             Delhi
           </div>
           <div
             class="dropdown-options loc-mumbai"
-            onclick="selectOption(this)"
+            onclick="EMS.filterFunctions.selectOption(this)"
             value="Mumbai">
             Mumbai
           </div>
           <div
             class="dropdown-options loc-bangalore"
-            onclick="selectOption(this)"
+            onclick="EMS.filterFunctions.selectOption(this)"
             value="Bangalore">
             Bangalore
           </div>
           <div
             class="dropdown-options loc-seattle"
-            onclick="selectOption(this)"
+            onclick="EMS.filterFunctions.selectOption(this)"
             value="Seattle">
             Seattle
           </div>
           <div
             class="dropdown-options loc-new-york"
-            onclick="selectOption(this)"
+            onclick="EMS.filterFunctions.selectOption(this)"
             value="NewYork">
             New York
           </div>
@@ -77,7 +77,7 @@
       </div>
       <div
         class="dropdown dropdown-department"
-        onclick="handleFilterDropdown(this)">
+        onclick="EMS.filterFunctions.handleFilterDropdown(this)">
         <button
           class="filter-btn btn-department dropbtn"
           data-default-text="Department">
@@ -91,37 +91,37 @@
         <div class="dropdown-content">
           <div
             class="dropdown-options dept-IT"
-            onclick="selectOption(this)"
+            onclick="EMS.filterFunctions.selectOption(this)"
             value="IT">
             IT
           </div>
           <div
             class="dropdown-options dept-HR"
-            onclick="selectOption(this)"
+            onclick="EMS.filterFunctions.selectOption(this)"
             value="Human Resources">
             HR
           </div>
           <div
             class="dropdown-options dept-Finance"
-            onclick="selectOption(this)"
+            onclick="EMS.filterFunctions.selectOption(this)"
             value="Finance">
             Finance
           </div>
           <div
             class="dropdown-options dept-Product-Engg"
-            onclick="selectOption(this)"
+            onclick="EMS.filterFunctions.selectOption(this)"
             value="Product Engineering">
             Product Engg.
           </div>
           <div
             class="dropdown-options dept-UIUX"
-            onclick="selectOption(this)"
+            onclick="EMS.filterFunctions.selectOption(this)"
             value="UI/UX">
             UI/UX
           </div>
           <div
             class="dropdown-options dept-Operations"
-            onclick="selectOption(this)"
+            onclick="EMS.filterFunctions.selectOption(this)"
             value="Operations">
             Operations
           </div>
@@ -129,8 +129,8 @@
       </div>
     </div>
     <div class="filter-container-right">
-      <button class="btn-reset" onclick="resetFilter()">Reset</button>
-      <button class="btn-apply" onclick="updateFilteredResults()">Apply</button>
+      <button class="btn-reset" onclick="EMS.filterFunctions.resetFilter()">Reset</button>
+      <button class="btn-apply" onclick="EMS.filterFunctions.updateFilteredResults()">Apply</button>
     </div>
   </div>
   <!--Roles Container-->
@@ -189,7 +189,7 @@
         </div>
         <div
           class="role-card-details view-all-employees"
-          onclick="openRoleDescription(this)">
+          onclick="rolesPageFunctions.openRoleDescription(this)">
           <div class="left">View all employees</div>
           <div class="right-arrow-icon">
             <img src="../assets/right-arrow.svg" alt="Arrow Right Icon" />
