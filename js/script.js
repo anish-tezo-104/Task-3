@@ -223,9 +223,15 @@ const EMS = (function () {
   };
 
   const employeesPageFunctions = {
-    exportCSV: function (filename) {
-      let employeesTableData = globalUtilityFunctions.extractTableData();
-      let csvContent = globalUtilityFunctions.convertToCSV(employeesTableData);
+    exportCSV: function (filename,excludedColumns) {
+      let currentSelectedFilters = filterFunctions.getSelectedFilters();
+      let filteredEmployees = filterFunctions.getFilteredData(
+        currentSelectedFilters
+      );
+      let csvContent = globalUtilityFunctions.convertToCSV(
+        filteredEmployees,
+        excludedColumns
+      );
       globalUtilityFunctions.downloadCSVFile(csvContent, filename);
     },
 
@@ -726,11 +732,32 @@ const EMS = (function () {
       }
     },
 
-    convertToCSV: function (tableData) {
-      let csvContent = '"' + tableData.headers.join('","') + '"\n';
-      tableData.data.forEach((rowData) => {
-        csvContent += rowData.join(",") + "\n";
+    convertToCSV: function (employeesData, excludedColumns = []) {
+      let csvContent = "";
+      if (employeesData.length === 0) {
+        return csvContent;
+      }
+      const headers = Object.keys(employeesData[0]);
+      const filteredHeaders = headers.filter(
+        (header) => !excludedColumns.includes(header)
+      );
+      csvContent += '"' + filteredHeaders.join('","') + '"\n';
+      employeesData.forEach((rowData) => {
+        let rowContent = filteredHeaders
+          .map((header) => {
+            let cell = rowData[header];
+            if (typeof cell === "string" && cell.includes('"')) {
+              cell = cell.replace(/"/g, '""');
+            }
+            if (typeof cell === "string" && cell.includes(",")) {
+              cell = '"' + cell + '"';
+            }
+            return cell;
+          })
+          .join(",");
+        csvContent += rowContent + "\n";
       });
+
       return csvContent;
     },
 
@@ -741,6 +768,7 @@ const EMS = (function () {
       link.setAttribute("href", url);
       link.setAttribute("download", filename);
       link.click();
+      URL.revokeObjectURL(url);
     },
 
     resetSelectedFiltersState: function () {
