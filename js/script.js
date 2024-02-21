@@ -34,6 +34,26 @@ const EMS = (function () {
 
   function handleAddEmployeePage(url) {
     if (url == "./html/addEmployee.html") {
+      addEmployeesPageFunctions.populateSelectOptions(
+        "location",
+        locationOptions
+      );
+      addEmployeesPageFunctions.populateSelectOptions(
+        "jobTitle",
+        jobTitleOptions
+      );
+      addEmployeesPageFunctions.populateSelectOptions(
+        "department",
+        departmentOptions
+      );
+      addEmployeesPageFunctions.populateSelectOptions(
+        "assignManager",
+        managerOptions
+      );
+      addEmployeesPageFunctions.populateSelectOptions(
+        "assignProject",
+        projectOptions
+      );
       const profileImageInput = document.getElementById("profileImageInput");
       const addProfilePhotoButton = document.getElementById(
         "addProfilePhotoButton"
@@ -68,7 +88,9 @@ const EMS = (function () {
 
   function handlePostProcessing(url) {
     globalUtilityFunctions.handleSidebarResponsive();
+    filterFunctions.populateFilterOptions();
     sideBarFunctions.populateDepartmentList();
+
     handleEmployeesPage(url);
     handleAddEmployeePage(url);
     handleAddRolesPage(url);
@@ -80,6 +102,75 @@ const EMS = (function () {
     department: [],
     location: [],
   };
+
+  const filterOptions = {
+    status: ["Active", "Inactive", "All"],
+    location: [
+      "Hyderabad",
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Seattle",
+      "New York",
+    ],
+    department: [
+      "IT",
+      "HR",
+      "Finance",
+      "Product Engineering",
+      "UI/UX",
+      "Management",
+    ],
+  };
+
+  const locationOptions = [
+    "Select location",
+    "Hyderabad",
+    "Delhi",
+    "Mumbai",
+    "Bangalore",
+    "Seattle",
+    "New York",
+  ];
+
+  const jobTitleOptions = [
+    "Select job title",
+    "UX Designer",
+    "Front End Developer",
+    "Back End Developer",
+    "Full Stack Developer",
+    "Android Developer",
+    "iOS Developer",
+    "Java Developer",
+    "Python Developer",
+    "PHP Developer",
+  ];
+
+  const departmentOptions = [
+    "Select department",
+    "UI/UX",
+    "HR",
+    "IT",
+    "Product Engineering",
+    "Management",
+    "Finance",
+  ];
+
+  const managerOptions = [
+    "Select manager",
+    "None",
+    "John Doe",
+    "Jane Smith",
+    "Michael Johnson",
+  ];
+
+  const projectOptions = [
+    "Select project",
+    "None",
+    "Project 1",
+    "Project 2",
+    "Project 3",
+  ];
 
   const sideBarFunctions = {
     toggleSubSecClass: function (
@@ -178,15 +269,10 @@ const EMS = (function () {
       }
       const departmentList = document.getElementById("departmentList");
       departmentList.innerHTML = "";
-      const staticDepartments = [
-        "HR",
-        "Finance",
-        "IT",
-        "Product Engineering",
-        "UI/UX",
-        "Management",
-        "Others",
-      ];
+      const staticDepartments = filterOptions.department;
+      if (!staticDepartments.includes("Others")) {
+        staticDepartments.push("Others");
+      }
       staticDepartments.forEach((departmentName) => {
         const employeeCount = departmentCounts[departmentName] || 0;
         const departmentListItemHTML = this.generateDepartmentListItem(
@@ -223,16 +309,16 @@ const EMS = (function () {
   };
 
   const employeesPageFunctions = {
-    exportCSV: function (filename,excludedColumns) {
-      let currentSelectedFilters = filterFunctions.getSelectedFilters();
-      let filteredEmployees = filterFunctions.getFilteredData(
+    exportEmployeesToCSV(filename, excludedColumns) {
+      const currentSelectedFilters = filterFunctions.getSelectedFilters();
+      const filteredEmployees = filterFunctions.getFilteredData(
         currentSelectedFilters
       );
-      let csvContent = globalUtilityFunctions.convertToCSV(
-        filteredEmployees,
-        excludedColumns
+      globalUtilityFunctions.exportCSV(
+        filename,
+        excludedColumns,
+        filteredEmployees
       );
-      globalUtilityFunctions.downloadCSVFile(csvContent, filename);
     },
 
     handleAddEmployeeBtn: function (element, removeContainers) {
@@ -446,6 +532,66 @@ const EMS = (function () {
   };
 
   const filterFunctions = {
+    generateFilterOptions: function (options, className) {
+      return options
+        .map(
+          (option) => `
+      <div class="dropdown-options ${className}" onclick="EMS.filterFunctions.selectOption(this)" value="${option}">
+        ${option}
+      </div>
+    `
+        )
+        .join("");
+    },
+
+    populateFilterOptions: function () {
+      const filterContainerLeft = document.getElementById(
+        "filterContainerLeft"
+      );
+      filterContainerLeft.innerHTML = "";
+      filterContainerLeft.innerHTML = `
+      <div class="dropdown dropdown-status" onclick="EMS.filterFunctions.handleFilterDropdown(this)">
+        <button class="filter-btn btn-status dropbtn" data-default-text="Status">
+          <div>Status</div>
+          <div class="expand-more-icon">
+            <span class="material-icons-outlined expand-more-icon">
+              expand_more
+            </span>
+          </div>
+        </button>
+        <div class="dropdown-content">
+          ${this.generateFilterOptions(filterOptions.status, "status")}
+        </div>
+      </div>
+      <div class="dropdown dropdown-location" onclick="EMS.filterFunctions.handleFilterDropdown(this)">
+        <button class="filter-btn btn-location dropbtn" data-default-text="Location">
+          <div>Location</div>
+          <div class="expand-more-icon">
+            <span class="material-icons-outlined expand-more-icon">
+              expand_more
+            </span>
+          </div>
+        </button>
+        <div class="dropdown-content">
+          ${this.generateFilterOptions(filterOptions.location, "location")}
+        </div>
+      </div>
+      <div class="dropdown dropdown-department" onclick="EMS.filterFunctions.handleFilterDropdown(this)">
+        <button class="filter-btn btn-department dropbtn" data-default-text="Department">
+          <div>Department</div>
+          <div class="expand-more-icon">
+            <span class="material-icons-outlined expand-more-icon">
+              expand_more
+            </span>
+          </div>
+        </button>
+        <div class="dropdown-content">
+          ${this.generateFilterOptions(filterOptions.department, "department")}
+        </div>
+      </div>
+    `;
+    },
+
     handleFilterDropdown: function (element) {
       if (element.classList.contains("active")) {
         element.classList.remove("active");
@@ -651,6 +797,14 @@ const EMS = (function () {
       }
     },
 
+    exportCSV(filename, excludedColumns, tableData) {
+      const csvContent = globalUtilityFunctions.convertToCSV(
+        tableData,
+        excludedColumns
+      );
+      globalUtilityFunctions.downloadCSVFile(csvContent, filename);
+    },
+
     getAllEmployeesFromLocalStorage: function () {
       return JSON.parse(localStorage.getItem("employees")) || [];
     },
@@ -711,6 +865,7 @@ const EMS = (function () {
     // Responsiveness for SideBar
     handleSidebarResponsive: function () {
       var sideBar = document.querySelector(".sidebar");
+
       if (sideBar) {
         if (window.innerWidth <= 900) {
           sideBar.classList.remove("active");
@@ -813,6 +968,17 @@ const EMS = (function () {
   }
 
   const addEmployeesPageFunctions = {
+    populateSelectOptions: function (selectId, options) {
+      const selectElement = document.getElementById(selectId);
+      selectElement.innerHTML = "";
+      options.forEach((option) => {
+        const optionElement = document.createElement("option");
+        optionElement.value = option;
+        optionElement.textContent = option;
+        selectElement.appendChild(optionElement);
+      });
+    },
+
     handleAddEmployeesFormCancel: function (
       activeContainers,
       removeContainers

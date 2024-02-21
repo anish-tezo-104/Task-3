@@ -350,7 +350,7 @@ button[disabled]{
 
 
   .burger-container {
-    display: block;
+    display: flex !important ;
   }
 
 
