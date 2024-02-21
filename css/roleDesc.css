@@ -1,0 +1,32 @@
+/* Role Description Container */
+.roles-card .profile-details {
+  margin-left: 0.5rem !important;
+  width: 100%;
+}
+
+.roles-card .profile-name {
+  color: black;
+  font-weight: bold
+}
+
+.roles-desc-page{
+  display: none;
+}
+
+.roles-desc-page.active{
+  display: block;
+}
+
+.roles-card .profile-title {
+  margin: 0;
+  font-size: 13px;
+  color: #676C72;
+}
+
+.roles-card .profile-card {
+  margin: 0 !important;
+}
+
+.roles-card .emp-id img, .email-id img, .role-domain img, .role-location img {
+  margin-right: 1rem !important;
+}

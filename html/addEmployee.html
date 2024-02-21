@@ -1,0 +1,100 @@
+<div class="add-employee-container">
+    <h1>Add Employee</h1>
+    <form id="employeeForm" class="employee-form" novalidate>
+        <div class="profile-image-container" id="profileImageContainer">
+            <label for="profileImageInput">
+                <img src="../assets/default-user.png" alt="Default User Image" id="profileImagePreview" />
+            </label>
+            <input type="file" id="profileImageInput" name="profileImage" accept="image/*" />
+            <button type="button" id="addProfilePhotoButton" class="upload-profile-pic-btn"> Upload Profile Picture</button>
+        </div>
+        <div class="employee-form-profile-details">
+            <div class="personal-information-container">
+                <h2>Personal Information</h2>
+                <div class="personal-information">
+                    <div class="first-section">
+                        <div class="input-field-container">
+                            <label for="empNo">Emp No<span class="required-field">*</span></label>
+                            <input type="text" required id="empNo" name="empNo" placeholder="Employee Number"/>
+                            <span class="error-message">&#9888; This field is required</span>
+                        </div>
+                    </div>
+
+                    <div class="second-section">
+                        <div class="input-field-container">
+                            <label for="firstName">First Name<span class="required-field">*</span></label>
+                            <input required type="text" id="firstName" name="firstName" placeholder="First Name" />
+                            <span class="error-message">&#9888; This field is required</span>
+                        </div>
+                        <div class="input-field-container">
+                            <label for="lastName">Last Name<span class="required-field">*</span></label>
+                            <input required type="text" id="lastName" name="lastName"  placeholder="Last Name"/>
+                            <span class="error-message">&#9888; This field is required</span>
+                        </div>
+                        <div class="input-field-container">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" id="dob" name="dob" class="date-input" placeholder="Select"  />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="third-section">
+                    <div class="input-field-container">
+                        <label for="email">Email Id<span class="required-field">*</span></label>
+                        <input required type="email" id="email" name="email" placeholder="Joe.j@Technover.com" />
+                        <span class="error-message">&#9888; This field is required</span>
+                    </div>
+                    <div class="input-field-container">
+                        <label for="mobileNumber">Mobile Number</label>
+                        <input type="number" id="mobileNumber" name="mobileNumber" placeholder="6878098367" />
+                    </div>
+                </div>
+            </div>
+            <div class="employment-information-container">
+                <h2>Employment Information</h2>
+                <div class="employment-information">
+                    <div class="first-section">
+                        <div class="input-field-container">
+                            <label for="joiningDate">Joining Date<span class="required-field">*</span></label>
+                            <input required type="date" id="joiningDate" class="date-input" name="joiningDate" />
+                            <span class="error-message">&#9888; This field is required</span>
+                        </div>
+                        <div class="input-field-container">
+                            <label for="location">Location</label>
+                            <select id="location" name="location" >
+                            </select>
+                        </div>
+                    </div>
+                    <div class="second-section">
+                        <div class="input-field-container">
+                            <label for="jobTitle">Job Title</label>
+                            <select id="jobTitle" name="jobTitle">
+                            </select>
+                        </div>
+                        <div class="input-field-container">
+                            <label for="department">Department</label>
+                            <select id="department" name="department">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="third-section">
+                        <div class="input-field-container">
+                            <label for="assignManager">Assign Manager</label>
+                            <select id="assignManager" name="assignManager">
+                            </select>
+                        </div>
+                        <div class="input-field-container">
+                            <label for="assignProject">Assign Project</label>
+                            <select id="assignProject" name="assignProject">
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" id="cancelButon" onclick="EMS.addEmployeesPageFunctions.handleAddEmployeesFormCancel(['.employees-page','.sub-sec.employees'],['.add-employee-container'])">Cancel</button>
+                    <button type="button" id="submitButton" onclick="EMS.addEmployeesPageFunctions.handleFormSubmit()">Add Employee</button>
+                </div>
+            </div>
+    </form>
+</div>

@@ -1,0 +1,501 @@
+<!-- Functions Role -->
+<div class="role-page">
+  <div class="function-container roles">
+    <div class="function-left">
+      <div class="heading">Roles</div>
+      <div class="sub-heading">All the roles are configured here</div>
+    </div>
+    <div class="function-right">
+      <div
+        class="function-button function-add-role-button"
+        onclick="EMS.rolesPageFunctions.handleAddRoleBtn(this, ['.role-page'])">
+        <img src="../assets/add.svg" alt="Plus Icon" />
+        <span>ADD ROLE</span>
+      </div>
+    </div>
+  </div>
+  <!--Filter-->
+  <div class="filter-container">
+    <div class="filter-container-left">
+      <button class="btn-filter">
+        <div>Filter</div>
+        <div class="filter-list-icon">
+          <span class="material-icons-outlined"> filter_list </span>
+        </div>
+      </button>
+      <div
+        class="dropdown dropdown-location"
+        onclick="EMS.filterFunctions.handleFilterDropdown(this)">
+        <button
+          class="filter-btn btn-location dropbtn"
+          data-default-text="Location">
+          <div>Location</div>
+          <div class="expand-more-icon">
+            <span class="material-icons-outlined expand-more-icon">
+              expand_more
+            </span>
+          </div>
+        </button>
+        <div class="dropdown-content">
+          <div
+            class="dropdown-options loc-hyderabad"
+            onclick="EMS.filterFunctions.selectOption(this)"
+            value="Hyderabad">
+            Hyderabad
+          </div>
+          <div
+            class="dropdown-options loc-delhi"
+            onclick="EMS.filterFunctions.selectOption(this)"
+            value="Delhi">
+            Delhi
+          </div>
+          <div
+            class="dropdown-options loc-mumbai"
+            onclick="EMS.filterFunctions.selectOption(this)"
+            value="Mumbai">
+            Mumbai
+          </div>
+          <div
+            class="dropdown-options loc-bangalore"
+            onclick="EMS.filterFunctions.selectOption(this)"
+            value="Bangalore">
+            Bangalore
+          </div>
+          <div
+            class="dropdown-options loc-seattle"
+            onclick="EMS.filterFunctions.selectOption(this)"
+            value="Seattle">
+            Seattle
+          </div>
+          <div
+            class="dropdown-options loc-new-york"
+            onclick="EMS.filterFunctions.selectOption(this)"
+            value="NewYork">
+            New York
+          </div>
+        </div>
+      </div>
+      <div
+        class="dropdown dropdown-department"
+        onclick="EMS.filterFunctions.handleFilterDropdown(this)">
+        <button
+          class="filter-btn btn-department dropbtn"
+          data-default-text="Department">
+          <div>Department</div>
+          <div class="expand-more-icon">
+            <span class="material-icons-outlined expand-more-icon">
+              expand_more
+            </span>
+          </div>
+        </button>
+        <div class="dropdown-content">
+          <div
+            class="dropdown-options dept-IT"
+            onclick="EMS.filterFunctions.selectOption(this)"
+            value="IT">
+            IT
+          </div>
+          <div
+            class="dropdown-options dept-HR"
+            onclick="EMS.filterFunctions.selectOption(this)"
+            value="Human Resources">
+            HR
+          </div>
+          <div
+            class="dropdown-options dept-Finance"
+            onclick="EMS.filterFunctions.selectOption(this)"
+            value="Finance">
+            Finance
+          </div>
+          <div
+            class="dropdown-options dept-Product-Engg"
+            onclick="EMS.filterFunctions.selectOption(this)"
+            value="Product Engineering">
+            Product Engg.
+          </div>
+          <div
+            class="dropdown-options dept-UIUX"
+            onclick="EMS.filterFunctions.selectOption(this)"
+            value="UI/UX">
+            UI/UX
+          </div>
+          <div
+            class="dropdown-options dept-Operations"
+            onclick="EMS.filterFunctions.selectOption(this)"
+            value="Operations">
+            Operations
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-container-right">
+      <button class="btn-reset" onclick="EMS.filterFunctions.resetFilter()">Reset</button>
+      <button class="btn-apply" onclick="EMS.filterFunctions.updateFilteredResults()">Apply</button>
+    </div>
+  </div>
+  <!--Roles Container-->
+  <div class="roles-container">
+    <div class="roles-container-item">
+      <div class="roles-card">
+        <div class="roles-card-name">
+          <div class="role-name">Customer Service Manager</div>
+          <div class="edit-icon">
+            <img src="../assets/edit-icon.svg" alt="Edit Icon" />
+          </div>
+        </div>
+        <div class="role-card-details dept-name">
+          <div class="left">
+            <img
+              src="../assets/team-icon.svg"
+              class="team-icon"
+              alt="Team Icon" />
+            <div>Department</div>
+          </div>
+          <div class="right">IT</div>
+        </div>
+        <div class="role-card-details location-name">
+          <div class="left">
+            <img
+              src="../assets/location-icon.svg"
+              class="location-icon"
+              alt="Location Icon" />
+            <div>Location</div>
+          </div>
+          <div class="right">Hyderabad</div>
+        </div>
+        <div class="role-card-details total-employees-count">
+          <div class="left">Total Employees</div>
+          <div class="right">
+            <div class="employee-count">
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <span class="employees-count-circle"> +43 </span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="role-card-details view-all-employees"
+          onclick="EMS.rolesPageFunctions.openRoleDescription(this)">
+          <div class="left">View all employees</div>
+          <div class="right-arrow-icon">
+            <img src="../assets/right-arrow.svg" alt="Arrow Right Icon" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="roles-container-item">
+      <div class="roles-card">
+        <div class="roles-card-name">
+          <div class="role-name">Ux Designer</div>
+          <div class="edit-icon">
+            <img src="../assets/edit-icon.svg" alt="Edit Icon" />
+          </div>
+        </div>
+        <div class="role-card-details dept-name">
+          <div class="left">
+            <img
+              src="../assets/team-icon.svg"
+              class="team-icon"
+              alt="Team Icon" />
+            <div>Department</div>
+          </div>
+          <div class="right">Product Engg.</div>
+        </div>
+        <div class="role-card-details location-name">
+          <div class="left">
+            <img
+              src="../assets/location-icon.svg"
+              class="location-icon"
+              alt="Location Icon" />
+            <div>Location</div>
+          </div>
+          <div class="right">Hyderabad</div>
+        </div>
+        <div class="role-card-details total-employees-count">
+          <div class="left">Total Employees</div>
+          <div class="right">
+            <div class="employee-count">
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <span class="employees-count-circle"> +43 </span>
+            </div>
+          </div>
+        </div>
+        <div class="role-card-details view-all-employees">
+          <div class="left">View all employees</div>
+          <div class="right-arrow-icon">
+            <img src="../assets/right-arrow.svg" alt="Arrow Right Icon" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="roles-container-item">
+      <div class="roles-card">
+        <div class="roles-card-name">
+          <div class="role-name">Assistant Backend Developer</div>
+          <div class="edit-icon">
+            <img src="../assets/edit-icon.svg" alt="Edit Icon" />
+          </div>
+        </div>
+        <div class="role-card-details dept-name">
+          <div class="left">
+            <img
+              src="../assets/team-icon.svg"
+              class="team-icon"
+              alt="Team Icon" />
+            <div>Department</div>
+          </div>
+          <div class="right">UIUX</div>
+        </div>
+        <div class="role-card-details location-name">
+          <div class="left">
+            <img
+              src="../assets/location-icon.svg"
+              class="location-icon"
+              alt="Location Icon" />
+            <div>Location</div>
+          </div>
+          <div class="right">Hyderabad</div>
+        </div>
+        <div class="role-card-details total-employees-count">
+          <div class="left">Total Employees</div>
+          <div class="right">
+            <div class="employee-count">
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <span class="employees-count-circle"> +43 </span>
+            </div>
+          </div>
+        </div>
+        <div class="role-card-details view-all-employees">
+          <div class="left">View all employees</div>
+          <div class="right-arrow-icon">
+            <img src="../assets/right-arrow.svg" alt="Arrow Right Icon" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="roles-container-item">
+      <div class="roles-card">
+        <div class="roles-card-name">
+          <div class="role-name">Human Resource Manager</div>
+          <div class="edit-icon">
+            <img src="../assets/edit-icon.svg" alt="Edit Icon" />
+          </div>
+        </div>
+        <div class="role-card-details dept-name">
+          <div class="left">
+            <img
+              src="../assets/team-icon.svg"
+              class="team-icon"
+              alt="Team Icon" />
+            <div>Department</div>
+          </div>
+          <div class="right">IT</div>
+        </div>
+        <div class="role-card-details location-name">
+          <div class="left">
+            <img
+              src="../assets/location-icon.svg"
+              class="location-icon"
+              alt="Location Icon" />
+            <div>Location</div>
+          </div>
+          <div class="right">Hyderabad</div>
+        </div>
+        <div class="role-card-details total-employees-count">
+          <div class="left">Total Employees</div>
+          <div class="right">
+            <div class="employee-count">
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <span class="employees-count-circle"> +43 </span>
+            </div>
+          </div>
+        </div>
+        <div class="role-card-details view-all-employees">
+          <div class="left">View all employees</div>
+          <div class="right-arrow-icon">
+            <img src="../assets/right-arrow.svg" alt="Arrow Right Icon" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="roles-container-item">
+      <div class="roles-card">
+        <div class="roles-card-name">
+          <div class="role-name">Front End Developer</div>
+          <div class="edit-icon">
+            <img src="../assets/edit-icon.svg" alt="Edit Icon" />
+          </div>
+        </div>
+        <div class="role-card-details dept-name">
+          <div class="left">
+            <img
+              src="../assets/team-icon.svg"
+              class="team-icon"
+              alt="Team Icon" />
+            <div>Department</div>
+          </div>
+          <div class="right">Product Engg.</div>
+        </div>
+        <div class="role-card-details location-name">
+          <div class="left">
+            <img
+              src="../assets/location-icon.svg"
+              class="location-icon"
+              alt="Location Icon" />
+            <div>Location</div>
+          </div>
+          <div class="right">Hyderabad</div>
+        </div>
+        <div class="role-card-details total-employees-count">
+          <div class="left">Total Employees</div>
+          <div class="right">
+            <div class="employee-count">
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <span class="employees-count-circle"> +43 </span>
+            </div>
+          </div>
+        </div>
+        <div class="role-card-details view-all-employees">
+          <div class="left">View all employees</div>
+          <div class="right-arrow-icon">
+            <img src="../assets/right-arrow.svg" alt="Arrow Right Icon" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="roles-container-item">
+      <div class="roles-card">
+        <div class="roles-card-name">
+          <div class="role-name">Senior Developer</div>
+          <div class="edit-icon">
+            <img src="../assets/edit-icon.svg" alt="Edit Icon" />
+          </div>
+        </div>
+        <div class="role-card-details dept-name">
+          <div class="left">
+            <img
+              src="../assets/team-icon.svg"
+              class="team-icon"
+              alt="Team Icon" />
+            <div>Department</div>
+          </div>
+          <div class="right">UIUX</div>
+        </div>
+        <div class="role-card-details location-name">
+          <div class="left">
+            <img
+              src="../assets/location-icon.svg"
+              class="location-icon"
+              alt="Location Icon" />
+            <div>Location</div>
+          </div>
+          <div class="right">Hyderabad</div>
+        </div>
+        <div class="role-card-details total-employees-count">
+          <div class="left">Total Employees</div>
+          <div class="right">
+            <div class="employee-count">
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <img
+                src="../assets/profile.png"
+                alt="Employees Count"
+                class="employees-count-icon" />
+              <span class="employees-count-circle"> +43 </span>
+            </div>
+          </div>
+        </div>
+        <div class="role-card-details view-all-employees">
+          <div class="left">View all employees</div>
+          <div class="right-arrow-icon">
+            <img src="../assets/right-arrow.svg" alt="Arrow Right Icon" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

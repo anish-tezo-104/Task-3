@@ -1,0 +1,173 @@
+/*-----Header------*/
+
+.header-icons, .header-icons-burger {
+  display: flex;
+
+  font-size: 2.5rem;
+  color: #34495E;
+
+}
+
+.burger-container {
+  display: none;
+}
+
+
+.burger-btn {
+  background-color: transparent;
+  border: none;
+}
+
+.header-icons-burger {
+  flex-direction: column;
+
+}
+
+.header-icons span:hover {
+  cursor: pointer;
+}
+
+.header-icons-burger span:hover {
+  transform: scale(1.2);
+}
+
+.dropdown-content span:hover {
+  cursor: pointer;
+}
+
+.header-container {
+  grid-area: header;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  border-radius: 8px;
+  z-index: 1;
+  height: 3rem;
+  background-color: #ffffff;
+  align-items: center;
+  width: 100%;
+  margin: 1rem 1rem 1rem 2rem;
+  box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.205);
+  justify-content: center;
+}
+
+.header-left {
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-right img:hover,
+.header-left img:hover {
+  cursor: pointer;
+}
+
+.search-icon {
+  margin: 0 1rem;
+}
+
+.search-input {
+  background-color: transparent !important;
+  height: 100%;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  border: none;
+  width: 100%;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+.search-input:focus {
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: #bac1c8;
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  margin: 0 0.6rem;
+  color: black;
+}
+
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 0 1rem;
+  width: 7rem;
+}
+
+.profile-img {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+}
+
+.profile-pic-container {
+  position: relative;
+  display: inline-block;
+}
+
+.status-circle {
+  position: absolute;
+  width: 0.6rem;
+  height: 0.6rem;
+  border: 2px solid white;
+  border-radius: 50%;
+  bottom: 2px;
+  right: 2px;
+}
+
+.online {
+  background-color: #28c76f;
+}
+
+.offline {
+  background-color: red;
+}
+
+.dnd {
+  background-color: orange;
+}
+
+.profile-name {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.profile-name,
+.profile-role,
+.profile-email {
+  margin: 0;
+}
+
+.profile-role {
+  font-weight: 800;
+}
+
+.sidebar-handle-icon:hover{
+  cursor: pointer;
+}
+
+.sidebar-handle-icon {
+  position: absolute;
+  left: 0;
+}
+
+.sidebar-handle-icon img {
+  width: 1.6rem;
+  height: auto;
+}

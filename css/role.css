@@ -1,0 +1,129 @@
+/* Role Container */
+/* .roles-container, .roles-desc-container {
+  display: none;
+} */
+
+.roles-container, .roles-desc-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  gap: 10px;
+  margin-right: .5rem;
+  padding: 1rem 0 0 1rem;
+  z-index: 1;
+}
+
+.heading {
+  padding-top: 0;
+  margin-top: 10px;
+}
+
+.role-page {
+  display: none;
+}
+
+.role-page.active {
+  display: block;
+}
+
+.roles-container-item {
+  width: 100%;
+}
+
+.roles-card {
+  padding: 1rem;
+  width: 90%;
+  height: 80%;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #939dae61;
+}
+
+.roles-card:hover {
+  transform: scale(1.02);
+}
+
+
+.roles-card-name {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+
+.role-name {
+  font-weight: bold;
+  color: black;
+}
+
+.role-card-details {
+  margin: 0.4rem 0;
+  color: #676C72;
+  display: flex;
+  justify-content: space-between;
+}
+
+.role-card-details .left {
+  display: flex;
+  justify-content: flex-start;
+  color: #676C72;
+}
+
+.role-card-details img {
+  margin-right: 5px
+}
+
+.employees-count-icon {
+  width: 1.4rem;
+  margin-right: -0.5rem !important;
+}
+
+.employees-count-circle {
+  background-color: #ffffff;
+  border: 0.5px solid rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
+  font-size: 10px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.4rem;
+}
+
+.employee-count {
+  margin-right: 0.8rem;
+  display: flex;
+}
+
+.view-all-employees {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+}
+
+.view-all-employees:hover {
+  transform: scale(1.05);
+}
+
+.right-arrow-icon {
+  margin-left: 0.5rem;
+}
+
+
+.function-add-role-button {
+  align-items: center;
+  display: flex;
+  font-weight: 500;
+  width: auto;
+  padding: 0 1rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  color: white;
+  background-color: #f44848;
+  justify-content: center;
+}
+
+.function-add-role-button img {
+  margin-right: 5px;
+}

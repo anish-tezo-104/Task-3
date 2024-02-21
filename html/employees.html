@@ -1,0 +1,111 @@
+<div class="employees-page">
+  <!--Functions Employees-->
+  <div class="function-container employees">
+    <div class="function-left">
+      <h5 class="heading">Employees</h5>
+      <div class="sub-heading">
+        Find all your company's employee account and their associated roles.
+      </div>
+    </div>
+    <div class="function-right">
+      <button class="export-button" onclick="EMS.employeesPageFunctions.exportEmployeesToCSV('employees.csv', ['status', 'profileImageBase64'])">
+        <img
+          src="../assets/export-icon.svg"
+          alt="Export Icon"
+          class="export-icon" />
+        <span>EXPORT</span>
+      </button>
+      <button
+        class="function-button function-add-button"
+        onclick="EMS.employeesPageFunctions.handleAddEmployeeBtn(this, ['.employees-page'])">
+        <img src="../assets/add.svg" alt="Plus Icon" />
+        <span>ADD EMPLOYEE</span>
+      </button>
+    </div>
+  </div>
+  <!-- alph-sort -->
+  <div class="alph-sort">
+    <div
+      class="filter-icon"
+      onclick="EMS.employeesPageFunctions.toggleFilterClass(this,['.filter-container'])">
+      <span class="icon-filter"></span>
+    </div>
+    <div class="alphabets-container" id="alphabetsContainer"></div>
+  </div>
+  <!--Filter-->
+<div class="filter-container">
+  <div class="filter-container-left" id="filterContainerLeft">
+    <!-- Filter options will be dynamically generated here -->
+  </div>
+  <div class="filter-container-right">
+    <button class="btn-reset" onclick="EMS.filterFunctions.resetFilter()">Reset</button>
+    <button class="btn-apply" onclick="EMS.filterFunctions.updateFilteredResults()">Apply</button>
+  </div>
+</div>
+  <!--Employees Container-->
+  <div class="employees-container ">
+    <div class="above-section-table">
+      <div class="above-section-content">
+        <div class="above-section-left">
+          <div class="arrow-turn-left-down-icon">
+            <img
+              src="../assets/arrow-turn-left-down.svg"
+              alt="Arrow Turn Left Down Icon" />
+          </div>
+          <div class="delete-button">
+            <button class="btn-delete" onclick="EMS.employeesPageFunctions.deleteSelectedRows()">Delete</button>
+          </div>
+        </div>
+        <div class="above-section-right">
+          <img
+            src="../assets/table-add.svg"
+            class="table-add-icon"
+            alt="Table Add Icon" />
+        </div>
+      </div>
+    </div>
+    <div class="table-container" >
+      <table class="employees-table" id="employeesTable">
+        <thead>
+          <tr>
+            <th class="check-box-col">
+              <input type="checkbox" id="all-checkbox" />
+            </th>
+            <th class="col col-user" onclick="EMS.employeesPageFunctions.sortTable(1)">
+              <span>USER</span>
+              <span class="material-icons-outlined sort-icon">unfold_more</span>
+            </th>
+            <th class="col col-location" onclick="EMS.employeesPageFunctions.sortTable(2)">
+              <span>LOCATION</span>
+              <span class="material-icons-outlined sort-icon">unfold_more</span>
+            </th>
+            <th class="col col-department" onclick="EMS.employeesPageFunctions.sortTable(3)">
+              <span>DEPARTMENT</span>
+              <span class="material-icons-outlined sort-icon">unfold_more</span>
+            </th>
+            <th class="col col-role" onclick="EMS.employeesPageFunctions.sortTable(4)">
+              <span>ROLE</span>
+              <span class="material-icons-outlined sort-icon">unfold_more</span>
+            </th>
+            <th class="col col-emp-no" onclick="EMS.employeesPageFunctions.sortTable(5)">
+              <span>EMP NO</span>
+              <span class="material-icons-outlined sort-icon">unfold_more</span>
+            </th>
+            <th class="col col-status" onclick="EMS.employeesPageFunctions.sortTable(6)">
+              <span>STATUS</span>
+              <span class="material-icons-outlined sort-icon">unfold_more</span>
+            </th>
+            <th class="col col-join-dt" onclick="EMS.employeesPageFunctions.sortTable(7)">
+              <span>JOIN DT</span>
+              <span class="material-icons-outlined sort-icon">unfold_more</span>
+            </th>
+            <th>
+              <span class="material-icons-outlined">more_horiz</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>

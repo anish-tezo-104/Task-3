@@ -1,0 +1,70 @@
+<div class="add-roles-container">
+  <div class="form-container">
+    <h1>Create New Role</h1>
+    <form id="roleForm" class="role-form">
+      <div class="first-section">
+        <div class="role-details">
+          <div class="input-field-container">
+            <label for="roleName">Role Name</label>
+            <input
+              type="text"
+              id="roleName"
+              name="roleName"
+              placeholder="Role Name" />
+          </div>
+
+          <div class="input-field-container">
+            <label for="department">Department</label>
+            <select id="department" name="department" required>
+              <option value="">Select department</option>
+              <option value="UI/UX">UX Designer</option>
+              <option value="Human Resources">Human Resources</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Sales">Sales</option>
+              <option value="IT">IT</option>
+              <option value="Management">Management</option>
+              <option value="Finance">Finance</option>
+              <option value="Legal">Legal</option>
+            </select>
+          </div>
+        </div>
+        <div class="input-field-container description-area">
+          <label for="description">Description</label>
+          <textarea
+            rows="4"
+            cols="50"
+            name="description"
+            form="employeeForm"></textarea>
+        </div>
+      </div>
+      <div class="add-roles second-section">
+        <div class="input-field-container">
+          <label for="location">Location</label>
+          <select id="location" name="location" required>
+            <option value="">Select location</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Bangalore">Bangalore</option>
+            <option value="Seattle">Seattle</option>
+            <option value="New York">New York</option>
+          </select>
+        </div>
+        <div class="input-field-container">
+          <div class="custom-select">
+            <input type="text" class="select-selected" placeholder="Search for an employee"/>
+            <div class="select-items select-hide">
+              <div><div class="assign-employee-profile-option"><img src="../assets/profile.png" alt="Employee Profile Image">Jennifer Dsousa</div><input type="checkbox" value="Jennifer Dsousa" /></div>
+              <div><div class="assign-employee-profile-option"><img src="../assets/profile.png" alt="Employee Profile Image">Jennifer Dsousa</div><input type="checkbox" value="Jennifer Dsousa" /></div>
+              <div><div class="assign-employee-profile-option"><img src="../assets/profile.png" alt="Employee Profile Image">Jennifer Dsousa</div><input type="checkbox" value="Jennifer Dsousa" /></div>
+          </div>
+        </div>
+
+        <div class="form-buttons">
+          <button type="button" onclick="EMS.addRoleFormFunction.handleAddRolesFormCancel(['.role-page','.sub-sec.roles'],['.add-roles-container'])">Cancel</button>
+          <button type="submit" id="submitAddRolesBtn">Add Role</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

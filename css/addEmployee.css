@@ -1,0 +1,175 @@
+.add-employee-container h1 {
+    color: black;
+    font-size: 1.2rem;
+
+}
+
+.add-employee-container {
+    display: none;
+}
+
+.personal-information-container {
+    margin: 3rem 0;
+}
+
+.input-field-container input::placeholder {
+    color: #8792A4;
+}
+
+.input-field-container select {
+    outline-color: #8792A4;
+    border: 1px solid #8792A4 !important;
+}
+
+.input-field-container input:focus {
+    outline-color: #8792A4;
+}
+
+.input-field-container input {
+    border: 1px solid #8792A4 !important;
+
+}
+
+
+.add-employee-container h2 {
+    color: black;
+    font-size: 1rem;
+
+}
+
+.add-employee-container.active {
+    margin: 0 1rem 2rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    color: black;
+}
+
+.profile-image-container {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    height: 100%;
+}
+
+.employee-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-image-container input {
+    display: none;
+}
+
+#profileImagePreview {
+    max-width: 6rem;
+    width: 5rem;
+    max-height: 6rem;
+    border-radius: 50%;
+}
+
+.employee-form-profile-details {
+    width: 100%;
+}
+
+.employee-form-profile-details input {
+    height: 2rem;
+    width: 15rem;
+}
+
+.employee-form-profile-details .first-section, .second-section, .third-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.employment-information-container select {
+    margin-top:3px;
+    height: 2.5rem;
+    width: 24rem;
+}
+
+.employment-information-container input {
+    height: 2.4rem;
+    width: 24rem;
+}
+
+.input-field-container {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 1rem 0 0;
+}
+
+.input-field-container label {
+    margin-bottom: 0.5rem;
+    color: #2D3446;
+}
+
+.form-buttons {
+    display: flex;
+    flex-direction: row;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    justify-content: flex-end;
+}
+
+.upload-profile-pic-btn {
+    height: 2rem;
+    width: 12rem;
+    margin-left: 1.5rem;
+    background-color: #F44848;
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 1rem;
+
+}
+
+.upload-profile-pic-btn:hover {
+    background-color: #ff6767;
+}
+
+
+.error-message {
+    color: red;
+    font-size: 0.8rem;
+}
+
+
+.error-message {
+    display: none;
+}
+
+.error-message.active {
+    display: block;
+}
+
+.form-buttons {
+    margin-top: 2rem;
+}
+
+.form-buttons button {
+    border: none;
+    margin-right: 1rem;
+    font-size: 1rem;
+    background-color: #f44848;
+    color: white;
+    padding: 0.5rem;
+    width: 10rem;
+    cursor: pointer;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.form-buttons button:hover {
+    background-color: #ff6767;
+}
+
+.required-field {
+    color: red;
+    margin-left: 4px;
+    font-size: 1.2rem;
+}

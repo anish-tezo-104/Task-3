@@ -1,0 +1,140 @@
+<div>
+  <div class="profile-card" onclick="EMS.headerFunctions.toggleSideBar()">
+    <div class="profile-pic-container">
+      <img
+        src="../assets/profile.png"
+        alt="Profile Image"
+        class="profile-img" />
+      <div class="status-circle online"></div>
+    </div>
+    <div class="profile-details">
+      <p class="profile-name">Jhon Abraham</p>
+      <p class="profile-role">Admin</p>
+    </div>
+  </div>
+  <div class="company-logo-area">
+    <div class="sidebar-brand">
+      <div class="tezo-logo">
+        <img src="../assets/TezoLogo.svg" alt="Tezo Logo" />
+      </div>
+    </div>
+  </div>
+  <div class="sidebar-list">
+    <div class="all-section">
+      <div class="underline-heading-container">
+        <div class="underline"></div>
+        <div class="sidebar-list-heading">ALL</div>
+      </div>
+      <div class="sub-section">
+        <div
+          class="sub-sec dashboard item unlocked active"
+          onclick="EMS.sideBarFunctions.toggleSubSecClass(this,[],['.role-page','.add-roles-container','.add-employee-container','.roles-desc-page','.employees-page'])">
+          <div class="sub-sec-left">
+            <div class="sub-sec-left-left">
+              <div class="dashboard-icon-container sidebar-icons">
+                <span>aaaaaaaa</span>
+              </div>
+              <h4>Dashboard</h4>
+            </div>
+            <div class="expand-collapsed-icons">
+              <span class="material-icons-outlined collapsed">
+                chevron_right
+              </span>
+              <span class="material-icons-outlined expand"> expand_more </span>
+            </div>
+          </div>
+          <div class="sub-sec-right"></div>
+        </div>
+        <div
+          class="sub-sec employees item unlocked"
+          onclick="EMS.sideBarFunctions.toggleSubSecClass(this, ['.employees-page','.sub-sec.employees.item','.departments','.alph-sort'], ['.role-page','.add-roles-container','.add-employee-container','.roles-desc-page'])">
+          <div class="sub-sec-left">
+            <div class="sub-sec-left-left">
+              <div class="employees-icon-container sidebar-icons">
+                <span>aaaaaaaa</span>
+              </div>
+              <h4>Employees</h4>
+            </div>
+            <div class="expand-collapsed-icons">
+              <span class="material-icons-outlined collapsed">
+                chevron_right
+              </span>
+              <span class="material-icons-outlined expand"> expand_more </span>
+            </div>
+          </div>
+          <div class="sub-sec-right"></div>
+        </div>
+        <div class="departments">
+          <div class="department-sub-lists sub-lists">
+            <ul id="departmentList">
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="management-section">
+    <div class="underline-heading-container">
+      <div class="underline"></div>
+      <div class="sidebar-list-heading">ROLES/USER MANAGEMENT</div>
+    </div>
+    <div class="management-sub-section active">
+      <div
+        class="sub-sec roles item unlocked"
+        onclick="EMS.sideBarFunctions.toggleSubSecClass(this, ['.role-page'],['.employees-page','.roles-desc-page','.add-roles-container','.add-employee-container'])">
+        <div class="sub-sec-left">
+          <div class="sub-sec-left-left">
+            <span class="icon-roles sidebar-roles-icon"></span>
+            <img
+              src="../assets/bx-lock.png"
+              alt="Lock Icon"
+              class="sidebar-lock-icon" />
+            <h4>Roles</h4>
+          </div>
+          <div class="expand-collapsed-icons">
+            <span class="material-icons-outlined collapsed">
+              chevron_right
+            </span>
+            <span class="material-icons-outlined expand"> expand_more </span>
+          </div>
+        </div>
+        <div class="sub-sec-right"></div>
+      </div>
+      <div
+        class="sub-sec access-rights item unlocked"
+        onclick="EMS.sideBarFunctions.toggleSubSecClass(this,[],['.role-page','.add-roles-container','.add-employee-container','.roles-desc-page','.employees-page'])">
+        <div class="sub-sec-left">
+          <div class="sub-sec-left-left">
+            <span class="icon-assign-user sidebar-assign-user-icon"></span>
+            <img
+              src="../assets/bx-lock.png"
+              alt="Lock Icon"
+              class="sidebar-lock-icon" />
+            <h4>Access rights</h4>
+          </div>
+          <div class="expand-collapsed-icons">
+            <span class="material-icons-outlined collapsed">
+              chevron_right
+            </span>
+            <span class="material-icons-outlined expand"> expand_more </span>
+          </div>
+        </div>
+        <div class="sub-sec-right"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="update-message active">
+  <div class="update-content">
+    <div class="update-message-heading">Install new update 2.3.1A</div>
+    <div class="update-message-text">
+      <p>Allow to launch the new update for the AD application</p>
+    </div>
+    <div class="update-buttons">
+      <button class="update-btn btn-dismiss" onclick="EMS.sideBarFunctions.handleUpdateDismiss()">
+        Dismiss
+      </button>
+      <button class="update-btn btn-accept">Accept</button>
+    </div>
+  </div>
+</div>
